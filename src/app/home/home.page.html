@@ -1,25 +1,59 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <!--slot="start" Es la para la izquierda-->
-      <!--slot="end" Es la para la derecha-->
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+<ion-menu contentId="main-content">
+  <ion-header>
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title>Bienvenido</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
-</ion-content>
+  <ion-content class="ion-padding">
+    <ion-button expand="block" color="primary" routerLink="/home">Menú</ion-button>
+    <ion-button expand="block" color="secondary" [routerLink] = "[ '/perfil' ]">Perfil</ion-button>
+    <ion-button expand="block" color="tertiary">Configuración</ion-button>
+    <ion-button expand="block" color="danger"  routerLink="/nosotros">Nosotros</ion-button>
+    <ion-button expand="block" color="success">Iniciar Sesión</ion-button>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <!--<ion-searchbar></ion-searchbar>   es la barra de busc-->
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding" fullscreen>
+    <p>Toque el botón en la barra de herramientas para abrir el menú.</p>
+    <!-- Puedes añadir más contenido aquí para que el contenido llene la pantalla -->
+  </ion-content>
+
+  <ion-footer>
+    <ion-tab-bar slot="bottom">
+
+      <ion-tab-button tab="home" >
+        <ion-icon name="play-circle" ></ion-icon>
+        <ion-label>Publicación</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="radio" routerLink="/amigos">
+        <ion-icon name="radio"></ion-icon>
+        <ion-label >Amigos</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="library" routerLink="/asignaturas">
+        <ion-icon name="library"></ion-icon>
+        <ion-label>Asignaturas</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="search" routerLink="/buscar">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Buscar</ion-label>
+      </ion-tab-button>
+
+      
+
+    </ion-tab-bar>
+  </ion-footer>
+</div>

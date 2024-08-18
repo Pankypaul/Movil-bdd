@@ -6,12 +6,18 @@
   </ion-header>
 
   <ion-content class="ion-padding">
-    <ion-button expand="block" color="primary" routerLink="/home">Menú</ion-button>
-    <ion-button expand="block" color="secondary" [routerLink] = "[ '/perfil' ]">Perfil</ion-button>
-    <ion-button expand="block" color="tertiary">Configuración</ion-button>
-    <ion-button expand="block" color="danger"  routerLink="/nosotros">Nosotros</ion-button>
+    <ion-button expand="block" color="primary" routerLink="/home"
+      >Menú</ion-button
+    >
+    <ion-button expand="block" color="secondary" [routerLink]="[ '/perfil' ]"
+      >Perfil</ion-button
+    >
+    <ion-button expand="block" color="medium">Configuración</ion-button>
+    <ion-button expand="block" color="danger" routerLink="/nosotros"
+      >Nosotros</ion-button
+    >
     <ion-button expand="block" color="success">Iniciar Sesión</ion-button>
-    <ion-button expand="block" color="success">Ayuda</ion-button>
+    <ion-button expand="block" color="warning">Ayuda</ion-button>
   </ion-content>
 </ion-menu>
 
@@ -21,26 +27,60 @@
       <ion-buttons slot="start">
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
-      <!--<ion-searchbar></ion-searchbar>   es la barra de busc-->
+      
     </ion-toolbar>
+    
   </ion-header>
 
+  <!--Primera publicación-->
   <ion-content class="ion-padding" fullscreen>
-    <p>Toque el botón en la barra de herramientas para abrir el menú.</p>
     <!-- Puedes añadir más contenido aquí para que el contenido llene la pantalla -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+        <br>
+        <h4>Materia : Matematicas</h4>
+      </ion-card-header>
+      <div>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3xQaEm7uPLHU_0iDfYn9Hp2rxx76FmuQbRJ6IHLyqM35oULUHfabYEDi5YHkak2i5uq4&usqp=CAU" alt="">
+      </div>
+      
+      <ion-card-content>
+        Este es un breve texto de descripción para el contenido de la publicación.
+      Aquí puedes detallar más información.
+      </ion-card-content>
+    </ion-card>
+
+  <!--Segunda publicación-->
+
+    <!-- Puedes añadir más contenido aquí para que el contenido llene la pantalla -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Tengo que estudiar ingles pero no se muy bien, ¿ Alguien que quiera estudiar conmigo?</ion-card-title>
+        <h4>Materia : Ingles</h4>
+      </ion-card-header>
+      <div>
+        <img src="https://i.pinimg.com/236x/fc/7e/6b/fc7e6b0454ecde69df10198f6cee7616.jpg" alt="">
+      </div>
+      
+      <ion-card-content>
+        Este es un breve texto de descripción para el contenido de la publicación.
+      Aquí puedes detallar más información.
+      </ion-card-content>
+    </ion-card>
+
   </ion-content>
 
   <ion-footer>
     <ion-tab-bar slot="bottom">
-
-      <ion-tab-button tab="home" >
-        <ion-icon name="play-circle" ></ion-icon>
+      <ion-tab-button tab="home">
+        <ion-icon name="play-circle"></ion-icon>
         <ion-label>Publicación</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="radio" routerLink="/amigos">
         <ion-icon name="radio"></ion-icon>
-        <ion-label >Amigos</ion-label>
+        <ion-label>Amigos</ion-label>
       </ion-tab-button>
 
       <ion-tab-button tab="library" routerLink="/asignaturas">
@@ -52,9 +92,6 @@
         <ion-icon name="search"></ion-icon>
         <ion-label>Buscar</ion-label>
       </ion-tab-button>
-
-      
-
     </ion-tab-bar>
   </ion-footer>
 </div>

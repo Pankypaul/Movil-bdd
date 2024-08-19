@@ -25,3 +25,55 @@
 #container a {
   text-decoration: none;
 }
+
+.login-container {
+  position: relative;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/icon/fondo.jpg'); /* Ruta a tu imagen de fondo */
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  text-align: center;
+}
+
+.logo img {
+  width: 150px;
+  margin-bottom: 20px;
+}
+
+.login-button {
+  width: 100%;
+  font-size: 20px;
+  --border-radius: 50px;
+  --background: #FF3D00;
+}
+
+.signup-text {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.signup-link {
+  color: #FF3D00;
+  text-decoration: none;
+  font-weight: bold;
+}

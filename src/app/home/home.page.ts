@@ -10,34 +10,9 @@ export class HomePage {
 
   constructor(private router:Router) {}
 
-  home(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/home']);
+  login(){
+    this.router.navigate(['/menu']);
   }
-
-  perfil(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/Perfil']);
-  }
-
-  amigos(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/amigos']);
-  }
-
-  asignaturas(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/asignaturas'])
-  }
-
-  nosotros(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/nosotros'])
-  }
-
-  buscar(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/buscar'])
-  }
+  
 
 }

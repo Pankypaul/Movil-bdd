@@ -5,28 +5,49 @@
       <!--slot="end" Es la para la derecha-->
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Iniciar de sesión</ion-title>
+    <ion-title>Registrarse</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-text-center">
-  <form (ngSubmit) = "onSubmit()" style="padding: 1rem; padding-top: 25rem;">
+  <form (ngSubmit) = "onSubmit()" style="padding: 1rem; padding-top: rem;">
+    
+    <ion-item>
+      <ion-label position="floating">Nombre Completo</ion-label>
+      <ion-input  type="text" name="text" required></ion-input>
+    
+    </ion-item>
+
     <ion-item>
       <ion-label position="floating">Correo electronico</ion-label>
       <ion-input [(ngModel)] = "email" type="email" name="email" required></ion-input>
     </ion-item>
+
+    <ion-list>
+      <ion-item>
+        <ion-select placeholder="Tipo de usuario">
+          <ion-select-option value="apple">Tutor</ion-select-option>
+          <ion-select-option value="banana">Aprendiz</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    
+
 
     <ion-item>
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input [(ngModel)] = "password" type="password" name="password" required></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label position="floating">Repetir contraseña</ion-label>
+      <ion-input  type="password" name="password2" required></ion-input>
+    
+      </ion-item>
+
     <ion-button expand="full" type="submit"
       >Iniciar sesión</ion-button
     >
   </form>
 
-  <ion-text class="ion-text-center">
-    <p>No tienes una cuenta? <a routerLink="/registrar">Regístrate</a></p>
-  </ion-text>
 </ion-content>

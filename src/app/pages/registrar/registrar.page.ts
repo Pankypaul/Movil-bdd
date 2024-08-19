@@ -2,22 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
+  selector: 'app-registrar',
+  templateUrl: './registrar.page.html',
+  styleUrls: ['./registrar.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class RegistrarPage implements OnInit {
   email : string = '';
   password : string = '';
-
   constructor(private router:Router) { }
 
   ngOnInit() {
-  }
-
-  irPagina(){
-    //Crear el codigo de que quiera de la logica
-    this.router.navigate(['/menu']);
   }
 
   onSubmit(){
@@ -33,9 +27,5 @@ export class LoginPage implements OnInit {
     this.router.navigate(['/menu']);
 
   }
-
-  
-
-
 
 }

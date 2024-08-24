@@ -9,24 +9,32 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-text-center">
-  <form (ngSubmit) = "onSubmit()" style="padding: 1rem; padding-top: 25rem;">
-    <ion-item>
-      <ion-label position="floating">Correo electronico</ion-label>
-      <ion-input [(ngModel)] = "email" type="email" name="email" required></ion-input>
-    </ion-item>
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+  <div class="center-div">
+    <form (ngSubmit)="onSubmit()" class="form-container">
+      <ion-title class="black-titule ion-margin-bottom">Iniciar de sesión</ion-title>
+      <ion-label ></ion-label>
+      <ion-item lines="full">
+        <ion-label position="floating">Correo electronico</ion-label>
+        <ion-input [(ngModel)]="email" type="email" name="email" required></ion-input>
+      </ion-item>
+      <ion-item> 
+        <ion-label position="floating">Contraseña</ion-label>
+        <ion-input [(ngModel)]="password" type="password" name="password" required></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Contraseña</ion-label>
-      <ion-input [(ngModel)] = "password" type="password" name="password" required></ion-input>
-    </ion-item>
-
-    <ion-button expand="full" type="submit"
-      >Iniciar sesión</ion-button
-    >
-  </form>
-
-  <ion-text class="ion-text-center">
-    <p>No tienes una cuenta? <a routerLink="/registrar">Regístrate</a></p>
-  </ion-text>
+      <ion-button type="submit" >Iniciar sesión</ion-button>
+      <hr />
+      <ion-text class="ion-text-center">
+        <h6>
+          No tienes una cuenta? <a routerLink="/registrar">Regístrate aqui</a>
+          <br>
+          o
+          <br>
+          ¿Se te olvido la contraseña?
+          <a routerLink="/cambiar-contrasena">Cambiar Contraseña</a>
+        </h6>
+      </ion-text>
+    </form>
+  </div>
 </ion-content>

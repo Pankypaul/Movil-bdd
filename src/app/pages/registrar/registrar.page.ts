@@ -9,13 +9,17 @@ import { Router } from '@angular/router';
 export class RegistrarPage implements OnInit {
   email : string = '';
   password : string = '';
+  password2 : string = '';
+  nombre : string = '';
+  tipo : boolean = true;
+
   constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
   onSubmit(){
-    if (!this.email || !this.password) {
+    if (!this.email || !this.password || !this.nombre || !this.password2 || !this.tipo) {
       alert('Porfavor, rellene los campos en blanco');
       return;
     }

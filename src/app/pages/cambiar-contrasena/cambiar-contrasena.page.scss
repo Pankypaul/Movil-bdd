@@ -1,29 +1,71 @@
-.center-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
-  
-  .form-container {
-    width: 95%;
-    max-width: 400px; /* Ajusta el ancho máximo según tus necesidades */
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    background-color: grey; /* Fondo blanco para el formulario */
-  }
-  
-  .black-title {
-    color: #333; /* Título negro */
-  }
-  
-  ion-item {
-    margin-bottom: 15px; /* Espaciado entre los ítems */
-  }
-  
-  ion-button {
-    margin-top: 20px; /* Espaciado arriba del botón */
-  }
-  
+
+.container{
+  border-radius: 0%;
+  background-color: rgba(238, 225, 215, 1);
+  border: 0rem #000000 solid;
+  margin-top: 5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  padding-bottom: 2rem;
+}
+
+.background{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #5e340c ;
+}
+
+.fondo-form{
+  --background: rgba(238, 225, 215, 1);
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 1rem;
+}
+
+.texto{
+  color: #757575;
+  font-family: "Segoe UI";
+}
+
+.titulo{
+
+  color: #000000;
+  font-size: 0.6cm;
+  font-family: "impact";
+  text-align: center;
+  align-items: center;
+  height: 4rem;
+
+}
+
+.boton{
+
+  --background: #5e340c;
+  color: rgb(219, 219, 219);
+  font-family: "impact";
+  display: flex;
+  justify-content: center;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+
+}
+
+.texto-con{
+  color: rgb(172, 97, 0);
+  font-size: small;
+  text-decoration: none;
+  font-family: "Segoe UI";
+}
+
+.texto-sin{
+  color: #757575;
+  text-align: center;
+  font-size: small;
+  height: 0.1cm;
+  font-family: "Segoe UI";
+}

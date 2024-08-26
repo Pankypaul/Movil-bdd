@@ -1,35 +1,29 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <!--slot="start" Es la para la izquierda-->
-      <!--slot="end" Es la para la derecha-->
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Cambiar Contraseña</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content [fullscreen]="true" class="ion-padding ion-text-center">
-  <div class="center-div">
-    <form (ngSubmit)="onSubmit()" class="form-container">
-      <ion-title class="black-title ion-margin-bottom">Cambiar Contraseña</ion-title>
-
-      <ion-item lines="full">
-        <ion-label position="floating">Correo</ion-label>
-        <ion-input [(ngModel)]="correo" type="email" name="correo" required></ion-input>
-      </ion-item>
-
-      <ion-item lines="full">
-        <ion-label position="floating">Contraseña Nueva</ion-label>
-        <ion-input [(ngModel)]="nueva" type="password" name="nueva" required></ion-input>
-      </ion-item>
-
-      <ion-item lines="full">
-        <ion-label position="floating">Repetir Contraseña</ion-label>
-        <ion-input  [(ngModel)]="repetirNueva" type="password" name="repetirNueva" required></ion-input>
-      </ion-item>
-
-      <ion-button type="submit" expand="block" class="ion-margin-top" >Cambiar Contraseña</ion-button>
-    </form>
+  <div class="background center-div">
+    <div class="container">
+      
+      <form (ngSubmit)="onSubmit()" class="form-container">
+        
+        <ion-title class="titulo">CAMBIAR CONTRASEÑA</ion-title>
+  
+        <ion-item class="fondo-form">
+          <ion-input class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
+        </ion-item>
+  
+        <ion-item class="fondo-form">
+          <ion-input class="texto" [(ngModel)]="nueva" type="password" name="nueva" label-placement="floating" label="Contraseña nueva" required></ion-input>
+        </ion-item>
+  
+        <ion-item class="fondo-form">
+          <ion-input class="texto" [(ngModel)]="repetirNueva" type="password" name="repetirNueva" label-placement="floating" label="Repetir contraseña" required></ion-input>
+        </ion-item>
+  
+        <ion-button type="submit" shape="round" class="boton" >Cambiar Contraseña</ion-button>
+  
+      </form>
+  
+      <p class="texto-sin">Volver al <a class="texto-con" href="" routerLink="/login">Iniciar Sesión</a> </p>
+    
+    </div> 
   </div>
 </ion-content>

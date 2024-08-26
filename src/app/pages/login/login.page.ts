@@ -7,36 +7,28 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email : string = '';
-  password : string = '';
+  correo : string = '';
+  contrasena : string = '';
 
-  constructor(private router:Router) { }
+  constructor(private router: Router) {}
 
   ngOnInit() {
   }
 
-
   onSubmit(){
-    if (!this.email || !this.password) {
+    if (!this.correo || !this.contrasena) {
       alert('Porfavor, rellene los campos en blanco');
 
     }
     else{
-      // Aquí iría la lógica para enviar los datos al servidor
-      console.log('Correo:', this.email);
-      console.log('Contraseña:', this.password);
+      
+      console.log('Correo:', this.correo);
+      console.log('Contraseña:', this.contrasena);
 
-      // Navegar a otra página si el formulario es válido
+      
       this.router.navigate(['/menu']);
     }
-    
-    
-    
-    
+
+
   }
-
-  
-
-
-
 }

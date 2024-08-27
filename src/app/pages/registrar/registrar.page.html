@@ -1,3 +1,13 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <!--slot="start" Es la para la izquierda-->
+      <!--slot="end" Es la para la derecha-->
+      <ion-back-button  color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content [fullscreen]="true" class="ion-padding ion-text-center">
   <div class="background center-div">
     <div class="container">
@@ -14,7 +24,7 @@
         </ion-item>
 
         <ion-item class="fondo-form">
-          <ion-select class="texto" placeholder="Tipo de usuario" [(ngModel)]="tipo">
+          <ion-select class="texto" placeholder="Tipo de usuario" [(ngModel)]="tipo" name="tipo">
             <ion-select-option class="texto" value="Tutor">Tutor</ion-select-option>
             <ion-select-option class="texto" value="Aprendiz">Aprendiz</ion-select-option>
           </ion-select>
@@ -34,7 +44,7 @@
 
       <p class="texto-sin">¿Ya tienes una cuenta? <a class="texto-con" href="" routerLink="/login">Iniciar Sesión</a> </p>
       <p class="texto-sin">o</p>
-      <p class="texto-sin">¿Se te olvido la contraseña?<a class="texto-con" href="" routerLink="/cambiar-contrasena"> Cambiar Contraseña</a></p>
+      <p class="texto-sin">¿Olvidaste la contraseña?<a class="texto-con" href="" routerLink="/cambiar-contrasena"> Cambiar Contraseña</a></p>
 
     </div>
   </div>

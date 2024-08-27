@@ -42,7 +42,8 @@ const routes: Routes = [
   {
     path: 'registrar',
     loadChildren: () => import('./pages/registrar/registrar.module').then( m => m.RegistrarPageModule)
-  },  {
+  },
+  {
     path: 'cambiar-contrasena',
     loadChildren: () => import('./pages/cambiar-contrasena/cambiar-contrasena.module').then( m => m.CambiarContrasenaPageModule)
   },

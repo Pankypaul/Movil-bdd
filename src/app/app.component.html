@@ -1,3 +1,44 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-menu-toggle>
+
+    <ion-menu contentId="main-content">
+     
+      <ion-header>
+        <ion-toolbar class="toolbar">
+          <ion-menu-button slot="end"></ion-menu-button>
+        </ion-toolbar>
+      </ion-header>
+    
+      <ion-content class="ion-padding">
+        <ion-list class="ion-list">
+
+          <ion-item [routerDirection]="'root'" [routerLink]="'/menu'">
+            <ion-label class="texto">Inicio</ion-label>
+          </ion-item>
+
+          <ion-item [routerDirection]="'root'" [routerLink]="'/perfil'">
+            <ion-label class="texto">Perfil</ion-label>
+          </ion-item>
+
+          <ion-item [routerDirection]="'root'" [routerLink]="'/nosotros'">
+            <ion-label class="texto">Nosotros</ion-label>
+          </ion-item>
+
+          <ion-item [routerDirection]="'root'" [routerLink]="'/login'">
+            <ion-label class="texto">Cerrar Sesión</ion-label>
+          </ion-item>
+
+          <ion-item >
+            <ion-label class="texto">Ayuda</ion-label>
+          </ion-item>
+
+        </ion-list>
+      </ion-content>
+    
+    </ion-menu>
+
+  </ion-menu-toggle>
+  
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+
 </ion-app>

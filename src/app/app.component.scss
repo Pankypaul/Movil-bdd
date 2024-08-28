@@ -1,0 +1,30 @@
+ion-content{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    --background: rgba(182, 149, 192, 1);
+}
+
+.ion-list{
+    background:rgba(182, 149, 192, 1);
+    margin-top: 3rem;
+    justify-content: center;
+}
+
+ion-item{
+    --background:rgba(182, 149, 192, 1);
+}
+
+.texto{
+    color: rgba(59, 31, 87, 1);
+    //color: #3f083f;
+    font-family: "impact";
+}
+
+.toolbar{
+    --background:rgba(182, 149, 192, 1);
+    border-bottom: .5px #000000 solid;
+
+}

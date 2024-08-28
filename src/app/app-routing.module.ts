@@ -32,10 +32,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/nosotros/nosotros.module').then( m => m.NosotrosPageModule)
   },
   {
-    path: 'buscar',
-    loadChildren: () => import('./pages/buscar/buscar.module').then( m => m.BuscarPageModule)
-  },
-  {
     path: 'menu',
     loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
   },
@@ -47,6 +43,27 @@ const routes: Routes = [
     path: 'cambiar-contrasena',
     loadChildren: () => import('./pages/cambiar-contrasena/cambiar-contrasena.module').then( m => m.CambiarContrasenaPageModule)
   },
+  {
+    path: 'publicar',
+    loadChildren: () => import('./pages/publicar/publicar.module').then( m => m.PublicarPageModule)
+  },
+  {
+    path: 'tutores',
+    loadChildren: () => import('./pages/tutores/tutores.module').then( m => m.TutoresPageModule)
+  },
+  {
+    path: 'chat',
+    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+  },
+  {
+    path: 'editar-perfil',
+    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+  },
+  {
+    path: 'ayuda',
+    loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
+  },
+
 
 
 

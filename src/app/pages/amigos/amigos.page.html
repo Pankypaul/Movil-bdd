@@ -5,7 +5,6 @@
       <!--slot="end" Es la para la derecha-->
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    
     <ion-title>Amigos</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -30,3 +29,32 @@
     <ion-infinite-scroll-content></ion-infinite-scroll-content>
   </ion-infinite-scroll>
 </ion-content>
+
+<ion-footer class="footer">
+  <ion-tab-bar slot="bottom" class="footer">
+    <ion-tab-button tab="home" [routerLink]="'/menu'">
+      <ion-icon color="dark" name="home"></ion-icon>
+      <ion-label color="logo">Publicación</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="ramos" [routerLink]="'/asignaturas'">
+      <ion-icon color="dark" name="library"></ion-icon>
+      <ion-label class="logo">ramos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="asignaturas" [routerLink]="'/buscar'">
+      <ion-icon color="dark" name="add-circle-sharp"></ion-icon>
+      <ion-label class="logo">publicar</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tutores" [routerLink]="'/perfil'">
+      <ion-icon  color="dark" name="body-sharp"></ion-icon>
+      <ion-label  class="logo">Tutores</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="perfil" [routerLink]="'/perfil'">
+      <ion-icon  color="dark" name="person-sharp"></ion-icon>
+      <ion-label class="logo">perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

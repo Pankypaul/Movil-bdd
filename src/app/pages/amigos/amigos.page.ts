@@ -8,6 +8,9 @@ import { InfiniteScrollCustomEvent } from '@ionic/angular';
 })
 export class AmigosPage implements OnInit {
   items: string[] = [];
+  
+  toolbar1: boolean= true;
+
 
   ngOnInit() {
     this.generateItems();
@@ -25,5 +28,9 @@ export class AmigosPage implements OnInit {
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
+  }
+
+  ionViewWillEnter() {
+    this.toolbar1 = false; 
   }
 }

@@ -35,3 +35,33 @@
     experiencia compartida y exitosa!
   </p>
 </ion-content>
+
+
+<ion-footer class="footer">
+  <ion-tab-bar slot="bottom" class="footer">
+    <ion-tab-button tab="home">
+      <ion-icon color="dark" name="home" [routerLink]="'/menu'"></ion-icon>
+      <ion-label color="logo">Publicación</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="ramos" [routerLink]="'/asignaturas'">
+      <ion-icon color="dark" name="library"></ion-icon>
+      <ion-label class="logo">ramos</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="asignaturas" [routerLink]="'/buscar'">
+      <ion-icon color="dark" name="add-circle-sharp"></ion-icon>
+      <ion-label class="logo">publicar</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tutores" [routerLink]="'/perfil'">
+      <ion-icon  color="dark" name="body-sharp"></ion-icon>
+      <ion-label  class="logo">Tutores</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="perfil" [routerLink]="'/perfil'">
+      <ion-icon  color="dark" name="person-sharp"></ion-icon>
+      <ion-label class="logo">perfil</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-footer>

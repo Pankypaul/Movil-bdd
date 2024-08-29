@@ -1,0 +1,59 @@
+.toolbar{
+    --background:rgba(182, 149, 192, 1);
+    border-bottom: .5px #000000 solid;
+
+}
+
+.footer{
+    --background:rgba(182, 149, 192, 1);
+    border-top: .5px #000000 solid;
+}
+
+.img-amigos{
+    width: 30px;
+    height: 30px;
+}
+
+.img-amigos2{
+    width: 20px;
+    height: 20px;
+}
+
+.logo {
+    font-weight: bold;
+}
+
+.container{
+    border-radius: 0%;
+    border: 0rem #000000 solid;
+    margin-top: 10rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    padding-bottom: 2rem;
+    justify-content: center;
+}
+
+    
+
+
+//here
+
+.custom-card {
+    background-color: #f0e4ff; /* Color de fondo de la tarjeta */
+    padding: 16px;
+    border-radius: 15px;
+    
+  }
+  
+  .centered-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 150px; /* Ajusta según sea necesario */
+  }
+  
+.btn{
+    text-align: center;
+}

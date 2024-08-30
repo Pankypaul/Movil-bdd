@@ -14,6 +14,8 @@ export class RegistrarPage implements OnInit {
   nombre: string = '';
   tipo: boolean = true;
 
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/;
+
   constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -23,6 +25,8 @@ export class RegistrarPage implements OnInit {
     if (!this.email || !this.password || !this.nombre || !this.password2 || this.tipo == true) {
       this.CamposVacios('bottom');
 
+    }else if (this.email.length >= 50 || this.password.length >= 25) {
+      this.maxCaracter('bottom')
     } else {
 
       // Validación mejorada del correo (Devuelve numeros)
@@ -40,12 +44,26 @@ export class RegistrarPage implements OnInit {
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         console.log("El correo es válido");
 
-        if (this.password == this.password2) {
-          this.router.navigate(['/login']);
+        if ((this.password.length < 8 && !this.validarContraseña.test(this.password))){
+          this.contrasenaInvalido('bottom')
+          console.log("CON1");
+        }else {
 
-        } else {
-          this.contrasena('bottom');
+          if(this.password2.length < 8 && !this.validarContraseña.test(this.password2)){
+            this.contrasenaInvalido('bottom')
+            console.log("CON2");
+          } else {
+
+            if (this.password == this.password2) {
+              this.router.navigate(['/login']);
+    
+            } else {
+                this.contrasena('bottom');
+            }
+          }
+              
         }
+        
 
       } else {
         this.correoInvalido('bottom');
@@ -99,5 +117,25 @@ export class RegistrarPage implements OnInit {
 
     await toast.present();
   }
+
+  async contrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Contraseña invalida.',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  } 
+
+  async maxCaracter(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Supera el maximo de caracteres.',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  } 
 
 }

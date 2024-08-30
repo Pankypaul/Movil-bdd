@@ -9,19 +9,19 @@
 </ion-header>
 
 <ion-content class="background " [fullscreen]="true">
-  <div >
+  <div>
     <div class="container ">
 
       <ion-title class="titulo">INICIAR SESIÓN</ion-title>
 
       <form (ngSubmit)="onSubmit()" action="">
         <ion-item class="fondo-form">
-          <ion-input [(ngModel)]="correo" name="correo" class="texto" label="Correo" type="email"
+          <ion-input maxlength="50" [(ngModel)]="correo" name="correo" class="texto" label="Correo" type="email"
             label-placement="floating" placeholder="" required></ion-input>
         </ion-item>
 
         <ion-item class="fondo-form">
-          <ion-input [(ngModel)]="contrasena" name="contrasena" class="texto" label="Contraseña" type="password"
+          <ion-input maxlength="25" minlength="8" [(ngModel)]="contrasena" name="contrasena" class="texto" label="Contraseña" type="password"
             label-placement="floating" placeholder="" required></ion-input>
         </ion-item>
 

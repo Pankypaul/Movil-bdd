@@ -4,18 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { RegistrarPageRoutingModule } from './registrar-routing.module';
+import { MenuAsignaturaPageRoutingModule } from './menu-asignatura-routing.module';
 
-import { RegistrarPage } from './registrar.page';
-
+import { MenuAsignaturaPage } from './menu-asignatura.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    RegistrarPageRoutingModule,
-    IonicModule.forRoot({})],
-  declarations: [RegistrarPage],
+    MenuAsignaturaPageRoutingModule
+  ],
+  declarations: [MenuAsignaturaPage]
 })
-export class RegistrarPageModule {}
+export class MenuAsignaturaPageModule {}

@@ -25,7 +25,13 @@ export class CambiarContrasenaPage implements OnInit {
     if (!this.correo || !this.nueva || !this.repetirNueva) {
       console.log("Porfavor, rellene los campos en blanco");
       this.CamposVacios('bottom');
-    } else {
+    } else if (this.correo.length >= 50 || this.nueva.length >= 25) {
+      this.maxCaracter('bottom')
+    } else if (!this.nueva || this.nueva.length < 8 || !this.validarContraseña.test(this.nueva)){
+      this.correoYContrasenaInvalido('bottom')
+    } else if (!this.repetirNueva || this.repetirNueva.length < 8 || !this.validarContraseña.test(this.repetirNueva)){
+      this.correoYContrasenaInvalido('bottom')
+    }else {
 
       // Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.correo.includes('@');       //Incluye '@'
@@ -99,6 +105,26 @@ export class CambiarContrasenaPage implements OnInit {
 
     await toast.present();
   }
+
+  async correoYContrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Contraseña incorrecta.',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  } 
+
+  async maxCaracter(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Supera el maximo de caracteres.',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  } 
 
 
 }

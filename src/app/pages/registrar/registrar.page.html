@@ -17,6 +17,7 @@
         
         <ion-item  class="fondo-form">
           <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" required></ion-input>
+          <ion-icon class="alerta" color="medium" name="alert-circle-sharp" (click)="presentPopover($event)"></ion-icon>
         </ion-item>
     
         <ion-item class="fondo-form">
@@ -38,7 +39,7 @@
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password2" type="password" name="password2" label-placement="floating" label="Repetir Contraseña" required></ion-input>
         </ion-item>
 
-        <ion-button class="boton" shape="round" type="submit">Iniciar sesión</ion-button>
+        <ion-button class="boton" shape="round" type="submit">REGISTRARSE</ion-button>
       
       </form>
 

@@ -48,10 +48,13 @@
       Editar Perfil
     </ion-button>
 
-    <ion-button expand="block" color="danger" >
-      Cerrar Sesión
-    </ion-button>
+    
+    <ion-button expand="block" id="present-alert3" color="danger">Cerrar Sesión</ion-button>
+    <ion-alert trigger="present-alert3" class="custom-alert" header="¿Estás seguro de Cerrar Sesión?" [buttons]="alertButtons"></ion-alert>  
+    
 
+
+    
   </div>
 </ion-content>
 

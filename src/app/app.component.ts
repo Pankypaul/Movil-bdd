@@ -36,7 +36,23 @@ export class AppComponent {
     }
     
   });
+
 }
+
+public alertButtons = [
+  {
+    text: 'No',
+    cssClass: 'alert-button-cancel',
+  },
+  {
+    text: 'Si',
+    cssClass: 'alert-button-confirm',
+    handler: () => {
+      this.router.navigate(['/login']); 
+    }
+  },
+  
+];
 
 
 

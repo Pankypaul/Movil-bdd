@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-registrar',
@@ -16,7 +18,8 @@ export class RegistrarPage implements OnInit {
 
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
-  constructor(private router: Router, private toastController: ToastController) { }
+  constructor(private router: Router, private toastController: ToastController, 
+    public popoverController: PopoverController) { }
 
   ngOnInit() {
   }
@@ -138,4 +141,22 @@ export class RegistrarPage implements OnInit {
     await toast.present();
   } 
 
+
+
+  async presentPopover(e: Event) {
+    const popover = await this.popoverController.create({
+      component: RegistrarPage,
+      event: e,
+      componentProps: {
+        message: 'Este es un texto dentro del popover'
+      },
+    });
+  
+    await popover.present();
+  
+    const { role } = await popover.onDidDismiss();
+    console.log(`Popover dismissed with role: ${role}`);
+  }
+
+  
 }

@@ -23,9 +23,10 @@
           <ion-item [routerDirection]="'root'" [routerLink]="'/nosotros'">
             <ion-label class="texto">Nosotros</ion-label>
           </ion-item>
-
-          <ion-item [routerDirection]="'root'" [routerLink]="'/login'">
+<!---->
+          <ion-item id="present-alert2">
             <ion-label class="texto">Cerrar Sesión</ion-label>
+            <ion-alert trigger="present-alert2" class="custom-alert" header="¿Estás seguro de Cerrar Sesión?" [buttons]="alertButtons"></ion-alert>
           </ion-item>
 
           <ion-item >

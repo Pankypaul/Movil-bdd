@@ -63,6 +63,19 @@ const routes: Routes = [
     path: 'ayuda',
     loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },
+  {
+    path: 'menu-asignatura',
+    loadChildren: () => import('./pages/menu-asignatura/menu-asignatura.module').then( m => m.MenuAsignaturaPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
+  },
+  {
+    path: 'perfil-agregar-amigos',
+    loadChildren: () => import('./pages/perfil-agregar-amigos/perfil-agregar-amigos.module').then( m => m.PerfilAgregarAmigosPageModule)
+  },
+
 
 
 

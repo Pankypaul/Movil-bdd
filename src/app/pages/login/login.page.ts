@@ -11,7 +11,7 @@ export class LoginPage implements OnInit {
   correo: string = '';
   contrasena: string = '';
 
-  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/;
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
   constructor(private router: Router, private toastController: ToastController) { }

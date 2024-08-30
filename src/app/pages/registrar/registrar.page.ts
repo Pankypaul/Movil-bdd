@@ -14,7 +14,7 @@ export class RegistrarPage implements OnInit {
   nombre: string = '';
   tipo: boolean = true;
 
-  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/;
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
   constructor(private router: Router, private toastController: ToastController) { }
 
@@ -44,12 +44,12 @@ export class RegistrarPage implements OnInit {
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         console.log("El correo es válido");
 
-        if ((this.password.length < 8 && !this.validarContraseña.test(this.password))){
+        if ((this.password.length < 8 || !this.validarContraseña.test(this.password))){
           this.contrasenaInvalido('bottom')
           console.log("CON1");
         }else {
 
-          if(this.password2.length < 8 && !this.validarContraseña.test(this.password2)){
+          if(this.password2.length < 8 || !this.validarContraseña.test(this.password2)){
             this.contrasenaInvalido('bottom')
             console.log("CON2");
           } else {

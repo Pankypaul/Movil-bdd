@@ -9,26 +9,46 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Amigos</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content class="ion-padding">
+  <ion-searchbar></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let item of items; let i = index">
-      <ion-avatar slot="start">
-        <img src="https://via.placeholder.com/150" alt="avatar" />
-      </ion-avatar>
-      <ion-label>{{ item }}</ion-label>
-    </ion-item>
-  </ion-list>
+    <!-- Itera sobre los elementos de la lista -->
+     
+    <ion-item *ngFor="let item of items" (click)="togglePanel(item)">
 
-  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-    <ion-infinite-scroll-content></ion-infinite-scroll-content>
-  </ion-infinite-scroll>
+      <ion-label >
+        <ion-label class="accordion-content">{{ item.name }}</ion-label>
+        <ion-label *ngIf="isExpanded(item)" class="accordion-content">{{ item.phone }}</ion-label>
+        <ion-label *ngIf="isExpanded(item)" class="accordion-content">Email: {{ item.email }}</ion-label>
+        <ion-button *ngIf="isExpanded(item)" routerLink="/perfil">ir perfil</ion-button>
+      </ion-label>
+      
+      <ion-icon 
+        name="chevron-down" 
+        slot="end" 
+        *ngIf="!isExpanded(item)">
+      </ion-icon>
+      
+      <ion-icon 
+        name="chevron-up" 
+        slot="end" 
+        *ngIf="isExpanded(item)">
+      </ion-icon>
+    </ion-item>
+
+    <!-- Infinite Scroll -->
+    <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando más...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>-->
+
+  </ion-list>
 </ion-content>
+
+
+
 
 <ion-footer class="footer">
   <ion-tab-bar slot="bottom" class="footer">
@@ -48,12 +68,12 @@
     </ion-tab-button>
 
     <ion-tab-button tab="tutores" [routerLink]="'/tutores'">
-      <ion-icon  color="dark" name="body-sharp"></ion-icon>
-      <ion-label  class="logo">Tutores</ion-label>
+      <ion-icon color="dark" name="body-sharp"></ion-icon>
+      <ion-label class="logo">Tutores</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="perfil" [routerLink]="'/perfil'">
-      <ion-icon  color="dark" name="person-sharp"></ion-icon>
+      <ion-icon color="dark" name="person-sharp"></ion-icon>
       <ion-label class="logo">perfil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>

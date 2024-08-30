@@ -28,14 +28,15 @@
     <ion-item>
       <ion-input placeholder="Ramo"></ion-input>
     </ion-item>
-    <ion-item lines="none" class="btn" (click)="takePhoto()">
-      <ion-icon name="add-circle-outline" ></ion-icon>
+    <ion-item lines="none" class="btn" (click)="presentActionSheet()">
+      <ion-icon name="add-circle-outline"></ion-icon>
       <!--<p> Agregar Foto o Video</p>-->
+
     </ion-item>
 
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
     <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"></ion-img>
-    <ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button>
+    <!--<ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button>-->
     <ion-item class="bordeFondo">
       <ion-textarea placeholder="Descripción"></ion-textarea>
     </ion-item>

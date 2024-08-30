@@ -11,6 +11,9 @@ export class LoginPage implements OnInit {
   correo: string = '';
   contrasena: string = '';
 
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/;
+
+
   constructor(private router: Router, private toastController: ToastController) { }
 
   ngOnInit() {
@@ -20,7 +23,11 @@ export class LoginPage implements OnInit {
 
     if (!this.correo || !this.contrasena) {
       this.CamposVacios('bottom');
-    } else {
+    } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
+      this.maxCaracter('bottom')
+    }else if (!this.contrasena || this.contrasena.length < 8 || !this.validarContraseña.test(this.contrasena)){
+      this.correoYContrasenaInvalido('bottom')
+    }else {
       
       //Valide que haya un punto y una arroba y que haya algo antes y después de ellos
 
@@ -47,11 +54,14 @@ export class LoginPage implements OnInit {
         console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
         console.log("algoDespuesPunto",algoDespuesPunto);*/
         this.router.navigate(['/menu']);
-
-      } else {
-        console.log("El correo no es válido");
-        this.correoInvalido('bottom');
+      
+      
+      
+      }else {
+        this.correoYContrasenaInvalido('bottom');
       }
+      
+
     }
 
   }
@@ -65,9 +75,19 @@ export class LoginPage implements OnInit {
     await toast.present();
   } 
 
-  async correoInvalido(position: 'top' | 'middle' | 'bottom') {
+  async correoYContrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'El correo es inválido.',
+      message: 'Correo o contraseña incorrecta.',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  } 
+
+  async maxCaracter(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Supera el maximo de caracteres.',
       duration: 1500,
       position: position,
     });

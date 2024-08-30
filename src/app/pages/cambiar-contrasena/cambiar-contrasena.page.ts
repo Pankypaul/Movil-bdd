@@ -12,6 +12,8 @@ export class CambiarContrasenaPage implements OnInit {
   nueva: string = '';
   repetirNueva: string = '';
 
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/;
+
 
   constructor(private router: Router, private toastController: ToastController) { }
 

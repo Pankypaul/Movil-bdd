@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -8,7 +8,24 @@ import { Router } from '@angular/router';
 })
 export class MenuPage implements OnInit {
 
-  constructor(private router:Router) { }
+  correo: string = '';     //correo del input
+  contrasena: string = ''; //contraseña del input
+  tipo: string= "";         //tipo del registrar (context)
+
+
+  constructor(private router:Router, private activateroute:ActivatedRoute) { 
+
+    this.activateroute.queryParams.subscribe(param =>{
+      //valido si viene o no información en la ruta
+      
+      if(this.router.getCurrentNavigation()?.extras.state){
+        this.tipo =this.router.getCurrentNavigation()?.extras?.state?.['tipo1'];
+        this.correo =this.router.getCurrentNavigation()?.extras?.state?.['correo2'];
+        this.contrasena =this.router.getCurrentNavigation()?.extras?.state?.['contrase'];
+      }
+    })
+
+  }
 
   ngOnInit() {
   }

@@ -8,8 +8,6 @@
       <img src="assets/icon/amigos.png" alt="amigos" class="img-amigos" [routerLink]="'/amigos'">
     </ion-buttons>
   </ion-toolbar>
-  
-  
 </ion-header>
   
 
@@ -20,7 +18,7 @@
   <!-- Puedes añadir más contenido aquí para que el contenido llene la pantalla -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <ion-card-title>Necesito ayuda con mi tarea de nivelación de matematicas {{tipo}}</ion-card-title>
       <br>
       <h4>Materia : Matematicas</h4>
     </ion-card-header>
@@ -71,7 +69,7 @@
       <!--<ion-label class="logo">Publicar</ion-label>-->
     </ion-tab-button>
 
-    <ion-tab-button tab="tutores" [routerLink]="'/tutores'">
+    <ion-tab-button *ngIf="tipo==='Tutor'" tab="tutores" [routerLink]="'/tutores'">
       <ion-icon  color="dark" name="body-sharp"></ion-icon>
       <!--<ion-label  class="logo">Tutores</ion-label>-->
     </ion-tab-button>

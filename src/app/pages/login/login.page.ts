@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -34,14 +34,22 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
+  irPagina(){
+    let navigationextras: NavigationExtras= {
+      state: {
+        tipo1: this.tipo,
+        contrase: this.contrasena,
+        correo2: this.correo
+      }
+    }
+
     console.log("correo1",this.email);
     console.log("contraseña",this.contras);
     if (!this.correo || !this.contrasena) {
       this.CamposVacios('bottom');
     } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
       this.maxCaracter('bottom')
-    }else {
+    } else{
       
       //Valide que haya un punto y una arroba y que haya algo antes y después de ellos
 
@@ -60,7 +68,7 @@ export class LoginPage implements OnInit {
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena) {
         console.log("El correo es válido");
         
-        this.router.navigate(['/menu']);
+        this.router.navigate(['/menu'],navigationextras);
         /*console.log("tieneArroba",tieneArroba);
         console.log("posicionArroba",posicionArroba);
         console.log("posicionPunto",posicionPunto);
@@ -74,6 +82,11 @@ export class LoginPage implements OnInit {
       
 
     }
+
+  }
+
+  onSubmit() {
+
 
     
   }

@@ -1,29 +1,12 @@
-#container {
+//--background:rgba(182, 149, 192, 1);
+
+.fondo{
+  --background:rgba(182, 149, 192, 1);
+}
+
+.centrar{
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
-}
-
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
-}
-
-#container a {
-  text-decoration: none;
+  font-family:'Times New Roman', Times, serif;
 }
 
 .login-container {
@@ -32,50 +15,39 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/assets/icon/fondo.jpg'); /* Ruta a tu imagen de fondo */
-  background-size: cover;
-  background-position: center;
-  z-index: 1;
-}
-
-.content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  max-width: 400px;
-  padding: 20px;
   text-align: center;
 }
 
-.logo img {
-  width: 150px;
-  margin-bottom: 20px;
+.tamaño{ //18px
 }
 
-.login-button {
-  width: 100%;
-  font-size: 20px;
-  --border-radius: 50px;
-  --background: #FF3D00;
+ion-button{
+
+  --background: rgba(255, 255, 255);
+  color: rgba(182, 149, 192, 1);
+  font-family: "impact";
+  display: flex;
+  justify-content: center;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 7%;
+  margin-bottom: 7%;
+
 }
 
-.signup-text {
-  margin-top: 20px;
-  font-size: 14px;
+.texto-sin{
+  color: #ffffff;
+  text-align: center;
+  font-size: small;
+  height: 0.1cm;
+  font-family: "Segoe UI";
 }
 
-.signup-link {
-  color: #FF3D00;
+.texto-con{
+  color: rgb(0, 0, 0);
+  font-size: small;
   text-decoration: none;
+  font-family: "Segoe UI";
   font-weight: bold;
 }
-
 

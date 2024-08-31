@@ -9,10 +9,47 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">editarPerfil</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <div class="profile-container">
+    <!-- Imagen de perfil -->
+    <ion-avatar class="profile-avatar">
+      <img src="assets/icon/pato.jpg" alt="Perfil">
+    </ion-avatar>
+
+    <!-- Nombre de usuario -->
+    <h2 class="profile-name">Paul Hidalgo</h2>
+
+    <!-- Información de contacto -->
+    <ion-list>
+      <ion-item>
+        <ion-icon name="mail" slot="start"></ion-icon>
+        <ion-input></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-icon name="call" slot="start"></ion-icon>
+        <ion-input></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>
+          Carrera:
+        </ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-item>
+      <p>Cambiar foto: <ion-button>Elegir</ion-button></p>
+      <ion-img class="btn"></ion-img>
+    </ion-item>
+
+    
+    <ion-button expand="block" id="editar-perfil" color="danger">Realizar cambios</ion-button>
+    <ion-button expand="block" [routerLink]="(['/perfil'])" color="dark">Volver a perfil</ion-button>
+    <ion-alert trigger="editar-perfil" class="custom-alert" header="¿Estás seguro de realizar cambios?" [buttons]="alertButtons"></ion-alert>  
+    <!--[buttons]="alertButtons"-->
+
+
+    
+  </div>
 </ion-content>

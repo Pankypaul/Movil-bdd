@@ -8,11 +8,14 @@ import { AmigosPageRoutingModule } from './amigos-routing.module';
 
 import { AmigosPage } from './amigos.page';
 
+import { ComponentsModule } from 'src/app/components/footer/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     AmigosPageRoutingModule
   ],
   declarations: [AmigosPage]

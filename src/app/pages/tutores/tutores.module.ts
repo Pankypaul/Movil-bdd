@@ -8,13 +8,18 @@ import { TutoresPageRoutingModule } from './tutores-routing.module';
 
 import { TutoresPage } from './tutores.page';
 
+import { ComponentsModule } from 'src/app/components/footer/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    IonicModule,
+    IonicModule, 
+    ComponentsModule,   //Tambien lo declaro aqui el ComponentsModule
     TutoresPageRoutingModule
   ],
   declarations: [TutoresPage]
 })
 export class TutoresPageModule {}
+ 
+ 

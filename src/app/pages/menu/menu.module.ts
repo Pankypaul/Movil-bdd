@@ -8,11 +8,13 @@ import { MenuPageRoutingModule } from './menu-routing.module';
 
 import { MenuPage } from './menu.page';
 
+import { ComponentsModule } from 'src/app/components/footer/components.module';  //Importo el ComponentsModule
+
 @NgModule({
   imports: [
-    CommonModule,
-    FormsModule,
+    CommonModule, 
     IonicModule,
+    ComponentsModule,   //Tambien lo declaro aqui el ComponentsModule
     MenuPageRoutingModule
   ],
   declarations: [MenuPage]

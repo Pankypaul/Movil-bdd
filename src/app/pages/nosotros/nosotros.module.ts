@@ -8,11 +8,14 @@ import { NosotrosPageRoutingModule } from './nosotros-routing.module';
 
 import { NosotrosPage } from './nosotros.page';
 
+import { ComponentsModule } from 'src/app/components/footer/components.module';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     NosotrosPageRoutingModule
   ],
   declarations: [NosotrosPage]

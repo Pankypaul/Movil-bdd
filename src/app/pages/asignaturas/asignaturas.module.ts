@@ -7,12 +7,14 @@ import { IonicModule } from '@ionic/angular';
 import { AsignaturasPageRoutingModule } from './asignaturas-routing.module';
 
 import { AsignaturasPage } from './asignaturas.page';
+import { ComponentsModule } from 'src/app/components/footer/components.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     AsignaturasPageRoutingModule
   ],
   declarations: [AsignaturasPage]

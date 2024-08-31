@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
@@ -8,25 +8,39 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  correo: string = '';
-  contrasena: string = '';
+  email: string= "";      //correo que entrega registrar (context)
+  contras: string= "";    //contraseña que entrega registrar (context)
 
+  correo: string = '';     //correo del input
+  contrasena: string = ''; //contraseña del input
+
+  tipo: string= "";         //tipo del registrar (context)
+  
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
-  constructor(private router: Router, private toastController: ToastController) { }
+  constructor(private router: Router, private toastController: ToastController, private activateroute:ActivatedRoute) { 
+    this.activateroute.queryParams.subscribe(param =>{
+      //valido si viene o no información en la ruta
+      
+      if(this.router.getCurrentNavigation()?.extras.state){
+        this.tipo =this.router.getCurrentNavigation()?.extras?.state?.['tip'];
+        this.email =this.router.getCurrentNavigation()?.extras?.state?.['correo1'];
+        this.contras =this.router.getCurrentNavigation()?.extras?.state?.['contra'];
+      }
+    })
+  }
 
   ngOnInit() {
   }
 
   onSubmit() {
-
+    console.log("correo1",this.email);
+    console.log("contraseña",this.contras);
     if (!this.correo || !this.contrasena) {
       this.CamposVacios('bottom');
     } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
       this.maxCaracter('bottom')
-    }else if (!this.contrasena || this.contrasena.length < 8 || !this.validarContraseña.test(this.contrasena)){
-      this.correoYContrasenaInvalido('bottom')
     }else {
       
       //Valide que haya un punto y una arroba y que haya algo antes y después de ellos
@@ -43,20 +57,17 @@ export class LoginPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Se Asegura que haya algo entre el '@' y el '.' (Devuelve true or false)
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Se asegura que haya algo después del '.' (Punto) (Devuelve true or false)
       
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena) {
         console.log("El correo es válido");
-
+        
+        this.router.navigate(['/menu']);
         /*console.log("tieneArroba",tieneArroba);
         console.log("posicionArroba",posicionArroba);
         console.log("posicionPunto",posicionPunto);
 
         console.log("algoAntesArroba",algoAntesArroba);
         console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
-        console.log("algoDespuesPunto",algoDespuesPunto);*/
-        this.router.navigate(['/menu']);
-      
-      
-      
+        console.log("algoDespuesPunto",algoDespuesPunto);*/  
       }else {
         this.correoYContrasenaInvalido('bottom');
       }
@@ -64,6 +75,7 @@ export class LoginPage implements OnInit {
 
     }
 
+    
   }
   async CamposVacios(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({

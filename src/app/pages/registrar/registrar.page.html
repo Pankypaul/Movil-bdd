@@ -39,7 +39,7 @@
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password2" type="password" name="password2" label-placement="floating" label="Repetir Contraseña" required></ion-input>
         </ion-item>
 
-        <ion-button class="boton" shape="round" type="submit">REGISTRARSE</ion-button>
+        <ion-button class="boton" shape="round" (click)="irPagina()" type="submit">REGISTRARSE</ion-button>
       
       </form>
 

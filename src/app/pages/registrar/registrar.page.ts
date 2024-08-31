@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 import { PopoverController } from '@ionic/angular';
@@ -14,7 +14,7 @@ export class RegistrarPage implements OnInit {
   password: string = '';
   password2: string = '';
   nombre: string = '';
-  tipo: boolean = true;
+  tipo: string= "";
 
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
@@ -24,8 +24,16 @@ export class RegistrarPage implements OnInit {
   ngOnInit() {
   }
 
-  onSubmit() {
-    if (!this.email || !this.password || !this.nombre || !this.password2 || this.tipo == true) {
+  irPagina(){
+    let navigationextras: NavigationExtras= {
+      state: {
+        tip: this.tipo,
+        contra: this.password,
+        correo1: this.email
+      }
+    }
+
+    if (!this.email || !this.password || !this.nombre || !this.password2 || this.tipo == "") {
       this.CamposVacios('bottom');
 
     }else if (this.email.length >= 50 || this.password.length >= 25) {
@@ -58,7 +66,7 @@ export class RegistrarPage implements OnInit {
           } else {
 
             if (this.password == this.password2) {
-              this.router.navigate(['/login']);
+              this.router.navigate(['/login'],navigationextras);
     
             } else {
                 this.contrasena('bottom');
@@ -81,8 +89,13 @@ export class RegistrarPage implements OnInit {
     console.log('Contraseña:', this.password);
     console.log('Contraseña2:', this.password2);
     console.log("----------------------------------------------");
+    
+
+  }
 
 
+
+  onSubmit() {
     // Navegar a otra página si el formulario es válido
     //this.router.navigate(['/menu']);
 

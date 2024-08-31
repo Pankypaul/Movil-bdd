@@ -16,12 +16,13 @@
         <ion-title class="black-title ion-margin-bottom titulo">REGISTRARSE</ion-title>
         
         <ion-item  class="fondo-form">
-          <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" required></ion-input>
-          <ion-icon class="alerta" color="medium" name="alert-circle-sharp" (click)="presentPopover($event)"></ion-icon>
+          <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" (keydown)="restrictInput($event)" required ></ion-input>
+          <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
     
         <ion-item class="fondo-form">
           <ion-input maxlength="50" class="texto" [(ngModel)]="email" type="email" name="email" label-placement="floating" label="Correo Electronico" required></ion-input>
+          <ion-icon class="alerta" color="medium"  name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
 
         <ion-item class="fondo-form">
@@ -31,12 +32,19 @@
           </ion-select>
         </ion-item>    
 
+        <ion-item class="fondo-form">
+          <ion-input maxlength="11" class="texto"   [(ngModel)]="numero" type="number" name="number" label-placement="floating" label="Telefono" required></ion-input>
+          <ion-icon class="alerta" color="medium"  name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
+        </ion-item>
+
         <ion-item class="fondo-form">          
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password" type="password" name="password" label-placement="floating" label="Contraseña" required></ion-input>
+          <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
     
         <ion-item class="fondo-form">
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password2" type="password" name="password2" label-placement="floating" label="Repetir Contraseña" required></ion-input>
+          <ion-icon class="alerta" color="medium"   name="alert-circle-sharp"  ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
 
         <ion-button class="boton" shape="round" (click)="irPagina()" type="submit">REGISTRARSE</ion-button>

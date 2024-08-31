@@ -1,13 +1,54 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>ayuda</ion-title>
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-title>Ayuda</ion-title>
+    <ion-buttons slot="start">
+      <!--slot="start" Es la para la izquierda-->
+      <!--slot="end" Es la para la derecha-->
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">ayuda</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="centrar">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>¿Cómo usar la aplicación?</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>Aquí puedes encontrar instrucciones sobre cómo utilizar cada funcionalidad de la aplicación.</p>
+      <!-- Agrega más contenido aquí -->
+    </ion-card-content>
+  </ion-card>
+  <h4>Preguntas frecuentes</h4>
+  <ion-accordion-group>
+    <ion-accordion>
+      <ion-item slot="header">
+        <ion-label>¿Cuál es el uso de la app?</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <p>La aplicación sirve para mejorar tus habilidades de estudio, estudiando en comunidad</p>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion>
+      <ion-item slot="header">
+        <ion-label>¿Porque usar la app?</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <p>La app cuenta con la facilidad de pedir ayuda a la comunidad la cual puedes realizar trabajos con ayuda.</p>
+      </div>
+    </ion-accordion>
+
+    <ion-accordion>
+      <ion-item slot="header">
+        <ion-label>¿Problemas con tu cuenta?</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+        <p>No te preocupes, puedes irte al apartado de restablecer la contraseña que te facilitara la recuperación de tu cuenta.</p>
+      </div>
+    </ion-accordion>
+    
+    <!-- Agrega más preguntas y respuestas en acordeones aquí -->
+  </ion-accordion-group>
+
 </ion-content>

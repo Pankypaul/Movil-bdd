@@ -15,7 +15,8 @@ export class RegistrarPage implements OnInit {
   password2: string = '';
   nombre: string = '';
   tipo: string= "";
-
+  numero: string = ""; 
+  
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
   constructor(private router: Router, private toastController: ToastController, 
@@ -33,7 +34,7 @@ export class RegistrarPage implements OnInit {
       }
     }
 
-    if (!this.email || !this.password || !this.nombre || !this.password2 || this.tipo == "") {
+    if (!this.email || !this.password || !this.nombre || !this.password2 ||!this.numero || this.tipo == "") {
       this.CamposVacios('bottom');
 
     }else if (this.email.length >= 50 || this.password.length >= 25) {
@@ -80,12 +81,13 @@ export class RegistrarPage implements OnInit {
         this.correoInvalido('bottom');
       }
     }
-    // Aquí iría la lógica para enviar los datos al servidor
+    //Ver los datos que pusimos
 
     console.log("----------------------------------------------");
     console.log('Nombre:', this.nombre);
     console.log('Correo:', this.email);
     console.log('Tipo:', this.tipo);
+    console.log('Telefono:',this.numero);
     console.log('Contraseña:', this.password);
     console.log('Contraseña2:', this.password2);
     console.log("----------------------------------------------");
@@ -171,5 +173,16 @@ export class RegistrarPage implements OnInit {
     console.log(`Popover dismissed with role: ${role}`);
   }
 
+
+  // Funcion que reestige poner numeros al nombre
+  restrictInput(event: KeyboardEvent) {
+    const key = event.key;
+    const regex = /^[A-Za-zÀ-ÿ\s]$/;
+
+    if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+      event.preventDefault();
+    }
+  }
   
 }
+

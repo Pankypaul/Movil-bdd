@@ -18,7 +18,7 @@
         <ion-label class="accordion-content">{{ item.name }}</ion-label>
         <ion-label *ngIf="isExpanded(item)" class="accordion-content">{{ item.phone }}</ion-label>
         <ion-label *ngIf="isExpanded(item)" class="accordion-content">Email: {{ item.email }}</ion-label>
-        <ion-button *ngIf="isExpanded(item)" routerLink="/perfil">ir perfil</ion-button>
+        <ion-button *ngIf="isExpanded(item)" (click)="irPagina(item)">ir perfil</ion-button>
       </ion-label>
       
       <ion-icon 

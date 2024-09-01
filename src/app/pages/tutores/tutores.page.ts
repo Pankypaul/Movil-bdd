@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
@@ -11,12 +12,26 @@ export class TutoresPage implements OnInit {
   //Es la lista de los amigos pero falsa xd
   items: Array<{ name: string, phone: string, email: string }> = [];
 
+  tip:String='Tutor';
   //Activamos el item para que pueda desplegarse la informacion
   activeItem: { name: string, phone: string, email: string } | null = null;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
     this.items = this.generateItems(5);
+  }
+
+  // irpagina y le paso el item por que no me funcionaba asi
+  irPagina(item: { name: string, phone: string, email: string }) {
+    let navigationextras: NavigationExtras = {
+      state: {
+        name: item.name,
+        phone: item.phone,
+        email: item.email,
+        tipo: this.tip
+      }
+    };
+    this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
   }
 
   

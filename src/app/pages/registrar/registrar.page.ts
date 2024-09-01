@@ -16,8 +16,7 @@ export class RegistrarPage implements OnInit {
   nombre: string = '';
   tipo: string= "";
   numero: string = ""; 
-
-
+ 
 
 
   

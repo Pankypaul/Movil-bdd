@@ -17,23 +17,40 @@ const routes: Routes = [
   },
   {
     path: 'perfil',
-    loadChildren: () => import('./pages/perfil/perfil.module').then( m => m.PerfilPageModule)
+    loadChildren: () => import('./pages/Aprendices/perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+  {
+    path: 'perfil1',
+    loadChildren: () => import('./pages/Tutor/perfil1/perfil1.module').then( m => m.PerfilPageModule)
   },
   {
     path: 'amigos',
-    loadChildren: () => import('./pages/amigos/amigos.module').then( m => m.AmigosPageModule)
+    loadChildren: () => import('./pages/Aprendices/amigos/amigos.module').then( m => m.AmigosPageModule)
+  },
+  {
+    path: 'amigos1',
+    loadChildren: () => import('./pages/Tutor/amigos1/amigos1.module').then( m => m.AmigosPageModule)
   },
   {
     path: 'asignaturas',
-    loadChildren: () => import('./pages/asignaturas/asignaturas.module').then( m => m.AsignaturasPageModule)
+    loadChildren: () => import('./pages/Aprendices/asignaturas/asignaturas.module').then( m => m.AsignaturasPageModule)
+  },
+  
+  {
+    path: 'asignaturas1',
+    loadChildren: () => import('./pages/Tutor/asignaturas1/asignaturas.module').then( m => m.AsignaturasPageModule)
   },
   {
     path: 'nosotros',
-    loadChildren: () => import('./pages/nosotros/nosotros.module').then( m => m.NosotrosPageModule)
+    loadChildren: () => import('./pages/Aprendices/nosotros/nosotros.module').then( m => m.NosotrosPageModule)
   },
   {
     path: 'menu',
-    loadChildren: () => import('./pages/menu/menu.module').then( m => m.MenuPageModule)
+    loadChildren: () => import('./pages/Aprendices/menu/menu.module').then( m => m.MenuPageModule)
+  },
+  {
+    path: 'menu1',
+    loadChildren: () => import('./pages/Tutor/menu1/menu1.module').then( m => m.MenuPageModule)
   },
   {
     path: 'registrar',
@@ -45,41 +62,50 @@ const routes: Routes = [
   },
   {
     path: 'publicar',
-    loadChildren: () => import('./pages/publicar/publicar.module').then( m => m.PublicarPageModule)
+    loadChildren: () => import('./pages/Aprendices/publicar/publicar.module').then( m => m.PublicarPageModule)
+  },
+  {
+    path: 'publicar1',
+    loadChildren: () => import('./pages/Tutor/publicar1/publicar1.module').then( m => m.PublicarPageModule)
   },
   {
     path: 'tutores',
-    loadChildren: () => import('./pages/tutores/tutores.module').then( m => m.TutoresPageModule)
+    loadChildren: () => import('./pages/Aprendices/tutores/tutores.module').then( m => m.TutoresPageModule)
   },
   {
     path: 'chat',
-    loadChildren: () => import('./pages/chat/chat.module').then( m => m.ChatPageModule)
+    loadChildren: () => import('./pages/Aprendices/chat/chat.module').then( m => m.ChatPageModule)
   },
   {
     path: 'editar-perfil',
-    loadChildren: () => import('./pages/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
+    loadChildren: () => import('./pages/Aprendices/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
   },
   {
     path: 'ayuda',
-    loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
+    loadChildren: () => import('./pages/Aprendices/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },
   {
     path: 'menu-asignatura',
-    loadChildren: () => import('./pages/menu-asignatura/menu-asignatura.module').then( m => m.MenuAsignaturaPageModule)
+    loadChildren: () => import('./pages/Aprendices/menu-asignatura/menu-asignatura.module').then( m => m.MenuAsignaturaPageModule)
   },
   
   {
     path: 'perfil-agregar-amigos',
-    loadChildren: () => import('./pages/perfil-agregar-amigos/perfil-agregar-amigos.module').then( m => m.PerfilAgregarAmigosPageModule)
+    loadChildren: () => import('./pages/Aprendices/perfil-agregar-amigos/perfil-agregar-amigos.module').then( m => m.PerfilAgregarAmigosPageModule)
   },
   {
     path: 'aprendiz',
-    loadChildren: () => import('./pages/aprendiz/aprendiz.module').then( m => m.AprendizPageModule)
+    loadChildren: () => import('./pages/Tutor/aprendiz/aprendiz.module').then( m => m.AprendizPageModule)
+  },  {
+    path: 'curso',
+    loadChildren: () => import('./pages/Tutor/curso/curso.module').then( m => m.CursoPageModule)
   },
   {
     path: '**',
-    loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
+    loadChildren: () => import('./pages/Aprendices/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
+
+
 
 
 

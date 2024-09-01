@@ -11,7 +11,19 @@
     margin-bottom: 1px;
 }
 
+.img-amigos{
+    width: 30px;
+    height: 30px;
+}
 
+.img-amigos2{
+    width: 20px;
+    height: 20px;
+}
+
+.logo {
+    font-weight: bold;
+}
 
 .container{
     --background: rgba(182, 149, 192, 20%);
@@ -78,3 +90,20 @@ hr {
     text-align: justify;
 }
 
+.botones{
+    display: flex;
+    justify-content:baseline;    
+}
+
+.boton{
+    --background: rgba(182, 149, 192, 100%);
+    font-size: 10px;    
+    
+}
+
+.titulo{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: xx-large;
+    margin-left: 5%;
+    margin-bottom: 0%;
+}

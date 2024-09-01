@@ -8,7 +8,7 @@ import { AprendizPageRoutingModule } from './aprendiz-routing.module';
 
 import { AprendizPage } from './aprendiz.page';
 
-import { ComponentsModule } from 'src/app/components/footer/components.module';
+import { ComponentsModule } from 'src/app/components/footer-tutor/components.module';
 
 @NgModule({
   imports: [

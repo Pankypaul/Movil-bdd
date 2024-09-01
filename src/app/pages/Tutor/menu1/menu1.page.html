@@ -5,7 +5,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       
-      <img src="assets/icon/amigos.png" alt="amigos" class="img-amigos" [routerLink]="'/amigos'">
+      <img src="assets/icon/amigos.png" alt="amigos" class="img-amigos" [routerLink]="'/amigos1'">
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -17,9 +17,7 @@
   <ion-searchbar></ion-searchbar>
 
   <div class="botones">
-    <ion-button id="Aprendices" class="boton" (click)="mostrarCard('Aprendices')">Aprendices</ion-button>
-    <ion-button id="Tutores" class="boton" (click)="mostrarCard('Tutores')">Tutores</ion-button>
-    <ion-button id="Concejos" class="boton" (click)="mostrarCard('Concejos')">Concejos</ion-button>
+    <ion-button id="Aprendices" class="boton" (click)="mostrarCard('Aprendices')">Peticiones</ion-button>
     <ion-button id="Amigos" class="boton" (click)="mostrarCard('Amigos')">Amigos</ion-button>
   </div>
 
@@ -298,6 +296,6 @@
 
 
 
-<app-footer ></app-footer>  
+<app-footer-tutor></app-footer-tutor>  
 
 

@@ -17,60 +17,286 @@
   <ion-searchbar></ion-searchbar>
 
   <div class="botones">
-    <ion-button class="boton">Aprendices</ion-button>
-    <ion-button class="boton">Tutores</ion-button>
-    <ion-button class="boton">Concejos</ion-button>
-    <ion-button class="boton">Amigos</ion-button>
+    <ion-button id="Aprendices" class="boton" (click)="mostrarCard('Aprendices')">Aprendices</ion-button>
+    <ion-button id="Tutores" class="boton" (click)="mostrarCard('Tutores')">Tutores</ion-button>
+    <ion-button id="Concejos" class="boton" (click)="mostrarCard('Concejos')">Concejos</ion-button>
+    <ion-button id="Amigos" class="boton" (click)="mostrarCard('Amigos')">Amigos</ion-button>
   </div>
+
+
+  <div *ngIf="id === 'Aprendices'">
+    <h1 class="titulo">Aprendices</h1>
   
-  <ion-card class="container">
-    <ion-card-header>
+    <ion-card  class="container">
+      <ion-card-header>
+        
+        <div class="unir">
+          <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
+          <p class="nombre">Maria Torres</p>
+          <p class="materia">Matematicas</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr>
       
-      <div class="unir">
-        <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
-        <p class="nombre">Maria Torres</p>
-        <p class="materia">Matematicas</p>
+      <ion-card-content class="descripcion">
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
+    </ion-card>
+  
+  <!--Segunda publicación-->
+  
+   
+    <ion-card class="container">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
+          <p class="nombre">Pablo Rojas</p>
+          <p class="materia">Ingles</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
       </div>
       <hr>
-    </ion-card-header>
-    <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
-    <div class="centrar">
-      <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
-    </div>
+      
+      <ion-card-content class="descripcion">
+        Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
+        ya que no soy muy bueno con la pronunciación.
+      </ion-card-content>
+    </ion-card>
+  </div>
 
-    <hr>
-    
-    <ion-card-content class="descripcion">
-      Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
-      si alguien me puede ayudar, muchas gracias de antemano.
-    </ion-card-content>
-  </ion-card>
 
-<!--Segunda publicación-->
 
- 
-  <ion-card class="container">
-    <ion-card-header>
-      <div class="unir">
-        <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
-        <p class="nombre">Pablo Rojas</p>
-        <p class="materia">Ingles</p>
+  <!--tutores-->
+
+
+  <div *ngIf="id === 'Tutores'">
+    <h1 class="titulo">Tutores</h1>
+  
+    <ion-card  class="container">
+      <ion-card-header>
+        
+        <div class="unir">
+          <img class="maria" src="/assets/icon/julian.avif" alt="julian" >
+          <p class="nombre">Julian Muñoz</p>
+          <p class="materia">Python</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
+    </ion-card>
+  
+  <!--Segunda publicación-->
+  
+   
+    <ion-card class="container">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
+          <p class="nombre">Pablo Rojas</p>
+          <p class="materia">Ingles</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
       </div>
       <hr>
-    </ion-card-header>
-    <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
-    <div class="centrar">
-      <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
-    </div>
-    <hr>
-    
-    <ion-card-content class="descripcion">
-      Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
-      ya que no soy muy bueno con la pronunciación.
-    </ion-card-content>
-  </ion-card>
+      
+      <ion-card-content class="descripcion">
+        Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
+        ya que no soy muy bueno con la pronunciación.
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!--Concejos-->
+
+  <div *ngIf="id === 'Concejos'">
+    <h1 class="titulo">Concejos</h1>
+  
+    <ion-card  class="container">
+      <ion-card-header>
+        
+        <div class="unir">
+          <img class="maria" src="/assets/icon/julian.avif" alt="julian" >
+          <p class="nombre">Julian Muñoz</p>
+          <p class="materia">Python</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
+    </ion-card>
+  
+  <!--Segunda publicación-->
+  
+   
+    <ion-card class="container">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
+          <p class="nombre">Pablo Rojas</p>
+          <p class="materia">Ingles</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
+      </div>
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
+        ya que no soy muy bueno con la pronunciación.
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+  <!--amigos-->
+
+
+  <div *ngIf="id === 'Amigos'">
+    <h1 class="titulo">Amigos</h1>
+  
+    <ion-card  class="container">
+      <ion-card-header>
+        
+        <div class="unir">
+          <img class="maria" src="/assets/icon/julian.avif" alt="julian" >
+          <p class="nombre">Julian Muñoz</p>
+          <p class="materia">Python</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
+    </ion-card>
+  
+  <!--Segunda publicación-->
+  
+   
+    <ion-card class="container">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
+          <p class="nombre">Pablo Rojas</p>
+          <p class="materia">Ingles</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
+      </div>
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
+        ya que no soy muy bueno con la pronunciación.
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!--sin-->
+
+  <div *ngIf="id === ''">
+    <h1 class="titulo">Principal</h1>
+  
+    <ion-card  class="container">
+      <ion-card-header>
+        
+        <div class="unir">
+          <img class="maria" src="/assets/icon/julian.avif" alt="julian" >
+          <p class="nombre">Julian Muñoz</p>
+          <p class="materia">Python</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
+    </ion-card>
+  
+  <!--Segunda publicación-->
+  
+   
+    <ion-card class="container">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" src="/assets/icon/pablo.jpg" alt="pablo" >
+          <p class="nombre">Pablo Rojas</p>
+          <p class="materia">Ingles</p>
+        </div>
+        <hr>
+      </ion-card-header>
+      <ion-card-title class="texto">Tengo que estudiar ingles pero no se muy bien</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" src="/assets/icon/tarea2.jpg" alt="tarea2">
+      </div>
+      <hr>
+      
+      <ion-card-content class="descripcion">
+        Hola a todos, estoy estudiando ingles y queria ver si alguien me puede ayudar a estudiar, 
+        ya que no soy muy bueno con la pronunciación.
+      </ion-card-content>
+    </ion-card>
+  </div>
+
 
 </ion-content>
+
+
+
 
 <app-footer ></app-footer>  
 

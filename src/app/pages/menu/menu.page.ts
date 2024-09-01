@@ -12,7 +12,7 @@ export class MenuPage implements OnInit {
   contrasena: string = ''; //contraseña del input
   tipo: string= "";         //tipo del registrar (context)
 
-
+  id: string= "";
   constructor(private router:Router, private activateroute:ActivatedRoute) { 
 
     this.activateroute.queryParams.subscribe(param =>{
@@ -28,6 +28,10 @@ export class MenuPage implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  mostrarCard(id: string) {
+    this.id = id;
   }
 
 }

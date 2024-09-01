@@ -15,7 +15,7 @@
         
         <ion-title class="black-title ion-margin-bottom titulo">REGISTRARSE</ion-title>
         
-        <ion-item  class="fondo-form">  <!--Se restringe los numeros-->>
+        <ion-item  class="fondo-form">  <!--Se restringe los numeros-->
           <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" (keydown)="restrictInput($event)" required ></ion-input>
           <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>

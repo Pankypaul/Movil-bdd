@@ -37,25 +37,39 @@
 
     
 
-
+.titulo{
+    color: rgba(59, 31, 87, 1);;
+}
 //here
 
-.custom-card {
-    background-color: #f0e4ff; /* Color de fondo de la tarjeta */
+
+
+.card {
+    background-color: rgba(182, 149, 192, 20%);
     padding: 16px;
     border-radius: 15px;
+    margin-top: 10%;
     
-  }
+}
   
-  .centered-content {
+.fondo{
+    --background: rgba(182, 149, 192, 0%);
+}
+
+.nombre{
+    margin-left: 5px;
+}
+
+.centered-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 150px; /* Ajusta según sea necesario */
-  }
+    height: 150px; 
+}
   
 .btn{
     text-align: center;
+    --background: rgba(182, 149, 192, 0%);
 }

@@ -1,3 +1,28 @@
 .centrar{
     text-align: center;
 }
+
+.toolbar{
+    --background:rgba(182, 149, 192, 1);
+    border-bottom: .5px #000000 solid;
+
+}
+
+.fondo{
+    --background:rgba(182, 149, 192, 1);
+}
+
+.centrar1{
+    justify-content: center;
+    --background: #000000;
+}
+
+.texto2{
+    color: rgba(59, 31, 87, 1);
+}
+
+.texto{
+    margin-top: 30px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 4rem;
+}

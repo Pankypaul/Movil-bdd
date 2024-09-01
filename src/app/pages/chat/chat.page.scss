@@ -1,0 +1,80 @@
+.toolbar{
+    --background:rgba(182, 149, 192, 1);
+    border-bottom: .5px #000000 solid;
+
+}
+
+.container{
+    background-color: rgba(182, 149, 192, 20%);
+    border-radius: 3%;
+    border: 0rem #000000 solid;
+    margin-top: 2rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding-bottom: 1rem;
+    justify-content: center;
+}
+
+.fondo{
+    --background: rgba(182, 149, 192, 0%);
+}
+
+.imagen{
+    margin-left: 1px;
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+    border: 1px #000000 solid;
+}
+
+.unir{
+    display: flex;
+}
+
+.nombre{
+    margin-top: 10px;
+    text-align: center;
+    margin-left: 57px;
+}
+
+hr {
+    border: 1px solid rgba(182, 149, 192, 50%); 
+    height: 0px; 
+    margin-left: 5px;
+    margin-right: 5px; 
+    
+}
+
+.centrar{
+    justify-content: center;
+    text-align: center;
+}
+
+.escribir{
+    margin-top: 20rem;
+    width: 90%;
+    
+}
+
+.container2{
+    background-color: rgba(182, 149, 192, 50%);
+    margin-left: 100px;
+    margin-top: 5%;
+    margin-right: 5px;
+    border-radius: 10px;
+}
+
+.text{
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-right: 10px;
+    padding-bottom: 15px;
+}
+
+.container3{
+    background-color: rgba(182, 149, 192, 100%); 
+    margin-right: 100px;
+    margin-top: 5%;
+    margin-left: 5px;
+    border-radius: 10px;
+}

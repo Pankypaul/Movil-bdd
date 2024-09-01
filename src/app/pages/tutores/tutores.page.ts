@@ -32,9 +32,9 @@ export class TutoresPage implements OnInit {
 
   //Aqui se crea el item al azar como lo hacimos en python
   generateItems(count: number): Array<{ name: string, phone: string, email: string }> {
-    const names = ['Juan Vasquez', 'Maria', 'Pedro', 'Ana', 'Luis', 'Carlos', 'Lucia', 'Jorge', 'Laura', 'Marta'];
+    const names = ['Juan Vasquez', 'Maria Anaiz Riquelme', 'Pedro Salasar', 'Ana Palma', 'Luis Antonio Rios', 'Carlos Gonzales', 'Melissa Torres', 'Jorge Vicente Fuentes', 'Laura Flor Hortencia', 'Marta Victoria Torres', 'Martin Elias Salvador'];
     
-    const phones = ['123-456-7890', '098-765-4321', '555-123-4567', '555-765-4321', '555-987-6543'];
+    const phones = ['9 7890 1222', '9 8765 4321', '9 5123 4567', '9 5765 4321', '9 2987 6543'];
 
     //Y queda como un nuevo objeto al igual que en java
     const newItems: Array<{ name: string, phone: string, email: string }> = [];
@@ -46,7 +46,7 @@ export class TutoresPage implements OnInit {
       newItems.push({
         name: `${randomName}`,
         phone: randomPhone,
-        email: `${randomName.toLowerCase()}${i + 1}@gmail.com` //Se muestra la info con esta `` raras
+        email: `${randomName.toLowerCase().slice(0, 3)}@gmail.com` //Se muestra la info con esta `` raras
       });
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -16,6 +16,10 @@ export class RegistrarPage implements OnInit {
   nombre: string = '';
   tipo: string= "";
   numero: string = ""; 
+
+
+
+
   
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 

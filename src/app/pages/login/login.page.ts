@@ -11,6 +11,26 @@ export class LoginPage implements OnInit {
   email: string= "";      //correo que entrega registrar (context)
   contras: string= "";    //contraseña que entrega registrar (context)
 
+  Tutor :any = {
+
+    id: 1,
+    nombre:'Andres Vasquez Fernández',
+    correo: 'andres@gmail.com',
+    contra: 'QWEasd123-',
+    numero: '923334122'
+
+  }
+
+  Aprendiz :any = {
+
+    id: 2,
+    nombre:'Scarlett Rivera Diaz',
+    correo: 'scarlett@gmail.com',
+    contra: 'qweQWE123-',
+    numero: '975758484'
+
+  }
+
   correo: string = '';     //correo del input
   contrasena: string = ''; //contraseña del input
 
@@ -27,6 +47,7 @@ export class LoginPage implements OnInit {
         this.tipo =this.router.getCurrentNavigation()?.extras?.state?.['tip'];
         this.email =this.router.getCurrentNavigation()?.extras?.state?.['correo1'];
         this.contras =this.router.getCurrentNavigation()?.extras?.state?.['contra'];
+        
       }
     })
   }
@@ -65,10 +86,18 @@ export class LoginPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Se Asegura que haya algo entre el '@' y el '.' (Devuelve true or false)
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Se asegura que haya algo después del '.' (Punto) (Devuelve true or false)
       
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena) {
+      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena && this.tipo == 'Tutor' ) {   //(this.correo == this.Tutor.correo && this.contrasena == this.Tutor.contrasena)
         console.log("El correo es válido");
         
         this.router.navigate(['/menu'],navigationextras);
+
+      }else if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena && this.tipo == 'Aprendiz') {  //(this.correo == this.Aprendiz.correo && this.contrasena == this.Aprendiz.contrasena)
+        console.log("El correo es válido11");
+        
+        this.router.navigate(['/perfil'],navigationextras);
+
+
+        // this.router.navigate(['/perfil'],navigationextras);
         /*console.log("tieneArroba",tieneArroba);
         console.log("posicionArroba",posicionArroba);
         console.log("posicionPunto",posicionPunto);
@@ -76,6 +105,12 @@ export class LoginPage implements OnInit {
         console.log("algoAntesArroba",algoAntesArroba);
         console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
         console.log("algoDespuesPunto",algoDespuesPunto);*/  
+      }else if(this.correo == this.Tutor.correo || this.contrasena == this.Tutor.contrasena){
+        this.router.navigate(['/menu'],navigationextras);
+      
+      }else if(this.correo == this.Aprendiz.correo || this.contrasena == this.Aprendiz.contrasena){
+        this.router.navigate(['/perfil'],navigationextras);
+
       }else {
         this.correoYContrasenaInvalido('bottom');
       }

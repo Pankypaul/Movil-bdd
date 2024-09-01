@@ -1,25 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
 
 @Component({
-  selector: 'app-amigos',
-  templateUrl: './amigos.page.html',
-  styleUrls: ['./amigos.page.scss'],
+  selector: 'app-aprendiz',
+  templateUrl: './aprendiz.page.html',
+  styleUrls: ['./aprendiz.page.scss'],
 })
-export class AmigosPage implements OnInit {
+export class AprendizPage implements OnInit {
 
-  //Es la lista de los amigos pero falsa xd
+    //Es la lista de los amigos pero falsa xd
   items: Array<{ name: string, phone: string, email: string }> = [];
 
   //Activamos el item para que pueda desplegarse la informacion
   activeItem: { name: string, phone: string, email: string } | null = null;
-
   constructor() { }
 
   ngOnInit() {
     this.items = this.generateItems(5);
   }
 
+  
   //Esto lo del scroll infito
 
   /*loadData(event: CustomEvent) {
@@ -32,7 +31,8 @@ export class AmigosPage implements OnInit {
 
   //Aqui se crea el item al azar como lo hacimos en python
   generateItems(count: number): Array<{ name: string, phone: string, email: string }> {
-    const names = ['Juan Perez', 'Maria Luisa Fernández', 'Pedro Andres Caceres', 'Ana Valenzuela', 'Luis Gonzales', 'Carlos Hector Ortiz', 'Lucia Victoria Torres', 'Jorge Rojas', 'Laura Hernández', 'Marta Nuñez'];
+    const names = ['Juan Vasquez', 'Maria Anaiz Riquelme', 'Pedro Salasar', 'Ana Palma', 'Luis Antonio Rios', 'Carlos Gonzales', 'Melissa Torres', 'Jorge Vicente Fuentes', 'Laura Flor Hortencia', 'Marta Victoria Torres', 'Martin Elias Salvador'];
+    
     const phones = ['9 7890 1222', '9 8765 4321', '9 5123 4567', '9 5765 4321', '9 2987 6543'];
 
     //Y queda como un nuevo objeto al igual que en java
@@ -45,7 +45,7 @@ export class AmigosPage implements OnInit {
       newItems.push({
         name: `${randomName}`,
         phone: randomPhone,
-        email: `${randomName.toLowerCase().slice(0, 3)}@gmail.com`, //Se muestra la info con esta `` raras
+        email: `${randomName.toLowerCase().slice(0, 3)}@gmail.com` //Se muestra la info con esta `` raras
       });
     }
 
@@ -61,4 +61,5 @@ export class AmigosPage implements OnInit {
   isExpanded(item: { name: string, phone: string, email: string }): boolean {
     return this.activeItem === item;
   }
+
 }

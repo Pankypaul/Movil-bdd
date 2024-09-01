@@ -1,11 +1,10 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
-      <!--slot="start" Es la para la izquierda-->
-      <!--slot="end" Es la para la derecha-->
-      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Amigos</ion-title>
+
+    <ion-title>Apredices</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,8 +18,7 @@
         <ion-label class="accordion-content">{{ item.name }}</ion-label>
         <ion-label *ngIf="isExpanded(item)" class="accordion-content">{{ item.phone }}</ion-label>
         <ion-label *ngIf="isExpanded(item)" class="accordion-content">Email: {{ item.email }}</ion-label>
-        <ion-button *ngIf="isExpanded(item)" routerLink="/perfilAgregarAmigos">ir perfil</ion-button>
-        <ion-button *ngIf="isExpanded(item)" routerLink="/chat">Chat</ion-button>
+        <ion-button *ngIf="isExpanded(item)" routerLink="/perfil">ir perfil</ion-button>
       </ion-label>
       
       <ion-icon 
@@ -47,5 +45,4 @@
   </ion-list>
 </ion-content>
 
-
- <app-footer></app-footer>
+<app-footer></app-footer>

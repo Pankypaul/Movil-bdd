@@ -1,13 +1,34 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>chat</ion-title>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Chat</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">chat</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content  [fullscreen]="true">
+
+  <div class="container">
+    <ion-item class="fondo unir" lines="none">
+      <img class="imagen" src="/assets/icon/pato.jpg" alt="foto perfil">
+      <p class="nombre">Maria Luisa Diaz</p>
+    </ion-item>
+    <hr>
+
+    <div class="container2">
+      <p class="text">Holaa, tu haces tutorias de python?</p>
+    </div>
+
+    <div class="container3">
+      <p class="text">Hola, si a las 6 de la tarde los dias sabados</p>
+    </div>
+
+    <div class="centrar">
+      <input class="escribir" type="text" placeholder="Escribir">
+      
+    </div>    
+  </div>
+
+
 </ion-content>

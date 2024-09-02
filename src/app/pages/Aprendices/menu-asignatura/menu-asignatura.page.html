@@ -15,11 +15,11 @@
   <ion-searchbar></ion-searchbar>
 
   <ion-card class="container">
-    <ion-card-header>
+    <ion-card-header (click)="irPagina()">
       
       <div class="unir">
-        <img class="maria" src="/assets/icon/maria.webp" alt="mauricio" >
-        <p class="nombre">Romina Riquelme</p>
+        <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
+        <p class="nombre">{{nombre}}</p>
         <p class="materia">Python</p>
       </div>
       <hr>
@@ -35,7 +35,8 @@
       sobre python basico, les dejo mis redes sociales y el link de la reunión.
     </ion-card-content>
     <p class="separar">Instagram: &#64;Ro_Riquelme</p>
-    <p class="separar">WhatsApp: +56 9 1213 5445</p>
+    <p class="separar">WhatsApp: {{telefono}}</p>
+    <p class="separar">Correo: {{correo}}</p>
     <p class="separar" lines="none">Link: https://discord.com/Ro_Riquelme</p>
   </ion-card>
 

@@ -10,33 +10,33 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div class="profile-container">
+  <div class="container">
     <!-- Imagen de perfil -->
-    <ion-avatar class="profile-avatar">
-      <img src="assets/icon/pato.jpg" alt="Perfil">
-    </ion-avatar>
+    <div class="centrar">
+      <img class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
+    </div>
 
     <!-- Nombre de usuario -->
-    <h2 class="profile-name">Paul Hidalgo</h2>
+    <h2 class="nombre">{{nombre}} ({{tip}})</h2>
 
     <!-- Información de contacto -->
     <ion-list>
+
       <ion-item>
         <ion-icon name="mail" slot="start"></ion-icon>
-        <ion-input></ion-input>
+        <ion-input [(ngModel)]="correo"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon name="call" slot="start"></ion-icon>
-        <ion-input></ion-input>
+        
+        <ion-input type="number" name="number" label="+56 " [(ngModel)]="telefono"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label>
-          Carrera:
-        </ion-label>
-        <ion-input></ion-input>
+        <ion-input label="Carrera: " [(ngModel)]="carrera"></ion-input>
       </ion-item>
+
     </ion-list>
     <ion-item>
       <p>Cambiar foto: <ion-button>Elegir</ion-button></p>
@@ -45,16 +45,16 @@
 
     <ion-item>
       <ion-icon name="book" slot="start"></ion-icon>
-      <ion-input></ion-input>
+      <ion-textarea [(ngModel)]="descripcion" name="descripcion"></ion-textarea>
     </ion-item>
 
-    
+
     <ion-button expand="block" id="editar-perfil" color="danger">Realizar cambios</ion-button>
-    <ion-button expand="block" [routerLink]="(['/perfil'])" color="dark">Volver a perfil</ion-button>
-    <ion-alert trigger="editar-perfil" class="custom-alert" header="¿Estás seguro de realizar cambios?" [buttons]="alertButtons"></ion-alert>  
+    <ion-alert trigger="editar-perfil" class="custom-alert" header="¿Estás seguro de realizar cambios?"
+      [buttons]="alertButtons"></ion-alert>
     <!--[buttons]="alertButtons"-->
 
 
-    
+
   </div>
 </ion-content>

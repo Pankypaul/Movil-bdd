@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
 @Component({
-  selector: 'app-cambiar-contrasena',
-  templateUrl: './cambiar-contrasena.page.html',
-  styleUrls: ['./cambiar-contrasena.page.scss'],
+  selector: 'app-recuperar-contrasena',
+  templateUrl: './recuperar-contrasena.page.html',
+  styleUrls: ['./recuperar-contrasena.page.scss'],
 })
-export class CambiarContrasenaPage implements OnInit {
+export class RecuperarContrasenaPage implements OnInit {
   correo: string = '';
   nueva: string = '';
   repetirNueva: string = '';
@@ -22,15 +22,11 @@ export class CambiarContrasenaPage implements OnInit {
 
   onSubmit() {
 
-    if (!this.correo || !this.nueva || !this.repetirNueva) {
+    if (!this.correo) {
       console.log("Porfavor, rellene los campos en blanco");
       this.CamposVacios('bottom');
-    } else if (this.correo.length >= 50 || this.nueva.length >= 25) {
+    } else if (this.correo.length >= 50 ) {
       this.maxCaracter('bottom')
-    } else if (!this.nueva || this.nueva.length < 8 || !this.validarContraseña.test(this.nueva)){
-      this.correoYContrasenaInvalido('bottom')
-    } else if (!this.repetirNueva || this.repetirNueva.length < 8 || !this.validarContraseña.test(this.repetirNueva)){
-      this.correoYContrasenaInvalido('bottom')
     }else {
 
       // Validación mejorada del correo (Devuelve numeros)
@@ -48,20 +44,11 @@ export class CambiarContrasenaPage implements OnInit {
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         console.log("El correo es válido");
 
-        if (this.nueva == this.repetirNueva) {
-          /*console.log("-----------------------------------");
-          console.log("Las contraseñas son iguales");
+        this.Envio('middle');
+        
+        this.router.navigate(['/login']);
 
-          console.log('Correo:', this.correo);
-          console.log('Contraseña 1:', this.nueva);
-          console.log('Contraseña 2:', this.repetirNueva);*/
-          this.router.navigate(['/login']);
-
-        } else {
-          //alert('Las contraseñas no son iguales')
-          //console.log('Las contraseñas no son iguales');
-          this.contrasena('bottom');
-        }
+        
 
       } else {
         //console.log("El correo no es válido");
@@ -71,6 +58,17 @@ export class CambiarContrasenaPage implements OnInit {
 
     }
   }
+
+
+  async Envio(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Se mando el correo para que se realice el cambio de contraseña',
+      duration: 1500,
+      position: position,
+    });
+    await toast.present();
+  }
+
 
 
   //Mensaje de campos vacios

@@ -36,7 +36,8 @@ export class AppComponent {
 
       }else if (event.url.includes('/asignaturas')) {  //Aqui tammbien muestra el menu
         this.isMenuDisabled = false; 
-
+      }else if (event.url.includes('/cambiar-contrasena')) {  //Aqui tammbien muestra el menu
+        this.isMenuDisabled = false; 
       } else {          
         this.isMenuDisabled = true;       //Si el menu no es ninguno de los anteriores este no mostrara el menu.
       }

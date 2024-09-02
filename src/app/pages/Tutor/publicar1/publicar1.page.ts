@@ -92,7 +92,7 @@ export class PublicarPage implements OnInit {
       position: position,
       
     });
-    this.router.navigate(['/menu']);
+    this.router.navigate(['/menu1']);
 
     await toast.present();
   }

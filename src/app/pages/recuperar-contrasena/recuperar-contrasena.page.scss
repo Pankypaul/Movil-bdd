@@ -32,7 +32,7 @@ ion-item{
 .titulo{
 
   color: #ffffff;
-  font-size: 0.6cm;
+  font-size: 0.5cm;
   font-family: "impact";
   text-align: center;
   align-items: center;
@@ -49,7 +49,7 @@ ion-item{
   justify-content: center;
   margin-left: 5%;
   margin-right: 5%;
-  margin-top: 7%;
+  margin-top: 20%;
   margin-bottom: 7%;
 
 }
@@ -73,5 +73,8 @@ ion-item{
 .toolbar{
   --background: rgba(182, 149, 192, 1);
   border-bottom: .5px #000000 solid;
+}
 
+.centro{
+  margin-top: 1rem;
 }

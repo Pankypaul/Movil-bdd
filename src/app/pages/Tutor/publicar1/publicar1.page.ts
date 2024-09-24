@@ -1,8 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ToastController, ActionSheetController } from '@ionic/angular';
 
+
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
+import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
+
+/*---------------------------------------------------------------------------------
+// PONER ESTO EN EL CMD
+
+npm install @capacitor/pwa-elements
+
+Y ESTO OTRO VA ARRIBA IMPORTADO:
+
+import { defineCustomElements } from '@capacitor/pwa-elements/loader';
+// Llama a esta función para cargar los elementos de la PWA
+
+CON ESTA ULTIMA LINEA LO HACEMOS FUNCIONAR:
+
+defineCustomElements(window);
+
+---------------------------------------------------------------------------------*/
 
 @Component({
   selector: 'app-publicar1',
@@ -29,6 +47,10 @@ export class PublicarPage implements OnInit {
     },
   ];
 
+  //---------------------------------------------------------------------------------
+  // SACA LA FOTO DE LA GALERIA 
+  //---------------------------------------------------------------------------------
+
   async takePhotoFromGallery() {
     try {
       const photo = await Camera.getPhoto({
@@ -51,13 +73,24 @@ export class PublicarPage implements OnInit {
     }
   }
 
+  //---------------------------------------------------------------------------------
+  // BORRA LA FOTO
+  //---------------------------------------------------------------------------------
+
   clearPhoto() {
     this.photoUrl = ''; // Restablece photoUrl para ocultar la imagen
     this.hasPhoto = false; // Actualiza el estado a que no hay foto
   }
 
+  //---------------------------------------------------------------------------------
+  //TOMA LA FOTO DESDE LA CAMARA
+  //---------------------------------------------------------------------------------
+
   async takePhotoFromCamera() {
     try {
+
+      defineCustomElements(window);
+
       const photo = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
@@ -107,7 +140,7 @@ export class PublicarPage implements OnInit {
           action: 'Elegir foto de la galería',
         },
         handler: () => {
-          //this.takePhotoFromGallery(); // Llamar a la función para elegir una foto
+          this.takePhotoFromGallery(); // Llamar a la función para elegir una foto
         }
       },
       {
@@ -116,7 +149,7 @@ export class PublicarPage implements OnInit {
           action: 'Tomar foto',
         },
         handler: () => {
-          //this.takePhotoFromCamera(); // Llamar a la función para tomar una foto
+          this.takePhotoFromCamera(); // Llamar a la función para tomar una foto
         }
       },
       {
@@ -140,7 +173,7 @@ export class PublicarPage implements OnInit {
           action: 'Borrar',
         },
         handler: () => {
-          //this.clearPhoto(); // Llamar a la función para borrar la foto
+          this.clearPhoto(); // Llamar a la función para borrar la foto
         }
       });
     }
@@ -152,7 +185,6 @@ export class PublicarPage implements OnInit {
 
     await actionSheet.present();
   }
-  //clearPhoto()
   
   ngOnInit() {
     

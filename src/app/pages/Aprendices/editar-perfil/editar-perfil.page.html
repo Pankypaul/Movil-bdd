@@ -13,9 +13,15 @@
   <div class="container">
     <!-- Imagen de perfil -->
     <div class="centrar">
-      <img class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
-    </div>
+      <!-- Si hay foto, muestra la nueva foto que se tomo en la camara o la eligio de la galeria -->
+      <img *ngIf="hasPhoto" class="imagen" [src]="photoUrl" alt="Perfil">
 
+      <!-- Si no hay foto, muestra la imagen por del pato  -->
+      <img *ngIf="!hasPhoto" class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
+
+
+    </div>
+    <!--<img class="imagen" [src]="photoUrl" alt="Perfil">-->
     <!-- Nombre de usuario -->
     <h2 class="nombre">{{nombre}} </h2>
 
@@ -39,7 +45,7 @@
 
     </ion-list>
     <ion-item>
-      <p>Cambiar foto: <ion-button>Elegir</ion-button></p>
+      <p>Cambiar foto: <ion-button (click)="presentActionSheet()">Elegir</ion-button ></p>
       <ion-img class="btn"></ion-img>
     </ion-item>
 

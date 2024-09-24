@@ -33,7 +33,7 @@
 
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
     <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"></ion-img>
-    <!--<ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button>-->
+    <ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button>
     <ion-item class="fondo">
       <ion-textarea placeholder="Descripción"></ion-textarea>
     </ion-item>

@@ -12,6 +12,10 @@ export class CambiarContrasenaPage implements OnInit {
   nueva: string = '';
   repetirNueva: string = '';
 
+  mensaje_1!: string;
+  mensaje_2!: string;  
+  mensaje_3!: string; 
+
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
@@ -22,17 +26,24 @@ export class CambiarContrasenaPage implements OnInit {
 
   onSubmit() {
 
-    if (!this.correo || !this.nueva || !this.repetirNueva) {
-      console.log("Porfavor, rellene los campos en blanco");
-      this.CamposVacios('bottom');
-    } else if (this.correo.length >= 50 || this.nueva.length >= 25) {
-      this.maxCaracter('bottom')
-    } else if (!this.nueva || this.nueva.length < 8 || !this.validarContraseña.test(this.nueva)){
-      this.correoYContrasenaInvalido('bottom')
-    } else if (!this.repetirNueva || this.repetirNueva.length < 8 || !this.validarContraseña.test(this.repetirNueva)){
-      this.correoYContrasenaInvalido('bottom')
-    }else {
+    this.mensaje_1 = '';
+    this.mensaje_2 = '';
+    this.mensaje_3 = '';
 
+    if (this.correo === ""){
+      this.mensaje_1= 'El correo es obligatorio';
+    }
+
+    if (this.nueva === ""){
+      this.mensaje_2= 'La contraseña es obligatorio ';
+    }
+
+    if (this.repetirNueva === ""){
+      this.mensaje_3= 'La contraseña es obligatorio ';
+    }
+
+    if (this.correo.trim() !== "" && this.nueva.trim() !== "" && this.repetirNueva.trim() !== ""){
+      
       // Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.correo.includes('@');       //Incluye '@'
       const posicionArroba = this.correo.indexOf('@');     //Ver la posición del '@'
@@ -48,30 +59,55 @@ export class CambiarContrasenaPage implements OnInit {
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         console.log("El correo es válido");
 
-        if (this.nueva == this.repetirNueva) {
-          /*console.log("-----------------------------------");
-          console.log("Las contraseñas son iguales");
+        if(this.correo.length <8){
+          this.mensaje_1 = 'El correo es muy corto';
+        }
+      } else {
+        //this.correoInvalido('bottom');
+        this.mensaje_1 = 'El correo no es valido ';
+      }
 
-          console.log('Correo:', this.correo);
-          console.log('Contraseña 1:', this.nueva);
-          console.log('Contraseña 2:', this.repetirNueva);*/
-          this.exito('middle')
-          this.router.navigate(['/menu']);
+      
 
-        } else {
-          //alert('Las contraseñas no son iguales')
-          //console.log('Las contraseñas no son iguales');
-          this.contrasena('bottom');
+
+      if (this.nueva !== this.repetirNueva) {
+        this.mensaje_2= 'Las contraseñas no son iguales ';
+        this.mensaje_3= 'Las contraseñas no son iguales ';
+        //this.contrasena('bottom');
+      }
+      // Validar la contraseña
+      if (this.nueva.trim() !== "" && this.repetirNueva.trim() !== "") {
+        if (!this.validarContraseña.test(this.nueva) || this.nueva.length <8 ) {
+          this.mensaje_2 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
         }
 
-      } else {
-        //console.log("El correo no es válido");
-        this.correoInvalido('bottom');
+        if (!this.validarContraseña.test(this.repetirNueva) || this.repetirNueva.length <8) {
+          this.mensaje_3 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+        }
+
+        else{
+          this.router.navigate(['/menu']);
+        }
       }
+      
+
+      
 
 
     }
   }
+
+
+  /*if (!this.correo || !this.nueva || !this.repetirNueva) {
+      console.log("Porfavor, rellene los campos en blanco");
+      this.CamposVacios('bottom');
+    } else if (this.correo.length >= 50 || this.nueva.length >= 25) {
+      this.maxCaracter('bottom')
+    } else if (!this.nueva || this.nueva.length < 8 || !this.validarContraseña.test(this.nueva)){
+      this.correoYContrasenaInvalido('bottom')
+    } else if (!this.repetirNueva || this.repetirNueva.length < 8 || !this.validarContraseña.test(this.repetirNueva)){
+      this.correoYContrasenaInvalido('bottom')
+    }else { */
 
 
   //Mensaje de campos vacios

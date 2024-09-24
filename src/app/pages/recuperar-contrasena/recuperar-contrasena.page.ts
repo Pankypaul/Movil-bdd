@@ -11,6 +11,7 @@ export class RecuperarContrasenaPage implements OnInit {
   correo: string = '';
   nueva: string = '';
   repetirNueva: string = '';
+  mensaje_1!: string;
 
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
@@ -21,6 +22,12 @@ export class RecuperarContrasenaPage implements OnInit {
   }
 
   onSubmit() {
+
+    this.mensaje_1 = ''; 
+
+    if (this.correo == ""){
+      this.mensaje_1 = 'El correo es obligatorio ';
+    }
 
     if (!this.correo) {
       console.log("Porfavor, rellene los campos en blanco");
@@ -41,21 +48,18 @@ export class RecuperarContrasenaPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Asegura que haya algo después del '.'
 
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
-        console.log("El correo es válido");
-
-        this.Envio('middle');
+      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto ) {
+        //console.log("El correo es válido");
         
-        this.router.navigate(['/login']);
-
-        
-
-      } else {
-        //console.log("El correo no es válido");
-        this.correoInvalido('bottom');
+        if(this.correo.length <8){
+          this.mensaje_1 = 'El correo es muy corto';
+        }else{
+          this.router.navigate(['/login']);
+        }
+      } 
+      else {
+        this.mensaje_1 = 'Correo no valido'; 
       }
-
-
     }
   }
 

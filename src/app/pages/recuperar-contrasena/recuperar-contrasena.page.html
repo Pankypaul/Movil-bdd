@@ -16,13 +16,12 @@
         
         <ion-title class="titulo">RECUPERAR CONTRASEÑA</ion-title>
 
-        <div class="centro">
   
           <ion-item class="fondo-form">
             <ion-input maxlength="50" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
           </ion-item>
-    
-        </div>
+          <!-- Mensaje de error para correo -->
+          <ion-label color="danger">{{mensaje_1}}</ion-label>
 
         <ion-button type="submit" shape="round" class="boton" >Recuperar Contraseña</ion-button>
 

@@ -11,6 +11,10 @@ export class LoginPage implements OnInit {
   email: string= "";      //correo que entrega registrar (context)
   contras: string= "";    //contraseña que entrega registrar (context)
 
+  mensaje_1!: string;
+  mensaje_2!: string;
+
+
   Tutor :any = {
 
     id: 1,
@@ -64,14 +68,20 @@ export class LoginPage implements OnInit {
       }
     }
 
-    console.log("correo1",this.email);
-    console.log("contraseña",this.contras);
-    if (!this.correo || !this.contrasena) {
-      this.CamposVacios('bottom');
-    } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
-      this.maxCaracter('bottom')
-    } else{
-      
+    this.mensaje_1 = '';
+    this.mensaje_2 = '';
+
+    if (this.correo == ""){
+      this.mensaje_1 = 'El correo es obligatorio ';
+    }
+
+    if (this.contrasena === ""){
+      this.mensaje_2 = 'La contraseña es obligatorio ';
+    }
+
+    if (this.correo.trim() !== "" && this.contrasena.trim() !== ""){
+      //console.log('correo y contraseña llenos');
+
       //Valide que haya un punto y una arroba y que haya algo antes y después de ellos
 
       // Validación mejorada del correo 
@@ -86,45 +96,35 @@ export class LoginPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Se Asegura que haya algo entre el '@' y el '.' (Devuelve true or false)
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Se asegura que haya algo después del '.' (Punto) (Devuelve true or false)
       
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena && this.tipo == 'Tutor' ) {   //(this.correo == this.Tutor.correo && this.contrasena == this.Tutor.contrasena)
-        console.log("El correo es válido");
+      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto ) {
+        //console.log("El correo es válido");
         
-        this.router.navigate(['/menu1'],navigationextras);
-
-      }else if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena && this.tipo == 'Aprendiz') {  //(this.correo == this.Aprendiz.correo && this.contrasena == this.Aprendiz.contrasena)
-        console.log("El correo es válido11");
-        
-        this.router.navigate(['/menu'],navigationextras);
-
-
-        // this.router.navigate(['/perfil'],navigationextras);
-        /*console.log("tieneArroba",tieneArroba);
-        console.log("posicionArroba",posicionArroba);
-        console.log("posicionPunto",posicionPunto);
-
-        console.log("algoAntesArroba",algoAntesArroba);
-        console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
-        console.log("algoDespuesPunto",algoDespuesPunto);*/  
-      }else if(this.correo == this.Tutor.correo || this.contrasena == this.Tutor.contrasena){
-        this.router.navigate(['/menu1'],navigationextras);
-      
-      }else if(this.correo == this.Aprendiz.correo || this.contrasena == this.Aprendiz.contrasena){
-        this.router.navigate(['/menu'],navigationextras);
-
-      }else {
-        this.correoYContrasenaInvalido('bottom');
+        if(this.correo.length <8){
+          this.mensaje_1 = 'El correo es muy corto';
+        }
+      } 
+      else {
+        this.mensaje_1 = 'Correo no valido'; 
       }
-      
 
+      // Validar la contraseña
+      if (this.contrasena.trim() !== "") {
+        if (!this.validarContraseña.test(this.contrasena) || this.contrasena.length <8) {
+          this.mensaje_2 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+        }
+      }
+
+      if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >=8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >=8){
+        this.router.navigate(['/menu1'],navigationextras);
+
+      }
     }
-
   }
 
   onSubmit() {
-
-
     
   }
+  /*
   async CamposVacios(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Por favor, rellene los campos en blanco',
@@ -153,6 +153,48 @@ export class LoginPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  } */
 
 }
+
+
+/*
+
+if (!this.correo || !this.contrasena) {
+        this.CamposVacios('bottom');
+      } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
+        this.maxCaracter('bottom')
+      } else{
+        
+      }
+
+
+if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena /*&& this.tipo == 'Tutor' ) {   //(this.correo == this.Tutor.correo && this.contrasena == this.Tutor.contrasena)
+        
+        
+        //this.router.navigate(['/menu1'],navigationextras);
+
+      }else if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena /*&& this.tipo == 'Aprendiz') {  //(this.correo == this.Aprendiz.correo && this.contrasena == this.Aprendiz.contrasena)
+        console.log("El correo es válido11");
+        
+        //this.router.navigate(['/menu'],navigationextras);
+
+
+        // this.router.navigate(['/perfil'],navigationextras);
+        /*console.log("tieneArroba",tieneArroba);
+        console.log("posicionArroba",posicionArroba);
+        console.log("posicionPunto",posicionPunto);
+
+        console.log("algoAntesArroba",algoAntesArroba);
+        console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
+        console.log("algoDespuesPunto",algoDespuesPunto); 
+      }else if(this.correo == this.Tutor.correo || this.contrasena == this.Tutor.contrasena){
+        this.router.navigate(['/menu1'],navigationextras);
+      
+      }else if(this.correo == this.Aprendiz.correo || this.contrasena == this.Aprendiz.contrasena){
+        this.router.navigate(['/menu'],navigationextras);
+
+      }else {
+        //this.correoYContrasenaInvalido('bottom');
+        //this.mensaje_1 = "El correo no es válido";
+      }*/

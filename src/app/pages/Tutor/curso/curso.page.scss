@@ -4,6 +4,10 @@
 
 }
 
+.centrar{
+    text-align: center;
+}
+
 .footer{
     --background:rgba(182, 149, 192, 1);
     border-top: .2px #000000 solid;
@@ -23,6 +27,20 @@
 
 .logo {
     font-weight: bold;
+}
+
+.boton{
+
+    --background:  rgba(182, 149, 192, 1);
+    color: #ffffff;
+    font-family: "impact";
+    display: flex;
+    justify-content: center;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 7%;
+    margin-bottom: 7%;
+
 }
 
 .container{

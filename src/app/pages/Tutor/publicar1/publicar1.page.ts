@@ -31,6 +31,12 @@ export class PublicarPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
+  titulo: string = "";
+  descripcion :string = "";
+
+  mensaje_1!: string;
+  mensaje_2!: string;
+
   constructor(
     private toastController:ToastController,
     private router:Router, 
@@ -46,6 +52,37 @@ export class PublicarPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+
+  irPagina(){
+
+    this.mensaje_1 = '';
+    this.mensaje_2 = '';
+
+    if(this.titulo === ""){
+      this.mensaje_1 = 'Este campo es obligatorio ';
+    }
+
+    if(this.descripcion === ""){
+      this.mensaje_2 = 'Este campo es obligatorio ';
+    }
+
+    if(this.descripcion !== "" && this.titulo !== ""){
+      this.presentToast('top');
+    }
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Publicado con exito',
+      duration: 1500,
+      position: position,
+      
+    });
+    this.router.navigate(['/menu1']);
+
+    await toast.present();
+  }
+
 
   //---------------------------------------------------------------------------------
   // SACA LA FOTO DE LA GALERIA 
@@ -118,17 +155,7 @@ export class PublicarPage implements OnInit {
     }
   }
 
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Publicado con exito',
-      duration: 1500,
-      position: position,
-      
-    });
-    this.router.navigate(['/menu1']);
-
-    await toast.present();
-  }
+  
 
   // Nueva función para mostrar el Action Sheet
   async presentActionSheet() {
@@ -185,6 +212,8 @@ export class PublicarPage implements OnInit {
 
     await actionSheet.present();
   }
+
+  
   
   ngOnInit() {
     

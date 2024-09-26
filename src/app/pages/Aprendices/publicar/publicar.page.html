@@ -12,7 +12,19 @@
 <ion-content class="" [fullscreen]="true">
 
   
-  <ion-card class="card">
+  <ion-card class="card centrar">
+
+    <!--
+      id tema
+      nombre o titulo
+      descripción
+      imagen
+      id curso pk
+      fecha_tema (fecha de creación)
+    -->
+
+
+
     <ion-item class="fondo" lines="none">
       <ion-avatar class="">
         <img src="/assets/icon/pato.jpg" alt="Perfil">
@@ -22,44 +34,29 @@
     </ion-item>
 
     <ion-item class="fondo">
-      <ion-input placeholder="Título"></ion-input>
-    </ion-item>
+      <ion-input maxLength="50" placeholder="Título" [(ngModel)]="titulo"></ion-input>
+    </ion-item> 
+    <ion-label color="danger">{{mensaje_1}}</ion-label>
 
-    <ion-item class="fondo">
-      <ion-select class="texto" placeholder="Ramo" name="tipo">
-        <ion-select-option class="texto" value="Matematicas">Matematicas</ion-select-option>
-        <ion-select-option class="texto" value="Lenguaje">Lenguaje</ion-select-option>
-        <ion-select-option class="texto" value="Python">Python</ion-select-option>
-        <ion-select-option class="texto" value="Java">Java</ion-select-option>
-        <ion-select-option class="texto" value="otro">Otro</ion-select-option>
-      </ion-select>
-    </ion-item>   
-    
-    <ion-item class="fondo" lines="none" class="btn" (click)="presentActionSheet()">
-      <ion-icon name="add-circle-outline"></ion-icon>
-      <!--<p> Agregar Foto o Video</p>-->
-
+    <ion-item class="fondo"> 
+      <ion-textarea maxLength="200"  placeholder="Descripción" [(ngModel)]="descripcion"></ion-textarea>
     </ion-item>
+    <ion-label color="danger" >{{mensaje_2}}</ion-label>
 
-    <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"></ion-img>
-    <ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button>
-    <ion-item class="fondo">
-      <ion-textarea placeholder="Descripción"></ion-textarea>
-    </ion-item>
-  
+    <ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar imagen</ion-button>
+        <!--<p> Agregar Foto o Video</p>-->
+
+        <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
+        <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"><p>Foto</p></ion-img>
   </ion-card>
   
 
   <div class="btn">
-    <ion-button (click)="presentToast('top')" color="primary">Publicar</ion-button>
+    <ion-button (click)="irPagina()" class="boton">Publicar</ion-button>
 
 
-    <ion-button color="danger" id="present-alert1">Eliminar</ion-button>
+    <ion-button  class="boton" id="present-alert1">Eliminar</ion-button>
     <ion-alert trigger="present-alert1" class="custom-alert" header="¿Estás seguro?" [buttons]="alertButtons"></ion-alert>
   </div>
-  
-
-
 
 </ion-content>

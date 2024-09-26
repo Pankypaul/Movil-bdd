@@ -10,8 +10,20 @@
 
 
 <ion-content class="" [fullscreen]="true">
+  
 
-  <ion-card class="card">
+  <!--
+  id curso  --no se ve acá
+  fecha de creación   --no se ve acá
+  nombre  -ok
+  descripcion  -ok
+  foto  -ok
+  is user pk   --no se ve acá
+  
+  
+  -->
+
+  <ion-card class="card centrar">
     <ion-item class="fondo" lines="none">
       <ion-avatar class="">
         <img src="/assets/icon/pato.jpg" alt="Perfil">
@@ -21,34 +33,26 @@
     </ion-item>
 
     <ion-item class="fondo">
-      <ion-input placeholder="Título del Curso"></ion-input>
+      <ion-input placeholder="Título del Curso" [(ngModel)]="titulo"></ion-input>
     </ion-item>
+    <ion-label color="danger">{{mensaje_1}}</ion-label>
 
-    <ion-item class="fondo">
-      <ion-input placeholder="Ramo o Materia"></ion-input>
-    </ion-item>   
-    
-    <ion-item class="fondo" lines="none" class="btn" (click)="presentActionSheet()">
-      <ion-icon name="add-circle-outline"></ion-icon>
-      <!--<p> Agregar Foto o Video</p>-->
-
+    <ion-item class="fondo"> 
+      <ion-textarea placeholder="Descripción" [(ngModel)]="descripcion"></ion-textarea>
     </ion-item>
+    <ion-label color="danger">{{mensaje_2}}</ion-label>
 
-    <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"></ion-img>
-    <ion-button *ngIf="photoUrl" (click)="clearPhoto()">Borrar Foto</ion-button> 
-    <ion-item class="fondo">
-      <ion-textarea placeholder="Descripción"></ion-textarea>
-    </ion-item>
-  
+    <ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar imagen</ion-button>
+        <!--<p> Agregar Foto o Video</p>-->
+
+        <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
+        <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"><p>Foto</p></ion-img>
   </ion-card>
-  
 
   <div class="btn">
-    <ion-button (click)="presentToast('top')" color="primary">Publicar</ion-button>
+    <ion-button class="boton" (click)="irPagina()" >Publicar</ion-button>
 
-
-    <ion-button color="danger" id="present-alert1">Eliminar</ion-button>
+    <ion-button class="boton" id="present-alert1">Eliminar</ion-button>
     <ion-alert trigger="present-alert1" class="custom-alert" header="¿Estás seguro?" [buttons]="alertButtons"></ion-alert>
   </div>
 

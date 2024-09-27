@@ -42,7 +42,7 @@ export class CambiarContrasenaPage implements OnInit {
       this.mensaje_3= 'La contraseña es obligatorio ';
     }
 
-    if (this.correo.trim() !== "" && this.nueva.trim() !== "" && this.repetirNueva.trim() !== ""){
+    if (this.correo.trim() !== "" || this.nueva.trim() !== "" && this.repetirNueva.trim() !== ""){
       
       // Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.correo.includes('@');       //Incluye '@'
@@ -67,9 +67,6 @@ export class CambiarContrasenaPage implements OnInit {
         this.mensaje_1 = 'El correo no es valido ';
       }
 
-      
-
-
       if (this.nueva !== this.repetirNueva) {
         this.mensaje_2= 'Las contraseñas no son iguales ';
         this.mensaje_3= 'Las contraseñas no son iguales ';
@@ -85,15 +82,14 @@ export class CambiarContrasenaPage implements OnInit {
           this.mensaje_3 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
         }
 
-        else{
-          this.router.navigate(['/menu']);
-        }
+        
+          
       }
       
-
-      
-
-
+      if(this.nueva.trim() !== "" && this.repetirNueva.trim() !== "" && this.nueva.trim() === this.repetirNueva.trim()  && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto){
+        this.router.navigate(['/menu']);
+        
+      }
     }
   }
 

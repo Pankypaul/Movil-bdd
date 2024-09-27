@@ -21,7 +21,7 @@ export class RegistrarPage implements OnInit {
   tipo: string= "";
   numero: string = ""; 
   apellido: string = "";
-
+  valor: string = "+56";
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
  
@@ -317,11 +317,24 @@ export class RegistrarPage implements OnInit {
   // Funcion que reestige poner numeros al nombre
   restrictInput(event: KeyboardEvent) {
     const key = event.key;
-    const regex = /^[A-Za-zÀ-ÿ\s]$/;
+    const regex = /^[0-9]$/;  // Permitir solo dígitos
 
-    if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+    
+     // Permitir solo números y teclas especiales
+     if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
       event.preventDefault();
     }
+
+    // Limitar a 9 caracteres
+    if (this.numero.length >= 9 && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+      event.preventDefault();
+    }
+
+    
+  }
+  // Método para obtener el número completo con el prefijo
+  getFullNumber() {
+    return `+56${this.numero}`;  // Retorna el número completo
   }
   
 }

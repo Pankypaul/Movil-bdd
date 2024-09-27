@@ -15,7 +15,6 @@ export class EditarPerfilPage implements OnInit {
   correo:string="carlos54@gmail.com";
   telefono:string="9 2342 8729";
   tip:string="Aprendiz";
-  carrera:string="Ingenieria en informatica";
   descripcion:string="Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.";
   
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
@@ -177,7 +176,6 @@ export class EditarPerfilPage implements OnInit {
         email: this.correo,
         fono: this.telefono,
         tipo: this.tip,
-        car: this.carrera,
         desc: this.descripcion
         
         

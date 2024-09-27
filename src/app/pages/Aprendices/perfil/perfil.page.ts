@@ -11,7 +11,6 @@ export class PerfilPage implements OnInit {
   correo:string="carlos54@gmail.com";
   telefono:string="9 2342 8729";
   tip:string="Aprendiz";
-  carrera:string="Ingenieria en informatica";
   descripcion:string="Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.";
 
 
@@ -28,7 +27,6 @@ export class PerfilPage implements OnInit {
         this.correo =this.router.getCurrentNavigation()?.extras?.state?.['email'];
         this.telefono =this.router.getCurrentNavigation()?.extras?.state?.['fono'];
         this.tip =this.router.getCurrentNavigation()?.extras?.state?.['tipo'];
-        this.carrera =this.router.getCurrentNavigation()?.extras?.state?.['car'];
         this.descripcion =this.router.getCurrentNavigation()?.extras?.state?.['desc'];
       }
     })

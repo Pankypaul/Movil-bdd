@@ -46,14 +46,13 @@
         </ion-item>    
     
         <ion-item class="fondo-form">
-          <ion-input maxlength="50" class="texto" [(ngModel)]="email" type="email" name="email" label-placement="floating" label="Correo Electronico" required></ion-input>
+          <ion-input maxlength="50" class="texto" [(ngModel)]="email" type="email" name="email" label-placement="floating" placeholder="nombre@gmail.com" label="Correo Electronico" required></ion-input>
           <ion-icon class="alerta" color="medium"  name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
-
         
-
         <ion-item class="fondo-form">
-          <ion-input maxlength="11" class="texto"   [(ngModel)]="numero" type="number" name="number" label-placement="floating" label="Telefono" required></ion-input>
+          <ion-input maxlength="9" class="texto" [(ngModel)]="numero" type="tel" name="number" label-placement="floating" placeholder="9 49634859" (keydown)="restrictInput($event)" label="Telefono"  required></ion-input>
+          
           <ion-icon class="alerta" color="medium"  name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
 
@@ -62,6 +61,7 @@
           <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
     
+        
         <ion-item class="fondo-form">
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password2" type="password" name="password2" label-placement="floating" label="Repetir Contraseña" required></ion-input>
           <ion-icon class="alerta" color="medium"   name="alert-circle-sharp"  ></ion-icon> <!--(click)="presentPopover($event)"-->

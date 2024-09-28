@@ -10,6 +10,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+
   <div class="container">
     <!-- Imagen de perfil -->
     <div class="centrar">
@@ -35,20 +36,28 @@
 
       <ion-item>
         <ion-icon name="call" slot="start"></ion-icon>
-        
+
         <ion-input type="number" name="number" label="+56 " [(ngModel)]="telefono"></ion-input>
       </ion-item>
 
     </ion-list>
     <ion-item>
-      <p>Cambiar foto: <ion-button (click)="presentActionSheet()">Elegir</ion-button ></p>
+      <p>Cambiar foto: <ion-button (click)="presentActionSheet()">Elegir</ion-button></p>
       <ion-img class="btn"></ion-img>
     </ion-item>
 
-    <ion-item>
-      <ion-icon name="book" slot="start"></ion-icon>
-      <ion-textarea [(ngModel)]="descripcion" name="descripcion"></ion-textarea>
+    <ion-item class="descripcion-item">
+
+      <ion-label position="stacked">Descripción</ion-label>
+
+      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion" name="descripcion"
+        placeholder="Escribe una breve descripción..." autoGrow="true">
+      </ion-textarea>
+      
+      <ion-note class="contador-caracteres">{{250 - descripcion.length}} caracteres restantes</ion-note>
     </ion-item>
+
+
 
 
     <ion-button expand="block" id="editar-perfil" color="danger">Realizar cambios</ion-button>

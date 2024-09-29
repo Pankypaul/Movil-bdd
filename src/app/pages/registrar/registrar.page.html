@@ -14,27 +14,9 @@
       <form (ngSubmit)="onSubmit()" class="form-container">
         
         <ion-title class="black-title ion-margin-bottom titulo">REGISTRARSE</ion-title>
-        
-        <!--DATOS:
-        
-        Nombre      -ok
-        Apellido    -ok
-        telefono    -ok
-        correo      -ok
-        contraseña  -ok
-        foto
-        id rol  --no va pero lo dejo de muestra
-        
-        -->
-        
 
         <ion-item  class="fondo-form">  <!--Se restringe los numeros-->
-          <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre" (keydown)="restrictInput($event)" required ></ion-input>
-          <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
-        </ion-item>
-
-        <ion-item  class="fondo-form">  <!--Se restringe los numeros-->
-          <ion-input maxlength="60" class="texto" [(ngModel)]="apellido" type="text" name="text" label-placement="floating" label="Apellido" (keydown)="restrictInput($event)" required ></ion-input>
+          <ion-input maxlength="60" class="texto" [(ngModel)]="nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" (keydown)="restrictInput($event)" required ></ion-input>
           <ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
 
@@ -66,12 +48,6 @@
           <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="password2" type="password" name="password2" label-placement="floating" label="Repetir Contraseña" required></ion-input>
           <ion-icon class="alerta" color="medium"   name="alert-circle-sharp"  ></ion-icon> <!--(click)="presentPopover($event)"-->
         </ion-item>
-
-        <ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar foto de perfil</ion-button>
-        <!--<p> Agregar Foto o Video</p>-->
-
-        <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-        <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"><p>Foto</p></ion-img>
 
         <ion-button class="boton" shape="round" (click)="irPagina()" type="submit">REGISTRARSE</ion-button>
       

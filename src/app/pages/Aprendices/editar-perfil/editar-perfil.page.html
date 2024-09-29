@@ -24,45 +24,59 @@
     </div>
     <!--<img class="imagen" [src]="photoUrl" alt="Perfil">-->
     <!-- Nombre de usuario -->
-    <h2 class="nombre">{{nombre}} </h2>
+    <h2 class="nombre"></h2>
 
     <!-- Información de contacto -->
     <ion-list>
+      <ion-item>
+        <ion-icon name="person" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
+        <ion-input ></ion-input>
+      </ion-item>
 
       <ion-item>
         <ion-icon name="mail" slot="start"></ion-icon>
-        <ion-input [(ngModel)]="correo"></ion-input>
+        <ion-input ></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-icon name="call" slot="start"></ion-icon>
 
-        <ion-input type="number" name="number" label="+56 " [(ngModel)]="telefono"></ion-input>
+        <ion-input type="number" name="number" label="+56 " ></ion-input>
       </ion-item>
 
     </ion-list>
     <ion-item>
-      <p>Cambiar foto: <ion-button (click)="presentActionSheet()">Elegir</ion-button></p>
-      <ion-img class="btn"></ion-img>
+      <ion-icon name="image"></ion-icon>
+      <p>&nbsp;&nbsp;&nbsp;</p><ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar
+        imagen</ion-button>
+      <!--<p> Agregar Foto o Video</p>-->
     </ion-item>
 
     <ion-item class="descripcion-item">
 
       <ion-label position="stacked">Descripción</ion-label>
 
-      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion" name="descripcion"
+      <ion-textarea class="tam" maxLength="250" name="descripcion"
         placeholder="Escribe una breve descripción..." autoGrow="true">
       </ion-textarea>
-      
-      <ion-note class="contador-caracteres">{{250 - descripcion.length}} caracteres restantes</ion-note>
+
+      <ion-note class="contador-caracteres">{{250 - perfil.descripcion.length}} caracteres restantes</ion-note>
     </ion-item>
 
+    <h1>IMAGEN1</h1>
+    <img src="{{this.imagen}}" alt="" srcset="">
 
+    <ion-button expand="block" id="editar-perfil" class="boton">Realizar cambios</ion-button>
 
-
-    <ion-button expand="block" id="editar-perfil" color="danger">Realizar cambios</ion-button>
+    <ion-button color="primary" (click)="VerDatos()">ver datos</ion-button>
+    
     <ion-alert trigger="editar-perfil" class="custom-alert" header="¿Estás seguro de realizar cambios?"
       [buttons]="alertButtons"></ion-alert>
+    <!--[buttons]="alertButtons"-->
+
+    <ion-button class="boton" id="volver" routerLink="/editar-perfil">Volver</ion-button>
+    <ion-alert trigger="volver" class="custom-alert" header="¿Quieres volver a perfil?"
+      [buttons]="alertButtonsBack"></ion-alert>
     <!--[buttons]="alertButtons"-->
 
 

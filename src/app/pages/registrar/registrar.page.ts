@@ -18,19 +18,21 @@ export class RegistrarPage implements OnInit {
   password: string = '';
   password2: string = '';
   nombre: string = '';
-  tipo: string= "";
-  numero: string = ""; 
+  tipo: string = "";
+  numero: string = "";
   apellido: string = "";
+
   valor: string = "+56";
+  
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
- 
 
 
-  
+
+
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
-  constructor(private router: Router, private toastController: ToastController, 
+  constructor(private router: Router, private toastController: ToastController,
     public popoverController: PopoverController,
     private actionSheetCtrl: ActionSheetController) { }
 
@@ -49,14 +51,14 @@ export class RegistrarPage implements OnInit {
         resultType: CameraResultType.Uri,
         source: CameraSource.Photos
       });
-  
+
       if (photo.webPath) {
         this.photoUrl = photo.webPath;
         this.hasPhoto = true; // Actualiza el estado a que hay una foto
       } else {
         console.error('No se obtuvo una URL válida para la foto');
       }
-  
+
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.handlePhotoError(error);
@@ -164,8 +166,8 @@ export class RegistrarPage implements OnInit {
     await actionSheet.present();
   }
 
-  irPagina(){
-    let navigationextras: NavigationExtras= {
+  irPagina() {
+    let navigationextras: NavigationExtras = {
       state: {
         tip: this.tipo,
         contra: this.password,
@@ -173,14 +175,14 @@ export class RegistrarPage implements OnInit {
       }
     }
 
-    if (!this.email || !this.password || !this.nombre || !this.password2 ||!this.numero || this.tipo == "") {
+    if (!this.email || !this.password || !this.nombre || !this.password2 || !this.numero || this.tipo == "") {
       this.CamposVacios('bottom');
 
-    }else if (this.email.length >= 50 || this.password.length >= 25) {
+    } else if (this.email.length >= 50 || this.password.length >= 25) {
       this.maxCaracter('bottom')
     } else {
 
-      // Validación mejorada del correo (Devuelve numeros)
+      /*// Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.email.includes('@');       //Incluye '@'
       const posicionArroba = this.email.indexOf('@');     //Ver la posición del '@'
       const posicionPunto = this.email.lastIndexOf('.');  //Incluye si incluye '.'
@@ -190,31 +192,47 @@ export class RegistrarPage implements OnInit {
 
       const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
+      const algoDespuesPunto = posicionPunto < this.email.length - 1; // Asegura que haya algo después del '.'*/
+
+      const tieneArroba = (this.email.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+      const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.email); // Verifica caracteres no permitidos
+
+      const posicionArroba = this.email.indexOf('@');
+      const posicionPunto = this.email.lastIndexOf('.');
+
+      const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
+      const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
       const algoDespuesPunto = posicionPunto < this.email.length - 1; // Asegura que haya algo después del '.'
+
+      if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+        console.log("El correo es válido");
+      } else {
+        //this.mensaje_2 = 'El Correo no es válido';
+      }
 
       if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         console.log("El correo es válido");
 
-        if ((this.password.length < 8 || !this.validarContraseña.test(this.password))){
+        if ((this.password.length < 8 || !this.validarContraseña.test(this.password))) {
           this.contrasenaInvalido('bottom')
           console.log("CON1");
-        }else {
+        } else {
 
-          if(this.password2.length < 8 || !this.validarContraseña.test(this.password2)){
+          if (this.password2.length < 8 || !this.validarContraseña.test(this.password2)) {
             this.contrasenaInvalido('bottom')
             console.log("CON2");
           } else {
 
             if (this.password == this.password2) {
-              this.router.navigate(['/login'],navigationextras);
-    
+              this.router.navigate(['/login'], navigationextras);
+
             } else {
-                this.contrasena('bottom');
+              this.contrasena('bottom');
             }
           }
-              
+
         }
-        
+
 
       } else {
         this.correoInvalido('bottom');
@@ -227,11 +245,11 @@ export class RegistrarPage implements OnInit {
     console.log('Apellido:', this.apellido);
     console.log('Correo:', this.email);
     console.log('Tipo:', this.tipo);
-    console.log('Telefono:',this.numero);
+    console.log('Telefono:', this.numero);
     console.log('Contraseña:', this.password);
     console.log('Contraseña2:', this.password2);
     console.log("----------------------------------------------");
-    
+
 
   }
 
@@ -284,7 +302,7 @@ export class RegistrarPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
   async maxCaracter(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
@@ -294,7 +312,7 @@ export class RegistrarPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
 
 
@@ -306,9 +324,9 @@ export class RegistrarPage implements OnInit {
         message: 'Este es un texto dentro del popover'
       },
     });
-  
+
     await popover.present();
-  
+
     const { role } = await popover.onDidDismiss();
     console.log(`Popover dismissed with role: ${role}`);
   }
@@ -319,9 +337,9 @@ export class RegistrarPage implements OnInit {
     const key = event.key;
     const regex = /^[0-9]$/;  // Permitir solo dígitos
 
-    
-     // Permitir solo números y teclas especiales
-     if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+
+    // Permitir solo números y teclas especiales
+    if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
       event.preventDefault();
     }
 
@@ -330,12 +348,12 @@ export class RegistrarPage implements OnInit {
       event.preventDefault();
     }
 
-    
+
   }
   // Método para obtener el número completo con el prefijo
   getFullNumber() {
     return `+56${this.numero}`;  // Retorna el número completo
   }
-  
+
 }
 

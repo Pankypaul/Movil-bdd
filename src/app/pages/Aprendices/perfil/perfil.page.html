@@ -1,54 +1,100 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
-    
+
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-
     <ion-title>Perfil</ion-title>
+    <ion-buttons slot="end">
+      <!-- Ícono de lápiz que solo aparece cuando no está en modo edición -->
+      <ion-button *ngIf="!isEditable" (click)="toggleEditMode()">
+        <ion-icon name="pencil"></ion-icon>
+      </ion-button>
+    </ion-buttons>
 
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <div class="container">
+
+
+<ion-content>
+  <ion-card class="card centrar">
     <!-- Imagen de perfil -->
+
     <div class="centrar">
-      <img class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
-      
-  
-      <!-- Nombre de usuario -->
-      <h2 class="nombre">{{nombre}} ({{tip}})</h2>
+      <!-- Si hay foto, muestra la nueva foto que se tomo en la camara o la eligio de la galeria -->
+      <img *ngIf="hasPhoto" class="imagen" [src]="photoUrl" alt="Perfil">
+
+      <!-- Si no hay foto, muestra la imagen por del pato  -->
+      <img *ngIf="!hasPhoto" class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
+      <!-- Foto o imagen -->
+      <ion-button class="btn" *ngIf="isEditable" shape="round" (click)="presentActionSheet()" [disabled]="!isEditable">
+        Agregar imagen
+      </ion-button>
+
     </div>
-    
 
     <!-- Información de contacto -->
-    <ion-list>
-      <ion-item>
-        <ion-icon name="mail" slot="start"></ion-icon>
-        <p>{{correo}}</p> <!--[(ngModel)]="correo"-->
-      </ion-item>
 
-      <ion-item>
-        <ion-icon name="call" slot="start"></ion-icon>
-        <p>+56 {{telefono}}<p>
-      </ion-item>
 
-      <ion-item>
-        <ion-icon name="book" slot="start"></ion-icon>
-        <p>{{descripcion}}<p>
-      </ion-item>
-    </ion-list>
 
-    <!-- Botones de acción -->
-    <ion-button expand="block" routerLink="/editar-perfil" color="primary" >
-      Editar Perfil
+    <!-- Nombre 1-->
+    <ion-item class="fondo">
+      <ion-icon name="person" slot="start" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
+      <ion-input class="" maxlength="60" minlength="1" [(ngModel)]="perfil.nombre" type="text"
+        (ionInput)="validarTexto($event)" [readonly]="!isEditable"></ion-input>
+    </ion-item>
+    <ion-label color="danger">{{mensaje_1}}</ion-label>
+
+
+    <!-- Correo 2-->
+    <ion-item class="fondo">
+      <ion-icon name="mail" slot="start" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
+      <ion-input class="" maxlength="320" type="email" minlength="6" [(ngModel)]="perfil.correo"
+        placeholder="juan@example.com" [readonly]="!isEditable" (ionInput)="validarCorreo($event)"></ion-input>
+    </ion-item>
+    <ion-label color="danger">{{mensaje_2}}</ion-label>
+
+
+    <!-- Telefono 3-->
+    <ion-item class="fondo">
+      <ion-icon name="call" slot="start" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
+      <ion-input class="" maxlength="9" [(ngModel)]="perfil.telefono" type="tel" placeholder="Ej:9 49634859"
+        (keydown)="restrictInput($event)" [readonly]="!isEditable"></ion-input>
+    </ion-item>
+    <ion-label color="danger">{{mensaje_3}}</ion-label>
+
+
+
+
+    <!-- Descripción -->
+    <ion-item class="fondo">
+      <ion-label position="stacked">Descripción</ion-label>
+      <ion-textarea class="tam" maxLength="250" name="descripcion" placeholder="Escribe una breve descripción..."
+        autoGrow="true" [(ngModel)]="perfil.descripcion" [readonly]="!isEditable">
+      </ion-textarea>
+      <ion-note class="contador-caracteres">{{250 - perfil.descripcion.length}} caracteres restantes</ion-note>
+    </ion-item>
+    <ion-label color="danger">{{mensaje_4}}</ion-label>
+
+    <ion-button expand="block" *ngIf="isEditable" class="boton" (click)="irPagina()">
+      Guardar Perfil
     </ion-button>
-    <ion-button expand="block" id="present-alert3" color="danger">Cerrar Sesión</ion-button>
-    <ion-alert trigger="present-alert3" class="custom-alert" header="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¿Estás seguro de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión?" [buttons]="alertButtons"></ion-alert>  
-    
-  </div>
+    <ion-button expand="block" *ngIf="isEditable" class="boton" (click)="cancelEdit()">
+      Cancelar Cambios
+    </ion-button>
+
+    <!--REVISABA QUE LA IMAGEN SE PASARA Y SE VIERA EN EDITAR-PERFIL-->
+    <!--<ion-button color="primary" (click)="irPagina2()">enviar datos datos</ion-button>-->
+
+    <ion-button expand="block" id="present-alert8" *ngIf="!isEditable" class="boton">Cerrar Sesión</ion-button>
+    <ion-alert trigger="present-alert8" class="custom-alert"
+      header="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;¿Estás seguro de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cerrar Sesión?"
+      [buttons]="alertButtons"></ion-alert>
+
+
+  </ion-card>
 </ion-content>
 
 
- <app-footer></app-footer>
+<app-footer></app-footer>

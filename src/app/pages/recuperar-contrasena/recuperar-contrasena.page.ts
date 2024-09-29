@@ -25,6 +25,9 @@ export class RecuperarContrasenaPage implements OnInit {
 
     this.mensaje_1 = ''; 
 
+    this.correo = this.correo.replace(/\s+/g, '');
+    this.correo = this.correo.trim(); // Para el correo0
+
     if (this.correo == ""){
       this.mensaje_1 = 'El correo es obligatorio ';
     }
@@ -35,6 +38,8 @@ export class RecuperarContrasenaPage implements OnInit {
     } else if (this.correo.length >= 50 ) {
       this.maxCaracter('bottom')
     }else {
+
+      
 
       // Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.correo.includes('@');       //Incluye '@'

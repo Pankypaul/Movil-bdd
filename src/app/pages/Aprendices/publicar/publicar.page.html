@@ -11,64 +11,50 @@
 
 <ion-content class="" [fullscreen]="true">
 
-  
+
   <ion-card class="card centrar">
-
-    <!--
-      id tema
-      nombre o titulo
-      descripción
-      imagen
-      id curso pk
-      fecha_tema (fecha de creación)
-    -->
-
-
 
     <ion-item class="fondo" lines="none">
       <ion-avatar class="">
         <img src="/assets/icon/pato.jpg" alt="Perfil">
       </ion-avatar>
       <ion-label class="nombre" placeholder="Nombre">Carlos Espinoza</ion-label>
-      
+
     </ion-item>
 
     <ion-item class="fondo">
       <ion-input maxLength="50" placeholder="Título" [(ngModel)]="titulo"></ion-input>
-    </ion-item> 
+    </ion-item>
     <ion-label color="danger">{{mensaje_1}}</ion-label>
 
     <ion-item class="fondo">
-      
+
       <ion-label position="stacked">Descripción</ion-label>
 
-      <ion-textarea class="tam" 
-                    maxLength="250" 
-                    [(ngModel)]="descripcion" 
-                    name="descripcion" 
-                    placeholder="Escribe una breve descripción..." 
-                    autoGrow="true">
+      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion" name="descripcion"
+        placeholder="Escribe una breve descripción..." autoGrow="true">
       </ion-textarea>
 
-      <ion-note class="contador-caracteres" >{{250 - descripcion.length}} caracteres restantes</ion-note>
+      <ion-note class="contador-caracteres">{{250 - descripcion.length}} caracteres restantes</ion-note>
 
     </ion-item>
-    <ion-label color="danger" >{{mensaje_2}}</ion-label>
+    <ion-label color="danger">{{mensaje_2}}</ion-label>
 
     <ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar imagen</ion-button>
-        <!--<p> Agregar Foto o Video</p>-->
+    <!--<p> Agregar Foto o Video</p>-->
 
-        <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-        <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"><p>Foto</p></ion-img>
+    <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
+    <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn"></ion-img>
   </ion-card>
-  
+
 
   <div class="btn">
     <ion-button (click)="irPagina()" class="boton">Publicar</ion-button>
 
 
-    <ion-button  class="boton" id="present-alert1">Eliminar</ion-button>
-    <ion-alert trigger="present-alert1" class="custom-alert" header="¿Estás seguro?" [buttons]="alertButtons"></ion-alert>
+    <ion-button class="boton" id="present-alert1">Eliminar</ion-button>
+    <ion-alert trigger="present-alert1" class="custom-alert" header="¿Estás seguro?"
+      [buttons]="alertButtons"></ion-alert>
   </div>
 
 </ion-content>

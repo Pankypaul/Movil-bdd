@@ -13,8 +13,8 @@ export class CambiarContrasenaPage implements OnInit {
   repetirNueva: string = '';
 
   mensaje_1!: string;
-  mensaje_2!: string;  
-  mensaje_3!: string; 
+  mensaje_2!: string;
+  mensaje_3!: string;
 
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
@@ -30,65 +30,72 @@ export class CambiarContrasenaPage implements OnInit {
     this.mensaje_2 = '';
     this.mensaje_3 = '';
 
-    if (this.correo === ""){
-      this.mensaje_1= 'El correo es obligatorio';
+    this.correo = this.correo.replace(/\s+/g, '');
+    this.correo = this.correo.trim(); // Para el correo
+    this.nueva = this.nueva.trim();
+    this.repetirNueva = this.repetirNueva.trim(); // Para el correo
+
+
+
+    if (this.correo === "") {
+      this.mensaje_1 = 'El correo es obligatorio';
     }
 
-    if (this.nueva === ""){
-      this.mensaje_2= 'La contraseña es obligatorio ';
+    if (this.nueva === "") {
+      this.mensaje_2 = 'La contraseña es obligatorio ';
     }
 
-    if (this.repetirNueva === ""){
-      this.mensaje_3= 'La contraseña es obligatorio ';
+    if (this.repetirNueva === "") {
+      this.mensaje_3 = 'La contraseña es obligatorio ';
     }
 
-    if (this.correo.trim() !== "" || this.nueva.trim() !== "" && this.repetirNueva.trim() !== ""){
-      
-      // Validación mejorada del correo (Devuelve numeros)
-      const tieneArroba = this.correo.includes('@');       //Incluye '@'
-      const posicionArroba = this.correo.indexOf('@');     //Ver la posición del '@'
-      const posicionPunto = this.correo.lastIndexOf('.');  //Incluye si incluye '.'
+    if (this.correo.trim() !== "" || this.nueva.trim() !== "" && this.repetirNueva.trim() !== "") {
 
-      //indexOf(): Se utiliza para encontrar la primera aparición de un carácter o subcadena.
-      //lastIndexOf(): Se utiliza para encontrar la última aparición de un carácter o subcadena.
+      const tieneArroba = (this.correo.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+      const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.correo); // Verifica caracteres no permitidos
+
+      const posicionArroba = this.correo.indexOf('@');
+      const posicionPunto = this.correo.lastIndexOf('.');
 
       const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Asegura que haya algo después del '.'
 
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
-        console.log("El correo es válido");
 
-        if(this.correo.length <8){
-          this.mensaje_1 = 'El correo es muy corto';
+      if (!this.correo || this.correo.trim() === "" || this.correo.trim().toUpperCase() === "NONE") {
+        this.mensaje_2 = 'El Correo es obligatorio';
+      }
+      else {
+
+        if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+          console.log("El correo es válido");
+        } else {
+          this.mensaje_1 = 'El Correo no es válido';
         }
-      } else {
-        //this.correoInvalido('bottom');
-        this.mensaje_1 = 'El correo no es valido ';
       }
 
       if (this.nueva !== this.repetirNueva) {
-        this.mensaje_2= 'Las contraseñas no son iguales ';
-        this.mensaje_3= 'Las contraseñas no son iguales ';
+        this.mensaje_2 = 'Las contraseñas no son iguales ';
+        this.mensaje_3 = 'Las contraseñas no son iguales ';
         //this.contrasena('bottom');
       }
       // Validar la contraseña
       if (this.nueva.trim() !== "" && this.repetirNueva.trim() !== "") {
-        if (!this.validarContraseña.test(this.nueva) || this.nueva.length <8 ) {
+        if (!this.validarContraseña.test(this.nueva) || this.nueva.length < 8) {
           this.mensaje_2 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
         }
 
-        if (!this.validarContraseña.test(this.repetirNueva) || this.repetirNueva.length <8) {
+        if (!this.validarContraseña.test(this.repetirNueva) || this.repetirNueva.length < 8) {
           this.mensaje_3 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
         }
 
-        
-          
+
+
       }
-      
-      if(this.nueva.trim() !== "" && this.repetirNueva.trim() !== "" && this.nueva.trim() === this.repetirNueva.trim()  && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto){
+
+      if (this.nueva.trim() !== "" && this.repetirNueva.trim() !== "" && this.nueva.trim() === this.repetirNueva.trim() && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         this.router.navigate(['/menu']);
-        
+
       }
     }
   }
@@ -147,7 +154,7 @@ export class CambiarContrasenaPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
   async maxCaracter(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
@@ -157,7 +164,7 @@ export class CambiarContrasenaPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
   async exito(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
@@ -167,7 +174,7 @@ export class CambiarContrasenaPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
 
 }

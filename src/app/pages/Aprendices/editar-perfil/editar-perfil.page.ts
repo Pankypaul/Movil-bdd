@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {  NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, ActionSheetController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
@@ -11,83 +11,93 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE
   styleUrls: ['./editar-perfil.page.scss'],
 })
 export class EditarPerfilPage implements OnInit {
-  nombre:string="Carlos Espinoza";
-  correo:string="carlos54@gmail.com";
-  telefono:string="9 2342 8729";
-  tip:string="Aprendiz";
-  descripcion:string="Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.";
   
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
+
+  mensaje_1: string = "";
+  mensaje_2: string = "";
+  mensaje_3: string = "";
+
+  /*a:string="";
+  s:string="";
+  d:string="";
+  f:string="";*/
+  imagen:string="";
+
+  isEditable = false; // Inicialmente el perfil no es editable
+  perfil = {
+    nombre: 'Juan Pérez',
+    email: 'juan@example.com',
+    telefono: '123-456-7890',
+    descripcion: 'Soy un desarrollador apasionado por la tecnología.'
+  };
+
+  // Cambia entre modo de edición y solo lectura
+  toggleEditMode() {
+    this.isEditable = !this.isEditable;
+  }
+
+  VerDatos() {
+    /*console.log(this.a);
+    console.log(this.s);
+    console.log(this.d);
+    console.log(this.f);*/
+    console.log(this.imagen);
+  }
+
   
 
   constructor(private router:Router ,private toastController:ToastController,
-    private actionSheetCtrl: ActionSheetController) { 
+    private actionSheetCtrl: ActionSheetController, private activateroute: ActivatedRoute) { 
     
+      this.activateroute.queryParams.subscribe(param => {
+        //valido si viene o no información en la ruta
+  
+        if (this.router.getCurrentNavigation()?.extras.state) {
+  
+          /*this.a = this.router.getCurrentNavigation()?.extras?.state?.['nom'];
+          this.s = this.router.getCurrentNavigation()?.extras?.state?.['email'];
+          this.d = this.router.getCurrentNavigation()?.extras?.state?.['fono'];
+          this.f = this.router.getCurrentNavigation()?.extras?.state?.['desc'];*/
+          this.imagen = this.router.getCurrentNavigation()?.extras?.state?.['img'];
+        }
+      })
   }
 
-  //---------------------------------------------------------------------------------
-  // SACA LA FOTO DE LA GALERIA 
-  //---------------------------------------------------------------------------------
+  async handlePhoto(source: CameraSource) {
+    defineCustomElements(window); // Define los elementos personalizados necesarios
+    try {
+      // Solicita la foto a la cámara con las opciones especificadas
+      const photo = await Camera.getPhoto({
+        quality: 90, // Calidad de la imagen
+        allowEditing: false, // Permitir edición
+        resultType: CameraResultType.Uri, // Tipo de resultado: URI
+        source: source, // Fuente de la foto (cámara o galería)
+      });
+  
+      // Verifica si hay una ruta web disponible
+      if (photo.webPath) {
+        this.photoUrl = photo.webPath; // Asigna la URL a la variable de instancia
+        this.hasPhoto = true; // Marca que hay una foto
+      } else {
+        // Lanza un error si no se obtuvo una URL válida
+        throw new Error('No se obtuvo una URL válida para la foto');
+      }
+    } catch (error) {
+      // Maneja el error de la captura de la foto
+      this.handlePhotoError(error);
+    }
+  }
 
   async takePhotoFromGallery() {
-    try {
-      const photo = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Photos
-      });
-  
-      if (photo.webPath) {
-        this.photoUrl = photo.webPath;
-        this.hasPhoto = true; // Actualiza el estado a que hay una foto
-      } else {
-        console.error('No se obtuvo una URL válida para la foto');
-      }
-  
-    } catch (error) {
-      console.error('Error al tomar la foto:', error);
-      this.handlePhotoError(error);
-    }
+    await this.handlePhoto(CameraSource.Photos);
   }
-
-  //---------------------------------------------------------------------------------
-  // BORRA LA FOTO
-  //---------------------------------------------------------------------------------
-
-  clearPhoto() {
-    this.photoUrl = ''; // Restablece photoUrl para ocultar la imagen
-    this.hasPhoto = false; // Actualiza el estado a que no hay foto
-  }
-
-  //---------------------------------------------------------------------------------
-  //TOMA LA FOTO DESDE LA CAMARA
-  //---------------------------------------------------------------------------------
 
   async takePhotoFromCamera() {
-    try {
-
-      defineCustomElements(window);
-
-      const photo = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera, // Fuente de la cámara
-      });
-
-      if (photo.webPath) {
-        this.photoUrl = photo.webPath;
-        this.hasPhoto = true; // Actualiza el estado a que hay una foto
-      } else {
-        console.error('No se obtuvo una URL válida para la foto');
-      }
-    } catch (error) {
-      console.error('Error al tomar la foto:', error);
-      this.handlePhotoError(error);
-    }
+    await this.handlePhoto(CameraSource.Camera);
   }
+
   handlePhotoError(error: any) {
     if (error.message.includes('User cancelled photos app')) {
       console.warn('El usuario canceló la selección de la foto.');
@@ -96,6 +106,12 @@ export class EditarPerfilPage implements OnInit {
       console.error('Error al tomar la foto:', error);
     }
   }
+  
+  clearPhoto() {
+    this.photoUrl = ''; // Restablece photoUrl para ocultar la imagen
+    this.hasPhoto = false; // Actualiza el estado a que no hay foto
+  }
+  
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
@@ -165,51 +181,40 @@ export class EditarPerfilPage implements OnInit {
     await actionSheet.present();
   } 
 
-  irPagina() {
-    
-
-    /*ejemplo contexto  "ojala no sea la misma variable es opcional solo envia una por cada redireccion"*/
-    let navigationextras: NavigationExtras = {
-
-      state: {
-        nom: this.nombre,
-        email: this.correo,
-        fono: this.telefono,
-        tipo: this.tip,
-        desc: this.descripcion
-        
-        
-      }
-      
-
-    }
-    
-    
-    this.router.navigate(['/perfil'],navigationextras);
-    
-  }
+  
   
   public alertButtons = [
     {
       text: 'No',
       cssClass: 'alert-button-cancel',
       handler: () => {
-        //this.router.navigate(['/editar-perfil'] );
-        console.log("no");
       }
     },
     {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.irPagina(); 
-        console.log("si");
+        //this.irPagina();
+      }
+    }
+  ];
+
+  public alertButtonsBack = [
+    {
+      text: 'No',
+      cssClass: 'alert-button-cancel',
+      handler: () => {
+      }
+    },
+    {
+      text: 'Si',
+      cssClass: 'alert-button-confirm',
+      handler: () => {
+        this.router.navigate(['/perfil'] );
       }
     }
   ];
   
-  
-
   ngOnInit() {
   }
   

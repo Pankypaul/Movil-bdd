@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./perfil1.page.scss'],
 })
 export class PerfilPage implements OnInit {
-
+  descripcion: string = "Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.";
 
   constructor(private router: Router) { 
   }

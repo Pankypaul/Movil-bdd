@@ -8,27 +8,27 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email: string= "";      //correo que entrega registrar (context)
-  contras: string= "";    //contraseña que entrega registrar (context)
+  email: string = "";      //correo que entrega registrar (context)
+  contras: string = "";    //contraseña que entrega registrar (context)
 
   mensaje_1!: string;
   mensaje_2!: string;
 
 
-  Tutor :any = {
+  Tutor: any = {
 
     id: 1,
-    nombre:'Andres Vasquez Fernández',
+    nombre: 'Andres Vasquez Fernández',
     correo: 'andres@gmail.com',
     contra: 'QWEasd123-',
     numero: '923334122'
 
   }
 
-  Aprendiz :any = {
+  Aprendiz: any = {
 
     id: 2,
-    nombre:'Scarlett Rivera Diaz',
+    nombre: 'Scarlett Rivera Diaz',
     correo: 'scarlett@gmail.com',
     contra: 'qweQWE123-',
     numero: '975758484'
@@ -38,20 +38,20 @@ export class LoginPage implements OnInit {
   correo: string = '';     //correo del input
   contrasena: string = ''; //contraseña del input
 
-  tipo: string= "";         //tipo del registrar (context)
-  
+  tipo: string = "";         //tipo del registrar (context)
+
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
-  constructor(private router: Router, private toastController: ToastController, private activateroute:ActivatedRoute) { 
-    this.activateroute.queryParams.subscribe(param =>{
+  constructor(private router: Router, private toastController: ToastController, private activateroute: ActivatedRoute) {
+    this.activateroute.queryParams.subscribe(param => {
       //valido si viene o no información en la ruta
-      
-      if(this.router.getCurrentNavigation()?.extras.state){
-        this.tipo =this.router.getCurrentNavigation()?.extras?.state?.['tip'];
-        this.email =this.router.getCurrentNavigation()?.extras?.state?.['correo1'];
-        this.contras =this.router.getCurrentNavigation()?.extras?.state?.['contra'];
-        
+
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.tipo = this.router.getCurrentNavigation()?.extras?.state?.['tip'];
+        this.email = this.router.getCurrentNavigation()?.extras?.state?.['correo1'];
+        this.contras = this.router.getCurrentNavigation()?.extras?.state?.['contra'];
+
       }
     })
   }
@@ -59,8 +59,8 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  irPagina(){
-    let navigationextras: NavigationExtras= {
+  irPagina() {
+    let navigationextras: NavigationExtras = {
       state: {
         tipo1: this.tipo,
         contrase: this.contrasena,
@@ -71,58 +71,64 @@ export class LoginPage implements OnInit {
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if (this.correo == ""){
+
+    this.correo = this.correo.replace(/\s+/g, '');
+    this.correo = this.correo.trim(); // Para el correo
+    this.contrasena = this.contrasena.trim(); // Para el correo
+
+    if (this.correo == "") {
       this.mensaje_1 = 'El correo es obligatorio ';
     }
 
-    if (this.contrasena === ""){
+    if (this.contrasena === "") {
       this.mensaje_2 = 'La contraseña es obligatorio ';
     }
 
-    if (this.correo.trim() !== "" && this.contrasena.trim() !== ""){
+    if (this.correo.trim() !== "" && this.contrasena.trim() !== "") {
       //console.log('correo y contraseña llenos');
 
       //Valide que haya un punto y una arroba y que haya algo antes y después de ellos
 
-      // Validación mejorada del correo 
-      const tieneArroba = this.correo.includes('@');       //Incluye '@' (Devuelve true or false)
-      const posicionArroba = this.correo.indexOf('@');     //Ver la posición del '@' (Devuelve numeros)
-      const posicionPunto = this.correo.lastIndexOf('.');  //Incluye si incluye '.' (Devuelve numeros)
+      const tieneArroba = (this.correo.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+      const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.correo); // Verifica caracteres no permitidos
 
-      //indexOf(): Se utiliza para encontrar la primera aparición de un carácter o subcadena.
-      //lastIndexOf(): Se utiliza para encontrar la última aparición de un carácter o subcadena.
-      
-      const algoAntesArroba = posicionArroba > 0; // Se Asegura que haya algo antes de '@' (Devuelve true or false)
-      const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Se Asegura que haya algo entre el '@' y el '.' (Devuelve true or false)
-      const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Se asegura que haya algo después del '.' (Punto) (Devuelve true or false)
-      
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto ) {
-        //console.log("El correo es válido");
-        
-        if(this.correo.length <8){
-          this.mensaje_1 = 'El correo es muy corto';
-        }
-      } 
+      const posicionArroba = this.correo.indexOf('@');
+      const posicionPunto = this.correo.lastIndexOf('.');
+
+      const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
+      const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
+      const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Asegura que haya algo después del '.'
+
+
+
+      if (!this.correo || this.correo.trim() === "" || this.correo.trim().toUpperCase() === "NONE") {
+        this.mensaje_2 = 'El Correo es obligatorio';
+      }
       else {
-        this.mensaje_1 = 'Correo no valido'; 
+
+        if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+          console.log("El correo es válido");
+        } else {
+          this.mensaje_1 = 'El Correo no es válido';
+        }
       }
 
       // Validar la contraseña
       if (this.contrasena.trim() !== "") {
-        if (!this.validarContraseña.test(this.contrasena) || this.contrasena.length <8) {
+        if (!this.validarContraseña.test(this.contrasena) || this.contrasena.length < 8) {
           this.mensaje_2 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
         }
       }
 
-      if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >=8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >=8){
-        this.router.navigate(['/menu1'],navigationextras);
+      if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >= 8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >= 8) {
+        this.router.navigate(['/menu1'], navigationextras);
 
       }
     }
   }
 
   onSubmit() {
-    
+
   }
   /*
   async CamposVacios(position: 'top' | 'middle' | 'bottom') {

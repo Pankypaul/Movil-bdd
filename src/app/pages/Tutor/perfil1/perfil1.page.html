@@ -34,19 +34,12 @@
         <ion-label>+569 2342 8729</ion-label>
       </ion-item>
 
-      <ion-item>
-        <ion-label>
-          Carrera :
-        </ion-label>
 
-        <ion-label class="texto">
-          Ingenieria en informatica
-        </ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="book" slot="start"></ion-icon>
-        <ion-label>Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.</ion-label>
+      <ion-item> 
+        <ion-label position="stacked">Descripción</ion-label>
+        <ion-note class="contador-caracteres" position="stacked">{{250 - descripcion.length}} caracteres restantes</ion-note>
+         
+        <p>{{descripcion}}</p>
       </ion-item>
     </ion-list>
 

@@ -24,14 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Tutor/perfil1/perfil1.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'amigos',
-    loadChildren: () => import('./pages/Aprendices/amigos/amigos.module').then( m => m.AmigosPageModule)
-  },
-  {
-    path: 'amigos1',
-    loadChildren: () => import('./pages/Tutor/amigos1/amigos1.module').then( m => m.AmigosPageModule)
-  },
-  {
     path: 'asignaturas',
     loadChildren: () => import('./pages/Aprendices/asignaturas/asignaturas.module').then( m => m.AsignaturasPageModule)
   },

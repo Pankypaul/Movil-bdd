@@ -13,6 +13,7 @@ export class LoginPage implements OnInit {
 
   mensaje_1!: string;
   mensaje_2!: string;
+  mensaje_3!: string;
 
 
   Tutor: any = {
@@ -68,22 +69,15 @@ export class LoginPage implements OnInit {
       }
     }
 
-    this.mensaje_1 = '';
-    this.mensaje_2 = '';
-
+    this.mensaje_3 = '';
 
     this.correo = this.correo.replace(/\s+/g, '');
     this.correo = this.correo.trim(); // Para el correo
     this.contrasena = this.contrasena.trim(); // Para el correo
-
-    if (this.correo == "") {
-      this.mensaje_1 = 'El correo es obligatorio ';
+    
+    if(this.correo == "" || this.contrasena === ""){
+      this.mensaje_3 = 'Rellena ambos campos.';
     }
-
-    if (this.contrasena === "") {
-      this.mensaje_2 = 'La contraseña es obligatorio ';
-    }
-
     if (this.correo.trim() !== "" && this.contrasena.trim() !== "") {
       //console.log('correo y contraseña llenos');
 
@@ -102,21 +96,21 @@ export class LoginPage implements OnInit {
 
 
       if (!this.correo || this.correo.trim() === "" || this.correo.trim().toUpperCase() === "NONE") {
-        this.mensaje_2 = 'El Correo es obligatorio';
+        this.mensaje_3 = 'Los campos no pueden quedar vacios.';
       }
       else {
 
         if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
           console.log("El correo es válido");
         } else {
-          this.mensaje_1 = 'El Correo no es válido';
+          this.mensaje_3 = 'El Correo o contraseña inválido.';
         }
       }
 
       // Validar la contraseña
       if (this.contrasena.trim() !== "") {
         if (!this.validarContraseña.test(this.contrasena) || this.contrasena.length < 8) {
-          this.mensaje_2 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+          this.mensaje_3 = 'El Correo o contraseña inválido.';
         }
       }
 

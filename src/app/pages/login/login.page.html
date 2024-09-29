@@ -16,13 +16,13 @@
 
       <form  class="centrar"  action="">
 
+        <ion-label color="danger">{{mensaje_3}}</ion-label>
+
         <ion-item class="fondo-form">
           <ion-input maxlength="320" [(ngModel)]="correo" name="text" class="texto" label="Correo" type="text"
             label-placement="floating" placeholder="" required></ion-input> <!--{{email}}--> 
         </ion-item>
 
-        <!-- Mensaje de error para correo -->
-        <ion-label color="danger">{{mensaje_1}}</ion-label>
 
         <ion-item class="fondo-form">
           <ion-input maxlength="25" minlength="8" [(ngModel)]="contrasena" name="contrasena" class="texto"
@@ -30,8 +30,6 @@
             required></ion-input><!--{{contras}}-->
         </ion-item>
 
-        <!-- Mensaje de error para contraseña -->
-        <ion-label color="danger">{{mensaje_2}}</ion-label>
 
         <ion-button class="boton" type="submit" (click)="irPagina()" shape="round">Iniciar Sesión</ion-button>
       </form>

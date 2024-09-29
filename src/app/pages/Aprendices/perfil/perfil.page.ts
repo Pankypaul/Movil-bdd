@@ -118,7 +118,7 @@ export class PerfilPage implements OnInit {
     this.mensaje_3 = "";
     this.mensaje_4 = "";
 
-    this.perfil.nombre = this.perfil.nombre.trim(); // Para el teléfono
+    this.perfil.nombre = this.perfil.nombre.trim(); // Elimina los espacios vacios
     this.perfil.correo = this.perfil.correo.replace(/\s+/g, '');
     this.perfil.correo = this.perfil.correo.trim(); // Para el correo
 
@@ -159,10 +159,10 @@ export class PerfilPage implements OnInit {
         this.mensaje_2 = 'El Correo no es válido';
       }
     }
-    
 
-    
-    
+
+
+
     const comilla = String(this.perfil.telefono).indexOf('´');
     if (comilla !== -1) {
       // La comilla (´) está presente en el correo
@@ -171,12 +171,12 @@ export class PerfilPage implements OnInit {
       this.mensaje_3 = ''; // Limpiar el mensaje si no hay comillas
     }
 
-    if(isTelefonoValido){
+    if (isTelefonoValido) {
       this.mensaje_3 = '';
     }
-    else{
+    else {
       this.mensaje_3 = 'El teléfono es obligatorio';
-      
+
     }
 
 
@@ -184,8 +184,8 @@ export class PerfilPage implements OnInit {
       this.mensaje_4 = 'Rellene este campo';
     }
 
-    
-    
+
+
 
     if (tieneArroba &&
       !tieneCaracteresInvalidos &&

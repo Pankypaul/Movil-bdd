@@ -14,16 +14,27 @@ import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE
   styleUrls: ['./registrar.page.scss'],
 })
 export class RegistrarPage implements OnInit {
-  email: string = '';
-  password: string = '';
-  password2: string = '';
-  nombre: string = '';
-  tipo: string = "";
-  numero: string = "";
-  apellido: string = "";
 
-  valor: string = "+56";
-  
+
+
+   perfil = {
+
+    nombre: '',
+    tipo: '',
+    correo: '',
+    telefono: '',
+    password: '',
+    password2: '',
+};
+
+
+  mensaje_1: string = "";
+  mensaje_2: string = "";
+  mensaje_3: string = "";
+  mensaje_4: string = "";
+  mensaje_5: string = "";
+  mensaje_6: string = "";
+
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
@@ -39,135 +50,130 @@ export class RegistrarPage implements OnInit {
   ngOnInit() {
   }
 
-  //---------------------------------------------------------------------------------
-  // SACA LA FOTO DE LA GALERIA 
-  //---------------------------------------------------------------------------------
 
-  async takePhotoFromGallery() {
-    try {
-      const photo = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Photos
-      });
+  irPagina() {  //this.isEditable = !this.isEditable;
 
-      if (photo.webPath) {
-        this.photoUrl = photo.webPath;
-        this.hasPhoto = true; // Actualiza el estado a que hay una foto
-      } else {
-        console.error('No se obtuvo una URL válida para la foto');
-      }
+    this.mensaje_1 = "";
+    this.mensaje_2 = "";
+    this.mensaje_3 = "";
+    this.mensaje_4 = "";
+    this.mensaje_5 = "";
+    this.mensaje_6 = "";
 
-    } catch (error) {
-      console.error('Error al tomar la foto:', error);
-      this.handlePhotoError(error);
+    if(!this.perfil.tipo ){
+      this.mensaje_2 = 'Elija un opción';
     }
-  }
 
-  //---------------------------------------------------------------------------------
-  // BORRA LA FOTO
-  //---------------------------------------------------------------------------------
+    this.perfil.nombre = this.perfil.nombre.trim(); // Elimina los espacios vacios
+    this.perfil.correo = this.perfil.correo.replace(/\s+/g, '');
+    this.perfil.correo = this.perfil.correo.trim(); // Para el correo
 
-  clearPhoto() {
-    this.photoUrl = ''; // Restablece photoUrl para ocultar la imagen
-    this.hasPhoto = false; // Actualiza el estado a que no hay foto
-  }
 
-  //---------------------------------------------------------------------------------
-  //TOMA LA FOTO DESDE LA CAMARA
-  //---------------------------------------------------------------------------------
+    const isNombreValido = this.perfil.nombre.length > 1 &&
+      this.perfil.nombre.trim().toUpperCase() !== "NONE" && this.perfil.nombre.trim();
 
-  async takePhotoFromCamera() {
-    try {
+    const comillas = String(this.perfil.telefono).indexOf('´'); // Encuentra la posición de la comilla
 
-      defineCustomElements(window);
+    const isTelefonoValido = String(this.perfil.telefono).length === 9 && comillas === -1; // Asegúrate de que no haya comilla
 
-      const photo = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri,
-        source: CameraSource.Camera, // Fuente de la cámara
-      });
 
-      if (photo.webPath) {
-        this.photoUrl = photo.webPath;
-        this.hasPhoto = true; // Actualiza el estado a que hay una foto
-      } else {
-        console.error('No se obtuvo una URL válida para la foto');
-      }
-    } catch (error) {
-      console.error('Error al tomar la foto:', error);
-      this.handlePhotoError(error);
+    const tieneArroba = (this.perfil.correo.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+    const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.perfil.correo); // Verifica caracteres no permitidos
+
+    const posicionArroba = this.perfil.correo.indexOf('@');
+    const posicionPunto = this.perfil.correo.lastIndexOf('.');
+
+    const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
+    const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
+    const algoDespuesPunto = posicionPunto < this.perfil.correo.length - 1; // Asegura que haya algo después del '.'
+
+    if (!this.perfil.nombre || this.perfil.nombre.trim() === "" || this.perfil.nombre.trim().toUpperCase() === "NONE") {
+      this.mensaje_1 = 'El nombre es obligatorio y no puede estar vacio.';
     }
-  }
-  handlePhotoError(error: any) {
-    if (error.message.includes('User cancelled photos app')) {
-      console.warn('El usuario canceló la selección de la foto.');
-      // Opcionalmente, muestra un mensaje al usuario.
+
+    if (!this.perfil.correo || this.perfil.correo.trim() === "" || this.perfil.correo.trim().toUpperCase() === "NONE") {
+      this.mensaje_3 = 'El Correo es obligatorio';
+    }
+    else {
+
+      if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+        console.log("El correo es válido");
+      } else {
+        this.mensaje_3 = 'El Correo no es válido';
+      }
+    }
+
+
+
+
+    const comilla = String(this.perfil.telefono).indexOf('´');
+    if (comilla !== -1) {
+      // La comilla (´) está presente en el correo
+      this.mensaje_4 = 'El telefono no puede contener la comilla (´).';
     } else {
-      console.error('Error al tomar la foto:', error);
-    }
-  }
-
-  // Nueva función para mostrar el Action Sheet
-  async presentActionSheet() {
-    const actionSheetButtons = [
-      {
-        text: 'Elegir foto de la galería',
-        role: 'destructive',
-        data: {
-          action: 'Elegir foto de la galería',
-        },
-        handler: () => {
-          this.takePhotoFromGallery(); // Llamar a la función para elegir una foto
-        }
-      },
-      {
-        text: 'Tomar foto',
-        data: {
-          action: 'Tomar foto',
-        },
-        handler: () => {
-          this.takePhotoFromCamera(); // Llamar a la función para tomar una foto
-        }
-      },
-      {
-        text: 'Cancelar',
-        role: 'cancel',
-        data: {
-          action: 'cancelar',
-        },
-        handler: () => {
-          console.log('Cancelar clicado');
-        }
-      }
-    ];
-
-    // Condicionalmente agregar el botón "Borrar" si hay una foto
-    if (this.hasPhoto) {
-      actionSheetButtons.unshift({
-        text: 'Borrar',
-        role: 'destructive',
-        data: {
-          action: 'Borrar',
-        },
-        handler: () => {
-          this.clearPhoto(); // Llamar a la función para borrar la foto
-        }
-      });
+      this.mensaje_4 = ''; // Limpiar el mensaje si no hay comillas
     }
 
-    const actionSheet = await this.actionSheetCtrl.create({
-      header: 'Opciones',
-      buttons: actionSheetButtons,
-    });
+    if (isTelefonoValido) {
+      this.mensaje_4 = '';
+    }
+    else {
+      this.mensaje_4 = 'El teléfono es obligatorio';
 
-    await actionSheet.present();
+    }
+
+
+    this.perfil.password = this.perfil.password.trim();
+    this.perfil.password2 = this.perfil.password2.trim();
+
+    if (this.perfil.password.length < 8 || !this.validarContraseña.test(this.perfil.password)) {
+      this.mensaje_5 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+
+    }
+
+    if (this.perfil.password2.length < 8 || !this.validarContraseña.test(this.perfil.password2)) {
+      this.mensaje_6 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+    }
+
+    if(this.validarContraseña.test(this.perfil.password)){
+      console.log('Paso la contraseña');
+    }
+
+    if(this.validarContraseña.test(this.perfil.password2)){
+      console.log('Paso repetir contraseña');
+    }
+
+    if (this.perfil.password.length !== this.perfil.password2.length) {
+      this.mensaje_5 = 'Las contraseñas no son iguales';
+      this.mensaje_6 = 'Las contraseñas no son iguales';
+
+    }
+
+    console.log("----------------------------------------------");
+    console.log('Nombre:', this.perfil.nombre);
+    console.log('Correo:', this.perfil.correo);
+    console.log('Tipo:', this.perfil.tipo);
+    console.log('Telefono:', this.perfil.telefono);
+    console.log('Contraseña:', this.perfil.password);
+    console.log('Contraseña2:', this.perfil.password2);
+    console.log("----------------------------------------------");
+
+
+
+    if (tieneArroba &&
+      !tieneCaracteresInvalidos &&
+      algoAntesArroba &&
+      algoEntreArrobaYPunto &&
+      algoDespuesPunto &&
+      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password2) ===  this.validarContraseña.test(this.perfil.password2)) {
+      console.log('Pasa todo');
+    }
+
+
   }
 
-  irPagina() {
-    let navigationextras: NavigationExtras = {
+  /*irPagina() {
+    /*let navigationextras: NavigationExtras = {
       state: {
         tip: this.tipo,
         contra: this.password,
@@ -175,82 +181,127 @@ export class RegistrarPage implements OnInit {
       }
     }
 
-    if (!this.email || !this.password || !this.nombre || !this.password2 || !this.numero || this.tipo == "") {
-      this.CamposVacios('bottom');
-
-    } else if (this.email.length >= 50 || this.password.length >= 25) {
-      this.maxCaracter('bottom')
-    } else {
-
-      /*// Validación mejorada del correo (Devuelve numeros)
-      const tieneArroba = this.email.includes('@');       //Incluye '@'
-      const posicionArroba = this.email.indexOf('@');     //Ver la posición del '@'
-      const posicionPunto = this.email.lastIndexOf('.');  //Incluye si incluye '.'
-
-      //indexOf(): Se utiliza para encontrar la primera aparición de un carácter o subcadena.
-      //lastIndexOf(): Se utiliza para encontrar la última aparición de un carácter o subcadena.
-
-      const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
-      const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
-      const algoDespuesPunto = posicionPunto < this.email.length - 1; // Asegura que haya algo después del '.'*/
-
-      const tieneArroba = (this.email.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
-      const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.email); // Verifica caracteres no permitidos
-
-      const posicionArroba = this.email.indexOf('@');
-      const posicionPunto = this.email.lastIndexOf('.');
-
-      const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
-      const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
-      const algoDespuesPunto = posicionPunto < this.email.length - 1; // Asegura que haya algo después del '.'
-
-      if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
-        console.log("El correo es válido");
-      } else {
-        //this.mensaje_2 = 'El Correo no es válido';
-      }
-
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
-        console.log("El correo es válido");
-
-        if ((this.password.length < 8 || !this.validarContraseña.test(this.password))) {
-          this.contrasenaInvalido('bottom')
-          console.log("CON1");
-        } else {
-
-          if (this.password2.length < 8 || !this.validarContraseña.test(this.password2)) {
-            this.contrasenaInvalido('bottom')
-            console.log("CON2");
-          } else {
-
-            if (this.password == this.password2) {
-              this.router.navigate(['/login'], navigationextras);
-
-            } else {
-              this.contrasena('bottom');
-            }
-          }
-
-        }
+    this.mensaje_1 = '';
+    this.mensaje_2 = '';
+    this.mensaje_3 = '';
+    this.mensaje_4 = '';
+    this.mensaje_5 = '';
+    this.mensaje_6 = '';
 
 
-      } else {
-        this.correoInvalido('bottom');
-      }
+    this.email = this.email.replace(/\s+/g, '');
+    this.email = this.email.trim(); // Para el correo
+    this.nombre = this.nombre.trim();  // Elimina los espacios vacios
+
+
+    if (!this.tipo) {
+      this.mensaje_2 = 'El tipo de usuario es obligatorio';
     }
-    //Ver los datos que pusimos
+
+    const isNombreValido = this.nombre.length > 1 &&
+      this.nombre.trim().toUpperCase() !== "NONE" && this.nombre.trim();
+
+    const comillas = String(this.numero).indexOf('´'); // Encuentra la posición de la comilla
+
+    const isTelefonoValido = String(this.numero).length === 9 && comillas === -1; // Asegúrate de que no haya comilla
+
+
+    const tieneArroba = (this.email.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+    const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.email); // Verifica caracteres no permitidos
+
+    const posicionArroba = this.email.indexOf('@');
+    const posicionPunto = this.email.lastIndexOf('.');
+
+    const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
+    const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
+    const algoDespuesPunto = posicionPunto < this.email.length - 1; // Asegura que haya algo después del '.'
+
+    if (!this.nombre || this.nombre.trim() === "" || this.nombre.trim().toUpperCase() === "NONE") {
+      this.mensaje_1 = 'El nombre es obligatorio y no puede estar vacio.';
+    }
+
+
+    if (!this.numero || String(this.numero).trim() === "" || String(this.numero).trim().toUpperCase() === "NONE") {
+      this.mensaje_4 = 'El telefono es obligatorio';
+    }
+
+    const comilla = String(this.numero).indexOf('´');
+    if (comilla !== -1) {
+      // La comilla (´) está presente en el correo
+      this.mensaje_4 = 'El telefono no puede contener la comilla (´).';
+    }
+
+    if (String(this.numero).length < 9) {
+      this.mensaje_4 = 'El telefono debe tener 9 digitos';
+
+    }
+
+    if (tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+      console.log("El correo es válido");
+    } else {
+      this.mensaje_3 = 'El Correo no es válido';
+    }
+
+
+
+    this.password = this.password.trim();
+    this.password2 = this.password2.trim();
+
+    if (this.password.length < 8 || !this.validarContraseña.test(this.password)) {
+      this.mensaje_5 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+
+    }
+
+    if (this.password2.length < 8 || !this.validarContraseña.test(this.password2)) {
+      this.mensaje_6 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+    }
+
+
+
+
+    if (this.password.length !== this.password2.length) {
+      this.mensaje_5 = 'Las contraseñas no son iguales';
+      this.mensaje_6 = 'Las contraseñas no son iguales';
+
+    }
 
     console.log("----------------------------------------------");
     console.log('Nombre:', this.nombre);
-    console.log('Apellido:', this.apellido);
     console.log('Correo:', this.email);
     console.log('Tipo:', this.tipo);
     console.log('Telefono:', this.numero);
     console.log('Contraseña:', this.password);
     console.log('Contraseña2:', this.password2);
     console.log("----------------------------------------------");
+    if (
+      tieneArroba && !tieneCaracteresInvalidos && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && isTelefonoValido 
+      && isNombreValido && !this.email.trim() && this.password.trim() == this.password2.trim() && !this.password && !this.password2 
+      && !this.tipo && this.numero.length === 8) {
+        console.log('pasa todo');
+      //this.router.navigate(['/login']);
+
+      //correo, constraseñas, repetir constraseñas, tipo, telefono, nombre
+      console.log('pasa todo');
+    }
+
+  }
 
 
+
+
+  restrictInput(event: KeyboardEvent) {
+    const key = event.key;
+    const regex = /^[0-9]$/;  // Permitir solo dígitos
+
+    // Permitir solo números y teclas especiales
+    if (!regex.test(key) && !['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key)) {
+      event.preventDefault();
+    }
+
+    // Limitar a 9 caracteres
+    if (String(this.numero).length >= 9 && !['Backspace', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(key)) {
+      event.preventDefault(); // Prevenir la entrada de más caracteres si no es una tecla de control
+    }
   }
 
 
@@ -259,6 +310,24 @@ export class RegistrarPage implements OnInit {
     // Navegar a otra página si el formulario es válido
     //this.router.navigate(['/menu']);
 
+  }
+
+
+
+
+
+
+  validarTexto(event: any) {
+    const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios
+    let input = event.target.value;
+
+    if (!pattern.test(input)) {
+      // Si no cumple con el patrón, eliminamos los caracteres inválidos
+      event.target.value = input.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+    }
+
+    // Actualizamos el valor del modelo
+    this.nombre = event.target.value;
   }
 
   //Mensaje de campos vacios
@@ -332,28 +401,14 @@ export class RegistrarPage implements OnInit {
   }
 
 
-  // Funcion que reestige poner numeros al nombre
-  restrictInput(event: KeyboardEvent) {
-    const key = event.key;
-    const regex = /^[0-9]$/;  // Permitir solo dígitos
 
 
-    // Permitir solo números y teclas especiales
-    if (!regex.test(key) && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
-      event.preventDefault();
-    }
-
-    // Limitar a 9 caracteres
-    if (this.numero.length >= 9 && key !== 'Backspace' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
-      event.preventDefault();
-    }
 
 
-  }
   // Método para obtener el número completo con el prefijo
   getFullNumber() {
     return `+56${this.numero}`;  // Retorna el número completo
-  }
+  }*/
 
 }
 

@@ -61,13 +61,13 @@ export class LoginPage implements OnInit {
   }
 
   irPagina() {
-    let navigationextras: NavigationExtras = {
+    /*let navigationextras: NavigationExtras = {
       state: {
         tipo1: this.tipo,
         contrase: this.contrasena,
         correo2: this.correo
       }
-    }
+    }*/
 
     this.mensaje_3 = '';
 
@@ -78,6 +78,7 @@ export class LoginPage implements OnInit {
     if(this.correo == "" || this.contrasena === ""){
       this.mensaje_3 = 'Rellena ambos campos.';
     }
+
     if (this.correo.trim() !== "" && this.contrasena.trim() !== "") {
       //console.log('correo y contraseña llenos');
 
@@ -115,8 +116,8 @@ export class LoginPage implements OnInit {
       }
 
       if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >= 8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >= 8) {
-        this.router.navigate(['/menu1'], navigationextras);
-
+        //this.router.navigate(['/menu1'], navigationextras);
+        this.router.navigate(['/menu1']);
       }
     }
   }

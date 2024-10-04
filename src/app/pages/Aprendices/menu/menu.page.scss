@@ -78,7 +78,7 @@ hr {
 
 .tarea{
     height: auto;
-    width: 250px;
+    width: 200px;
 }
 
 .centrar{
@@ -106,4 +106,16 @@ hr {
     font-size: xx-large;
     margin-left: 5%;
     margin-bottom: 0%;
+}
+
+.verMas{
+    font-size: small;
+    --background: rgba(182, 149, 192, 100%);
+    margin-bottom: 1rem;
+    width: 90%;
+}
+
+.centrarB{
+    text-align: center;
+    margin-top: 15px;
 }

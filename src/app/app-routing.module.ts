@@ -97,14 +97,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Tutor/curso/curso.module').then( m => m.CursoPageModule)
   },
   {
+    path: 'mi-publicacion',
+    loadChildren: () => import('./pages/mi-publicacion/mi-publicacion.module').then( m => m.MiPublicacionPageModule)
+  },
+  {
+    path: 'editar-publicacion',
+    loadChildren: () => import('./pages/editar-publicacion/editar-publicacion.module').then( m => m.EditarPublicacionPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/Aprendices/not-found/not-found.module').then( m => m.NotFoundPageModule)
+  },  {
+    path: 'mi-curso',
+    loadChildren: () => import('./pages/mi-curso/mi-curso.module').then( m => m.MiCursoPageModule)
   },
-
-
-
-
-
+  {
+    path: 'editar-curso',
+    loadChildren: () => import('./pages/editar-curso/editar-curso.module').then( m => m.EditarCursoPageModule)
+  },
 
 
 

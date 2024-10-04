@@ -54,6 +54,9 @@ export class PublicarPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+  irPubli(){
+    this.router.navigate(['/mi-publicacion'])
+  }
 
   irPagina(){
 
@@ -217,5 +220,6 @@ export class PublicarPage implements OnInit {
   ngOnInit() {
     
   }
+
 
 }

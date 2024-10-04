@@ -6,7 +6,7 @@
 
 .container{
     background-color: rgba(182, 149, 192, 20%);
-    border-radius: 3%;
+    border-radius: 20px;
     border: 0rem #000000 solid;
     margin-top: 2rem;
     margin-left: 1rem;
@@ -19,12 +19,14 @@
     --background: rgba(182, 149, 192, 0%);
 }
 
+
 .imagen{
-    margin-left: 1px;
-    height: 25px;
-    width: 25px;
+    margin-left: 5px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
     border: 1px #000000 solid;
+    margin-top: 6px;
 }
 
 .unir{
@@ -32,12 +34,12 @@
 }
 
 .nombre{
-    margin-top: 10px;
+    margin-top: 20px;
     text-align: center;
-    margin-left: 57px;
+    margin-left: 15px;
 }
 
-hr {
+.hr {
     border: 1px solid rgba(182, 149, 192, 50%); 
     height: 0px; 
     margin-left: 5px;
@@ -51,12 +53,12 @@ hr {
 }
 
 .escribir{
-    margin-top: 20rem;
+    margin-top: 2rem;
     width: 90%;
     
 }
 
-.container2{
+.container2{ //MENSAJAE A LA DERECHA
     background-color: rgba(182, 149, 192, 50%);
     margin-left: 100px;
     margin-top: 5%;
@@ -66,15 +68,90 @@ hr {
 
 .text{
     padding-left: 10px;
-    padding-top: 15px;
+    padding-top: 1px;
     padding-right: 10px;
-    padding-bottom: 15px;
+    padding-bottom: 1px;
 }
 
-.container3{
-    background-color: rgba(182, 149, 192, 100%); 
-    margin-right: 100px;
+
+.container3{ //MENSAJE A LA IZQUIERDA
+    background-color: rgb(255, 255, 255);
+    margin-right: 7px;
     margin-top: 5%;
-    margin-left: 5px;
+    margin-left: 7px;
     border-radius: 10px;
+}
+
+.descripcion{
+    text-align: justify;
+}
+
+.texto2{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: medium;
+    line-height: 17px;
+    color: #3f3e3f;
+}
+
+.texto{
+    font-size: 1.2rem;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.centrar1{
+    text-align: center;
+    margin-top: 25px;
+}
+
+.tarea{
+    height: auto;
+    width: 200px;
+}
+
+.container6{
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+.nombre2{
+    margin-left: 10px;
+    font-size: 12px;
+    color: rgba(65, 20, 78, 0.5); 
+}
+
+.hr2{
+    border: 1px solid rgba(255, 255, 255, 0.5); 
+    height: 0px; 
+    margin-left: 5px;
+    margin-right: 5px; 
+}
+
+.maria{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 0% #000000 solid;
+}
+
+.texto5{
+    font-size: 1.2rem;
+    text-align: justify;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.nombre1{
+    margin-top: 15px;
+    text-align: center;
+    margin-left: 15px;
+    color: #7e0073;
 }

@@ -29,6 +29,13 @@ export class MenuPage implements OnInit {
 
   ngOnInit() {
   }
+  irPagina(){
+    this.router.navigate(['/chat'])
+  }
+
+  irPerfil(){
+    this.router.navigate(['/perfil-agregar-amigos'])
+  }
 
   mostrarCard(id: string) {
     this.id = id;

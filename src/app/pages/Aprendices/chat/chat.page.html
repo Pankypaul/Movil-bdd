@@ -3,27 +3,46 @@
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Chat</ion-title>
+    <ion-title>Comentarios</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content  [fullscreen]="true">
 
   <div class="container">
-    <ion-item class="fondo unir" lines="none">
-      <img class="imagen" src="/assets/icon/pato.jpg" alt="foto perfil">
-      <p class="nombre">Maria Luisa Diaz</p>
-    </ion-item>
-    <hr>
-
-    <div class="container2">
-      <p class="text">Holaa, tu haces tutorias de python?</p>
+    <div class="container6">
+      <ion-item class="fondo unir" lines="none">
+        <img class="imagen" src="/assets/icon/pato.jpg" alt="foto perfil">
+        <p class="nombre">Maria Luisa Diaz</p>
+      </ion-item>
+      <hr class="hr">
+      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <div class="centrar1">
+        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+      </div>
+  
+      <hr class="hr">
+        
+      <ion-card-content class="descripcion">
+        <p>DESCRIPCIÓN</p>
+        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
+        si alguien me puede ayudar, muchas gracias de antemano.
+      </ion-card-content>
     </div>
+
+    <hr class="hr">
+    
 
     <div class="container3">
-      <p class="text">Hola, si a las 6 de la tarde los dias sabados</p>
+      <div class="unir color" (click)="irPagina()">
+        <img class="imagen" src="/assets/icon/maria.webp" alt="maria" >
+        <p class="nombre1">Melanie Ortiz</p>
+        <hr>
+      </div>
+      <p class="texto5">Para hacer eso es super facil debes realizar sumas</p>
     </div>
-
+  
+    
     <div class="centrar">
       <input class="escribir" type="text" placeholder="Escribir">
       

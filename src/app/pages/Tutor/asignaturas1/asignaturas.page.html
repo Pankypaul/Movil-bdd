@@ -13,12 +13,16 @@
 <ion-content class="ion-padding">
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
   
-  <ion-card class="fondo" [routerLink]="[('/menu-asignatura')]">
-    <img class="imagen" alt="lenguaje" src="/assets/icon/python.jpg"/>
-    <ion-card-header>
+  <ion-card class="fondo" >
+    <img class="imagen" [routerLink]="[('/menu-asignatura')]" alt="lenguaje" src="/assets/icon/python.jpg"/>
+    <ion-card-header [routerLink]="[('/menu-asignatura')]">
       <ion-card-title class="texto">Introducción a Python</ion-card-title>
       <ion-card-subtitle>Romina Riquelme</ion-card-subtitle>
     </ion-card-header>
+    <div class="unir2">
+      <ion-button class="boton"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
+      <ion-button class="boton" (click)="irPagina()"><ion-icon slot="icon-only" name="pencil"></ion-icon></ion-button>
+    </div>
   </ion-card>
 
   

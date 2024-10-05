@@ -33,15 +33,6 @@ export class FooterTutorComponent  implements OnInit {
         }
       },
       {
-        text: 'Crear Publicación',
-        data: {
-          action: 'Crear Publicación',
-        },
-        handler: () => {
-          this.irPagina();
-        }
-      },
-      {
         text: 'Cancelar',
         role: 'cancel',
         data: {

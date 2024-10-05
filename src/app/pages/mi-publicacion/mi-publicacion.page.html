@@ -9,21 +9,40 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card  class="container">
+  <ion-card class="container" *ngFor="let x of arregloPublicacion">
     <ion-card-header>
       <div class="unir">
-        <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
+        <img class="maria" src="/assets/icon/maria.webp" alt="maria">
         <p class="nombre">Maria Torres</p>
       </div>
       <hr>
     </ion-card-header>
-    <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
-    <hr>
-    <div class="unir2">
-      <ion-button class="boton"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
-      <ion-button class="boton" (click)="irPagina()"><ion-icon slot="icon-only" name="pencil"></ion-icon></ion-button>
-    </div>
-    
-  </ion-card> 
-</ion-content>
 
+    <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
+
+    <ion-card-content>
+      <img [src]="x.foto_publi || '/assets/icon/pato.jpg'" alt="Perfil"/> <!--*ngIf="x.foto_publi; else defaultImage"-->
+
+      <!--<ng-template #defaultImage>
+        <img src="/assets/icon/pato.jpg" alt="Imagen predeterminada">
+      </ng-template>-->
+      <br>
+      <hr>
+      <ion-label style="word-wrap: break-word; white-space: normal;">{{ x.descripcion_publi }}</ion-label>
+
+    </ion-card-content>
+
+    <hr>
+    <div class="unir2" >
+
+      <ion-button class="boton" (click)="eliminar(x)">
+        <ion-icon slot="icon-only" name="trash" ></ion-icon>
+      </ion-button>
+
+      <ion-button class="boton" (click)="modificar(x)">
+        <ion-icon slot="icon-only" name="pencil"></ion-icon>
+      </ion-button>
+    </div>
+
+  </ion-card>
+</ion-content>

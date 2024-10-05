@@ -18,12 +18,15 @@
       <ion-avatar class="">
         <img src="/assets/icon/pato.jpg" alt="Perfil">
       </ion-avatar>
-      <ion-label class="nombre" placeholder="Nombre">Carlos Espinoza</ion-label>
+      <ion-item>
+        <ion-label position="stacked">Nombre</ion-label>
+        <ion-label>{{ nombre }}</ion-label> <!-- Esto mostrará el valor de "nombre" -->
+      </ion-item>
 
     </ion-item>
 
     <ion-item class="fondo">
-      <ion-input maxLength="50" placeholder="Título" [(ngModel)]="titulo"></ion-input>
+      <ion-input maxLength="50" placeholder="Título" [(ngModel)]="titulo_publi"></ion-input>
     </ion-item>
     <ion-label color="danger">{{mensaje_1}}</ion-label>
 
@@ -31,11 +34,11 @@
 
       <ion-label position="stacked">Descripción</ion-label>
 
-      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion" name="descripcion"
+      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion_publi" name="descripcion"
         placeholder="Escribe una breve descripción..." autoGrow="true">
       </ion-textarea>
 
-      <ion-note class="contador-caracteres">{{250 - descripcion.length}} caracteres restantes</ion-note>
+      <ion-note class="contador-caracteres">{{250 - descripcion_publi.length}} caracteres restantes</ion-note>
 
     </ion-item>
     <ion-label color="danger">{{mensaje_2}}</ion-label>

@@ -18,23 +18,41 @@
 
   <div>
     <h1 class="titulo">Aprendices</h1>
-  
-    <ion-card  class="container">
-      <ion-card-header>
-        
+
+    <ion-card class="container" *ngFor="let x of arregloPublicacion">
+      <ion-card-header >
+
         <div class="unir" (click)="irPerfil()">
-          <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
+          <img class="maria" src="/assets/icon/maria.webp" alt="maria">
           <p class="nombre">Maria Torres</p>
         </div>
         <hr>
       </ion-card-header>
-      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
+      <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
 
+      <ion-card-content>
+        <img [src]="x.foto_publi || '/assets/icon/pato.jpg'" alt="Perfil"/><!--*ngIf="x.foto_publi; else defaultImage"-->
+
+        <!--<ng-template #defaultImage>
+        <img src="/assets/icon/pato.jpg" alt="Imagen predeterminada">
+      </ng-template>-->
+        <br>
+        <hr>
+        <ion-label style="word-wrap: break-word; white-space: normal;">{{ x.descripcion_publi }}</ion-label>
+      </ion-card-content>
       <div class="centrarB">
         <ion-button class="verMas" (click)="irPagina()">Ver más</ion-button>
       </div>
-      
+
     </ion-card>
+
+
+
+
+
+
+
+
 
   </div>
 
@@ -44,6 +62,4 @@
 
 
 
-<app-footer ></app-footer>  
-
-
+<app-footer></app-footer>

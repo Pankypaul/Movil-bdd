@@ -13,6 +13,11 @@
 
 <ion-content [fullscreen]="true" >
   <ion-searchbar class="arriba" animated="true" placeholder="Buscar"></ion-searchbar>
+  
+  <div class="botones">
+    <ion-button id="Aprendices" class="boton" (click)="irPubli()">NUEVO TEMA</ion-button>
+    <ion-button id="Amigos" class="boton" (click)="irLista()">PARTICIPANTES</ion-button>
+  </div>
 
   <ion-card class="container">
     <ion-card-header (click)="irPagina()">

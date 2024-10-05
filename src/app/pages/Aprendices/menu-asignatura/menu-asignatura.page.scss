@@ -83,3 +83,13 @@ hr {
 .arriba{
     margin-top: 5%;
 }
+.botones{
+    display: flex;
+    justify-content:baseline;   
+    margin-left: 5px; 
+}
+.boton{
+    --background: rgba(182, 149, 192, 100%);
+    font-size: 10px;    
+    
+}

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { MiCursoPageRoutingModule } from './mi-curso-routing.module';
+import { ListaPageRoutingModule } from './lista-routing.module';
 
-import { MiCursoPage } from './mi-curso.page';
+import { ListaPage } from './lista.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MiCursoPageRoutingModule
+    ListaPageRoutingModule
   ],
-  declarations: [MiCursoPage]
+  declarations: [ListaPage]
 })
-export class MiCursoPageModule {}
+export class ListaPageModule {}

@@ -5,6 +5,7 @@ import { ToastController, ActionSheetController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 /*---------------------------------------------------------------------------------
 // PONER ESTO EN EL CMD
@@ -33,17 +34,21 @@ export class PublicarPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
-  titulo: string = "";
-  descripcion :string = "";
+  foto: string = "";
+  nombre: string = "";
+  titulo_publi: string = "";
+  descripcion_publi: string = "";
+  
 
   mensaje_1!: string;
   mensaje_2!: string;
 
   constructor(
-    private toastController:ToastController,
-    private router:Router, 
-    private actionSheetCtrl: ActionSheetController) { }
-  
+    private toastController: ToastController,
+    private router: Router,
+    private actionSheetCtrl: ActionSheetController,
+    private bd: ServicebdService) { }
+
   public alertButtons = [
     {
       text: 'No',
@@ -54,34 +59,62 @@ export class PublicarPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
-  irPubli(){
+
+  irPubli() {
     this.router.navigate(['/mi-publicacion'])
   }
 
-  irPagina(){
+  today = new Date();
+
+  // Obtener día, mes y año
+  day = ('0' + this.today.getDate()).slice(-2);  // Asegurarse de que tenga 2 dígitos
+  year = this.today.getFullYear().toString().slice(-2);  // Obtener los últimos 2 dígitos del año
+  
+  // Nombres de los meses abreviados
+  months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  month = this.months[this.today.getMonth()];  // Obtener el nombre abreviado del mes
+  
+  // Formato final DD-MON-YY
+  fecha_publi = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
+  
+  
+
+
+  irPagina() {
+    console.log(this.fecha_publi);  // Esto mostrará la fecha en formato DD/MM/YYYY
+
+    // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
+    let [day, month, year] = this.fecha_publi.split('/'); // Descomponer la fecha
+    let formattedForDate = `${year}-${month}-${day}`; // Reorganizar a YYYY-MM-DD
+    let dateObj = new Date(formattedForDate); // Crear un objeto Date
+
+    console.log('Objeto Date:', dateObj); // Verificar el objeto Date
 
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if(this.titulo === ""){
-      this.mensaje_1 = 'Este campo es obligatorio ';
+    if (this.titulo_publi === "") {
+        this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion === ""){
-      this.mensaje_2 = 'Este campo es obligatorio ';
+    if (this.descripcion_publi === "") {
+        this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion !== "" && this.titulo !== ""){
-      this.presentToast('top');
+    if (this.descripcion_publi !== "" && this.titulo_publi !== "") {
+
+        this.presentToast('top');
+        this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, 1, 1); // Pasar el objeto Date
     }
   }
+
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Publicado con exito',
       duration: 1500,
       position: position,
-      
+
     });
     this.router.navigate(['/menu']);
 
@@ -100,14 +133,14 @@ export class PublicarPage implements OnInit {
         resultType: CameraResultType.Uri,
         source: CameraSource.Photos
       });
-  
+
       if (photo.webPath) {
         this.photoUrl = photo.webPath;
         this.hasPhoto = true; // Actualiza el estado a que hay una foto
       } else {
         console.error('No se obtuvo una URL válida para la foto');
       }
-  
+
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.handlePhotoError(error);
@@ -159,7 +192,7 @@ export class PublicarPage implements OnInit {
     }
   }
 
-  
+
 
   // Nueva función para mostrar el Action Sheet
   async presentActionSheet() {
@@ -216,9 +249,9 @@ export class PublicarPage implements OnInit {
 
     await actionSheet.present();
   }
-  
+
   ngOnInit() {
-    
+
   }
 
 

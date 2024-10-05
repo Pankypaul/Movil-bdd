@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
+
+import { AlertController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-mi-publicacion',
@@ -8,12 +11,55 @@ import { Router } from '@angular/router';
 })
 export class MiPublicacionPage implements OnInit {
 
-  constructor(private router: Router) { }
+  arregloPublicacion: any = [
+    {
+      id: '',
+      titulo: '',
+      descripcion: '',
+      foto_publi: '',
+      activo: '',  //Agregue el activo aqui tambien
+    }
+  ]
+
+  constructor(private router: Router, private bd: ServicebdService, private alertController: AlertController) { }
 
   ngOnInit() {
+    this.bd.dbState().subscribe(data => {
+      //validar si la bd esta lista
+      if (data) {
+        //subscribir al observable de la listaNoticias
+        this.bd.fetchPublicacion().subscribe(res => {
+          this.arregloPublicacion = res;
+        })
+      }
+    })
   }
 
-  irPagina(){
-    this.router.navigate(['/editar-publicacion'])
+  async presentAlert12(title: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  modificar(x: any) {
+    this.presentAlert12('ID', x.id_publi);
+    let navigationsExtras: NavigationExtras = {
+      state: {
+        publicar: x
+      }
+    }
+
+    this.router.navigate(['/editar-publicacion'], navigationsExtras);
+
+  }
+
+  eliminar(x: any) {
+    this.presentAlert12('ID para eliminar ', x.id_publi); //Este funciona (x.id_publi)
+    this.bd.eliminarPublicacion(x.id_publi); //no cambie nada de esto ya que ocupe la misma funcion...
+   
   }
 }

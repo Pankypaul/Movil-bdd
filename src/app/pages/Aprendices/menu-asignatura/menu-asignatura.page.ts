@@ -27,5 +27,11 @@ export class MenuAsignaturaPage implements OnInit {
     };
     this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
   }
+  irPubli(){
+    this.router.navigate(['/publicar1'])
+  }
+  irLista(){
+    this.router.navigate(['/lista'])
+  }
 
 }

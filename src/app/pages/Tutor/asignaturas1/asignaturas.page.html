@@ -13,15 +13,15 @@
 <ion-content class="ion-padding">
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
   
-  <ion-card class="fondo" >
-    <img class="imagen" [routerLink]="[('/menu-asignatura')]" alt="lenguaje" src="/assets/icon/python.jpg"/>
+  <ion-card  class="fondo" *ngFor="let x of arregloCurso">
+    <img class="imagen" [routerLink]="[('/menu-asignatura')]" alt="lenguaje" [src]="x.foto_curso || '/assets/icon/pato.jpg'"/>
     <ion-card-header [routerLink]="[('/menu-asignatura')]">
-      <ion-card-title class="texto">Introducción a Python</ion-card-title>
+      <ion-card-title class="texto">{{x.nombre_curso}}</ion-card-title>
       <ion-card-subtitle>Romina Riquelme</ion-card-subtitle>
     </ion-card-header>
     <div class="unir2">
-      <ion-button class="boton"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
-      <ion-button class="boton" (click)="irPagina()"><ion-icon slot="icon-only" name="pencil"></ion-icon></ion-button>
+      <ion-button class="boton" (click)="eliminar(x)"><ion-icon slot="icon-only" name="trash"></ion-icon></ion-button>
+      <ion-button class="boton" (click)="modificar(x)"><ion-icon slot="icon-only" name="pencil" ></ion-icon></ion-button>
     </div>
   </ion-card>
 

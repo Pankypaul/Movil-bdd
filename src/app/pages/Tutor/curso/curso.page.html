@@ -33,27 +33,27 @@
     </ion-item>
 
     <ion-item class="fondo">
-      <ion-input placeholder="Título del Curso" [(ngModel)]="titulo"></ion-input>
+      <ion-input placeholder="Título del Curso" [(ngModel)]="nombre_curso"></ion-input>
     </ion-item>
     <ion-label color="danger">{{mensaje_1}}</ion-label>
 
     <ion-item class="fondo">
       <ion-label position="stacked">Descripción</ion-label>
       
-      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion" name="descripcion"
+      <ion-textarea class="tam" maxLength="250" [(ngModel)]="descripcion_curso" name="descripcion"
         placeholder="Escribe una breve descripción..." autoGrow="true">
       </ion-textarea>
 
-      <ion-note class="contador-caracteres" position="stacked">{{250 - descripcion.length}} caracteres
+      <ion-note class="contador-caracteres" position="stacked">{{250 - descripcion_curso.length}} caracteres
         restantes</ion-note>
     </ion-item>
     <ion-label color="danger">{{mensaje_2}}</ion-label>
 
     <ion-button class="boton" shape="round" (click)="presentActionSheet()">Agregar imagen</ion-button>
     <!--<p> Agregar Foto o Video</p>-->
-
+    <ion-label color="danger">{{mensaje_3}}</ion-label>
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <ion-img *ngIf="photoUrl" [src]="photoUrl" class="btn">
+    <ion-img *ngIf="hasPhoto" [src]="photoUrl" class="btn">
       <p>Foto</p>
     </ion-img>
   </ion-card>

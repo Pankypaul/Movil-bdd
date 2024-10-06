@@ -38,11 +38,11 @@ export class PublicarPage implements OnInit {
   nombre: string = "";
   titulo_publi: string = "";
   descripcion_publi: string = "";
-  
+
 
   mensaje_1!: string;
   mensaje_2!: string;
-
+  mensaje_3!: string;
   constructor(
     private toastController: ToastController,
     private router: Router,
@@ -69,15 +69,15 @@ export class PublicarPage implements OnInit {
   // Obtener día, mes y año
   day = ('0' + this.today.getDate()).slice(-2);  // Asegurarse de que tenga 2 dígitos
   year = this.today.getFullYear().toString().slice(-2);  // Obtener los últimos 2 dígitos del año
-  
+
   // Nombres de los meses abreviados
   months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
   month = this.months[this.today.getMonth()];  // Obtener el nombre abreviado del mes
-  
+
   // Formato final DD-MON-YY
   fecha_publi = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
-  
-  
+
+
 
 
   irPagina() {
@@ -92,19 +92,26 @@ export class PublicarPage implements OnInit {
 
     this.mensaje_1 = '';
     this.mensaje_2 = '';
+    this.mensaje_3 = '';
 
-    if (this.titulo_publi === "") {
-        this.mensaje_1 = 'Este campo es obligatorio ';
+    if (this.titulo_publi.trim() === "") {
+      this.titulo_publi = '';
+      this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if (this.descripcion_publi === "") {
-        this.mensaje_2 = 'Este campo es obligatorio ';
+    if (this.descripcion_publi.trim() === "") {
+      this.descripcion_publi = '';
+      this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if (this.descripcion_publi !== "" && this.titulo_publi !== "") {
+    if (this.hasPhoto === false) {
+      this.mensaje_3 = 'Este campo es obligatorio ';
+    }
+    // true si hay una imagen, false si está vacío o null
+    if (this.descripcion_publi.trim() !== "" && this.titulo_publi.trim() !== "" && this.hasPhoto === true) {
 
-        this.presentToast('top');
-        this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, 1, 1); // Pasar el objeto Date
+      this.presentToast('top');
+      this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, 1, 1); // Pasar el objeto Date
     }
   }
 

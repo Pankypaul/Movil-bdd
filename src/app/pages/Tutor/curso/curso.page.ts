@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 /*---------------------------------------------------------------------------------
 // PONER ESTO EN EL CMD
@@ -31,18 +32,21 @@ export class CursoPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
-  titulo: string = "";
-  descripcion :string = "";
+  nombre_curso: string = "";
+  descripcion_curso: string = "";
 
   mensaje_1!: string;
   mensaje_2!: string;
+  mensaje_3!: string;
 
   constructor(
-    private toastController:ToastController,
-    private router:Router, 
-    private actionSheetCtrl: ActionSheetController) { }
-    
-  
+    private toastController: ToastController,
+    private router: Router,
+    private actionSheetCtrl: ActionSheetController,
+    private bd: ServicebdService,
+    private alertController: AlertController) { }
+
+
   public alertButtons = [
     {
       text: 'No',
@@ -54,21 +58,67 @@ export class CursoPage implements OnInit {
     },
   ];
 
-  irPagina(){
+  async presentAlert(titulo_publi: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: titulo_publi,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  today = new Date();
+
+  // Obtener día, mes y año
+  day = ('0' + this.today.getDate()).slice(-2);  // Asegurarse de que tenga 2 dígitos
+  year = this.today.getFullYear().toString().slice(-2);  // Obtener los últimos 2 dígitos del año
+
+  // Nombres de los meses abreviados
+  months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  month = this.months[this.today.getMonth()];  // Obtener el nombre abreviado del mes
+
+  // Formato final DD-MON-YY
+  fecha_curso = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
+
+
+
+
+  irPagina() {
+    console.log(this.fecha_curso);  // Esto mostrará la fecha en formato DD/MM/YYYY
+
+    // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
+    let [day, month, year] = this.fecha_curso.split('/'); // Descomponer la fecha
+    let formattedForDate = `${year}-${month}-${day}`; // Reorganizar a YYYY-MM-DD
+    let dateObj = new Date(formattedForDate); // Crear un objeto Date
+
+    console.log('Objeto Date:', dateObj); // Verificar el objeto Date
 
     this.mensaje_1 = '';
     this.mensaje_2 = '';
+    this.mensaje_3 = '';
 
-    if(this.titulo === ""){
+
+    if (this.nombre_curso.trim() === "") {
+      this.nombre_curso = '';
       this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion === ""){
+    if (this.descripcion_curso.trim() === "") {
+      this.descripcion_curso = '';
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion !== "" && this.titulo !== ""){
+    if (this.hasPhoto === false) {
+      this.mensaje_3 = 'Este campo es obligatorio ';
+    }
+
+    if (this.descripcion_curso.trim() !== "" && this.nombre_curso.trim() !== "" && this.hasPhoto === true) {// true si hay una imagen, false si está vacío o null
+
       this.presentToast('top');
+      this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)
+
+      this.bd.insertarCurso(this.nombre_curso, this.descripcion_curso, this.photoUrl, this.fecha_curso, 1, 1); // Pasar el objeto Date
     }
   }
 
@@ -77,7 +127,7 @@ export class CursoPage implements OnInit {
       message: 'Curso creado con exito',
       duration: 1500,
       position: position,
-      
+
     });
     this.router.navigate(['/menu1']);
 
@@ -97,14 +147,14 @@ export class CursoPage implements OnInit {
         resultType: CameraResultType.Uri,
         source: CameraSource.Photos
       });
-  
+
       if (photo.webPath) {
         this.photoUrl = photo.webPath;
         this.hasPhoto = true; // Actualiza el estado a que hay una foto
       } else {
         console.error('No se obtuvo una URL válida para la foto');
       }
-  
+
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.handlePhotoError(error);
@@ -210,10 +260,10 @@ export class CursoPage implements OnInit {
     });
 
     await actionSheet.present();
-  } 
-  
+  }
+
   ngOnInit() {
-    
+
   }
 
 }

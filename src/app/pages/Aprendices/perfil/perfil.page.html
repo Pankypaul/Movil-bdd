@@ -27,6 +27,8 @@
 
       <!-- Si no hay foto, muestra la imagen por del pato  -->
       <img *ngIf="!hasPhoto" class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
+      <br>
+      <br>
       <!-- Foto o imagen -->
       <ion-button class="btn" *ngIf="isEditable" shape="round" (click)="presentActionSheet()" [disabled]="!isEditable">
         Agregar imagen

@@ -42,7 +42,8 @@
     <!--<p> Agregar Foto o Video</p>-->
 
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <img [src]="publicacion.foto_publi" class="btn">
+    <ion-img [src]="photoUrl || publicacion.foto_publi" class="btn">
+    </ion-img>
   </ion-card>
 
 

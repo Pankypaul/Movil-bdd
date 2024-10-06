@@ -59,18 +59,24 @@ export class EditarPublicacionPage implements OnInit {
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if(this.publicacion.titulo_publi === ""){
+    if(this.publicacion.titulo_publi.trim() === ""){
+      this.publicacion.titulo_publi = '';
       this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.publicacion.descripcion_publi === ""){
+    if(this.publicacion.descripcion_publi.trim() === ""){
+      this.publicacion.descripcion_publi = '';
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if(!this.descripcion_publi && !this.titulo_publi ){
+    if (this.hasPhoto === false) {
+      this.photoUrl = this.publicacion.foto_publi;
+    }
+
+    if( this.publicacion.descripcion_publi.trim() !== ""  && this.publicacion.titulo_publi.trim() !== "" ){
       this.presentToast('top');
       this.presentAlert12('ID', this.publicacion.id_publi+this.publicacion.descripcion_publi);
-      this.bd.modificarPublicacion(this.publicacion.id_publi, this.publicacion.titulo_publi, this.publicacion.descripcion_publi, this.publicacion.photoUrl);
+      this.bd.modificarPublicacion(this.publicacion.id_publi, this.publicacion.titulo_publi, this.publicacion.descripcion_publi, this.photoUrl);
       this.router.navigate(['/menu'])
     }
   }

@@ -32,7 +32,7 @@ export class ServicebdService {
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY autoincrement, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
 
   //CURSO
-  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY autoincrement, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio DATE NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
+  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY autoincrement, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //TEMA
   tablaTema: string = "CREATE TABLE IF NOT EXISTS tema ( id_tema INTEGER PRIMARY KEY autoincrement, titulo_tema VARCHAR(100) NOT NULL, descripcion_tema VARCHAR(250) NOT NULL, fecha_tema DATE NOT NULL, curso_id_curso INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso));";
@@ -90,6 +90,9 @@ export class ServicebdService {
   fetchPublicacion(): Observable<Publicacion[]> {
     return this.listadoPublicacion.asObservable();
   }
+  fetchCurso(): Observable<Curso[]> {
+    return this.listadoCurso.asObservable();
+  }
 
 
   dbState() {
@@ -121,12 +124,13 @@ export class ServicebdService {
     try {
       // Ejecutar la creación de Tablas
       await this.database.executeSql(this.tablaPublicacion, []);
-
+      await this.database.executeSql(this.tablaCurso, []);
       // Agregar otras tablas aquí, por ejemplo:
       // await this.database.executeSql(this.tablaUsuario, []);
       // await this.database.executeSql(this.tablaCurso, []);
 
       this.seleccionarPublicacion();
+      this.seleccionarCurso();
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
@@ -196,20 +200,71 @@ export class ServicebdService {
     });
   }
 
+
+  //curso
+
+
+
   seleccionarCurso(){
+    return this.database.executeSql('SELECT * FROM curso WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+      //variable para almacenar el resultado de la consulta
+      let items: Curso[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
 
+            id_curso: res.rows.item(i).id_curso,
+            nombre_curso: res.rows.item(i).nombre_curso,
+            descripcion_curso: res.rows.item(i).descripcion_curso,
+            foto_curso: res.rows.item(i).foto_curso,
+            fecha_inicio: res.rows.item(i).fecha_inicio,
+            usuario_id_usuario: res.rows.item(i).usuario_id_usuario,
+            activo: res.rows.item(i).activo //Agrege el activo
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoCurso.next(items as any);
+
+    })
   }
 
-  insertarCurso(){
-
+  insertarCurso(nombre_curso: string, descripcion_curso: string, foto_curso: string, fecha_inicio: string, usuario_id_usuario: number, activo: number = 1) {
+    // Asegurarte de que c sea un objeto Date
+    return this.database.executeSql('INSERT INTO curso (nombre_curso, descripcion_curso, foto_curso, fecha_inicio, usuario_id_usuario, activo) VALUES (?,?,?,?,?,?)',
+      [nombre_curso, descripcion_curso, foto_curso, fecha_inicio, usuario_id_usuario, activo]
+    ).then(() => {
+      this.presentAlert("Insertar", "Curso Registrado");
+      this.seleccionarCurso();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    });
   }
 
-  modificarCurso(){
-
+  modificarCurso(id_curso: number, nombre_curso: string, descripcion_curso: string, foto_curso: string) {
+    this.presentAlert("service", "ID: " + id_curso);
+    return this.database.executeSql('UPDATE curso SET nombre_curso = ?, descripcion_curso = ?, foto_curso = ? WHERE id_curso = ?', [nombre_curso, descripcion_curso, foto_curso, id_curso]).then(() => {
+      this.presentAlert("Modificar", "curso Modificado" + descripcion_curso);
+      this.seleccionarCurso();
+    }).catch(e => {
+      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    });
   }
 
-  eliminarCurso(){
-    
+
+  eliminarCurso(id_curso: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
+    return this.database.executeSql('UPDATE curso SET activo = 0 WHERE id_curso = ?', [id_curso])  //Cambie toda esta funcion menos el nombre 
+      .then(() => {
+        this.presentAlert("Eliminar", "publicacion marcada como inactiva");
+        this.seleccionarCurso();  // Actualizar la lista de noticias
+      })
+      .catch(e => {
+        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+      });
   }
 
   /*

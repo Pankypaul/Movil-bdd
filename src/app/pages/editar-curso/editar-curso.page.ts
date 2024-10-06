@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-editar-curso',
@@ -15,18 +16,31 @@ export class EditarCursoPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
-  titulo: string = "";
-  descripcion :string = "";
+  nombre_curso: string = "";
+  descripcion_curso: string = "";
 
   mensaje_1!: string;
   mensaje_2!: string;
 
+
+  curso: any;
+
   constructor(
-    private toastController:ToastController,
-    private router:Router, 
-    private actionSheetCtrl: ActionSheetController) { }
-    
-  
+    private toastController: ToastController,
+    private activedrouter: ActivatedRoute,
+    private router: Router,
+    private bd: ServicebdService,
+    private actionSheetCtrl: ActionSheetController,
+    private alertController: AlertController) {
+
+    this.activedrouter.queryParams.subscribe(res => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.curso = this.router.getCurrentNavigation()?.extras?.state?.['curso'];
+      }
+    })
+  }
+
+
   public alertButtons = [
     {
       text: 'No',
@@ -37,31 +51,55 @@ export class EditarCursoPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+  async presentAlert12(title: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msj,
+      buttons: ['OK'],
+    });
 
-  irPagina(){
+    await alert.present();
+  }
+
+  irPagina() {
+
+
 
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if(this.titulo === ""){
+    if (this.curso.nombre_curso.trim() === "") {
+      this.curso.nombre_curso = '';
       this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion === ""){
+    if (this.curso.descripcion_curso.trim() === "") {
+      this.curso.descripcion_curso = '';
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion !== "" && this.titulo !== ""){
+
+    if (this.hasPhoto === false) {
+      this.photoUrl = this.curso.foto_curso;
+    }
+
+    if (this.curso.descripcion_curso.trim() !== "" && this.curso.nombre_curso.trim() !== "") {
       this.presentToast('top');
+      this.presentAlert12('ID', this.curso.id_curso + ('nombre_curso') + this.curso.nombre_curso + ('descripcion_curso') + this.curso.descripcion_curso + ('photoUrl') + this.photoUrl);
+      this.bd.modificarCurso(this.curso.id_curso, this.curso.nombre_curso, this.curso.descripcion_curso, this.photoUrl);
+      this.router.navigate(['/asignaturas1 '])
     }
   }
+
+  
+  
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
       message: 'Curso creado con exito',
       duration: 1500,
       position: position,
-      
+
     });
     this.router.navigate(['/menu1']);
 
@@ -81,14 +119,14 @@ export class EditarCursoPage implements OnInit {
         resultType: CameraResultType.Uri,
         source: CameraSource.Photos
       });
-  
+
       if (photo.webPath) {
         this.photoUrl = photo.webPath;
         this.hasPhoto = true; // Actualiza el estado a que hay una foto
       } else {
         console.error('No se obtuvo una URL válida para la foto');
       }
-  
+
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       this.handlePhotoError(error);
@@ -194,10 +232,10 @@ export class EditarCursoPage implements OnInit {
     });
 
     await actionSheet.present();
-  } 
-  
+  }
+
   ngOnInit() {
-    
+
   }
 
 }

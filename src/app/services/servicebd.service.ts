@@ -4,6 +4,7 @@ import { AlertController, Platform } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Publicacion } from './publicacion';
 import { Curso } from './curso';
+import { Usuario } from './usuario';
 @Injectable({
   providedIn: 'root'
 })
@@ -26,10 +27,10 @@ export class ServicebdService {
   //variables de creación de Tablas
 
   //ROL
-  tablaRol: string = "CREATE TABLE IF NOT EXISTS roles( id_rol INTEGER PRIMARY KEY autoincrement, tipo_rol VARCHAR (10) NOT NULL);";
+  tablaRol: string = "CREATE TABLE IF NOT EXISTS roles( id_rol INTEGER PRIMARY KEY, tipo_rol VARCHAR (10) NOT NULL);";
 
   //USUARIO
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY autoincrement, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY autoincrement, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
 
   //CURSO
   tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY autoincrement, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
@@ -68,7 +69,7 @@ export class ServicebdService {
   listadoLista = new BehaviorSubject([]);
 
   //variable para el status de la Base de datos
-  private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController) {
     this.createBD();
@@ -93,6 +94,10 @@ export class ServicebdService {
   fetchCurso(): Observable<Curso[]> {
     return this.listadoCurso.asObservable();
   }
+  fetchUsuario(): Observable<Usuario[]> {
+    return this.listadoUsuario.asObservable();
+  }
+
 
 
   dbState() {
@@ -125,12 +130,12 @@ export class ServicebdService {
       // Ejecutar la creación de Tablas
       await this.database.executeSql(this.tablaPublicacion, []);
       await this.database.executeSql(this.tablaCurso, []);
-      // Agregar otras tablas aquí, por ejemplo:
-      // await this.database.executeSql(this.tablaUsuario, []);
+      await this.database.executeSql(this.tablaUsuario, []);
       // await this.database.executeSql(this.tablaCurso, []);
 
       this.seleccionarPublicacion();
       this.seleccionarCurso();
+      this.seleccionarUsuario();
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
@@ -171,7 +176,7 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO publicacion(titulo_publi, descripcion_publi, foto_publi, fecha_publi, usuario_id_usuario, activo) VALUES (?,?,?,?,?,?)',
       [titulo, descripcion, photoUrl, fecha_publi, usuarioId, activo]
     ).then(() => {
-      this.presentAlert("Insertar", "Noticia Registrada");
+      this.presentAlert("Insertar", "publicación Registrada");
       this.seleccionarPublicacion();
     }).catch(e => {
       this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
@@ -265,6 +270,91 @@ export class ServicebdService {
       .catch(e => {
         this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       });
+  }
+
+  //usuario
+
+  seleccionarUsuario(){
+    
+    return this.database.executeSql('SELECT * FROM usuario WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+      //variable para almacenar el resultado de la consulta
+      let items: Usuario[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+
+            id_usuario: res.rows.item(i).id_usuario,
+            nombre_usuario: res.rows.item(i).nombre_usuario,
+            correo_usuario: res.rows.item(i).correo_usuario,
+            telefono_usuario: res.rows.item(i).telefono_usuario,
+            contrasena_usuario: res.rows.item(i).contrasena_usuario,
+            rol_id_rol: res.rows.item(i).rol_id_rol,
+            descripcion: res.rows.item(i).descripcion,
+            foto: res.rows.item(i).foto
+          
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoUsuario.next(items as any);
+
+    })
+
+  }
+
+  seleccionarUsuarioLogin(correo: string, contrasena: string): Promise<Usuario | null> {
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?', 
+      [correo, contrasena]).then(res => {
+      // Valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        const usuario = res.rows.item(0); // Obtiene el primer registro
+        // Retorno el objeto usuario encontrado
+        return {
+          id_usuario: usuario.id_usuario,
+          nombre_usuario: usuario.nombre_usuario,
+          correo_usuario: usuario.correo_usuario,
+          telefono_usuario: usuario.telefono_usuario,
+          contrasena_usuario: usuario.contrasena_usuario,
+          rol_id_rol: usuario.rol_id_rol,
+          descripcion: usuario.descripcion,
+          foto: usuario.foto
+        } as Usuario;
+      } else {
+        return null; // Retorna null si no hay coincidencias
+      }
+    })
+    .catch(e => {
+      this.presentAlert('Error al buscar usuario', JSON.stringify(e));
+      return null; // Asegúrate de retornar null en caso de error
+    });
+  }
+  
+
+
+  insertarUsuario(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, contrasena_usuario: string, rol_id_rol: number, descripcion: string, foto: string) {
+    // Asegurarte de que c sea un objeto Date
+    return this.database.executeSql('INSERT INTO usuario (nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto) VALUES (?,?,?,?,?,?,?)',
+      [nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto]
+    ).then(() => {
+      this.presentAlert("Insertar", "Usuario Registrado");
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+  
+  modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string,telefono_usuario: number, contrasena_usuario: string, descripcion: string, foto: string) {
+    this.presentAlert("service", "ID: " + id_usuario);
+    return this.database.executeSql('UPDATE  SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, telefono_usuario = ?, contrasena_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, telefono_usuario, contrasena_usuario, descripcion, foto, id_usuario]).then(() => {
+      this.presentAlert("Modificar", "Usuario Modificado" + nombre_usuario + ('correo ') + correo_usuario);
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    });
   }
 
   /*

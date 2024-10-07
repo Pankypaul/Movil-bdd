@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-login',
@@ -8,56 +9,46 @@ import { ToastController } from '@ionic/angular';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  email: string = "";      //correo que entrega registrar (context)
-  contras: string = "";    //contraseña que entrega registrar (context)
 
   mensaje_1!: string;
   mensaje_2!: string;
   mensaje_3!: string;
-
-
-  Tutor: any = {
-
-    id: 1,
-    nombre: 'Andres Vasquez Fernández',
-    correo: 'andres@gmail.com',
-    contra: 'QWEasd123-',
-    numero: '923334122'
-
-  }
-
-  Aprendiz: any = {
-
-    id: 2,
-    nombre: 'Scarlett Rivera Diaz',
-    correo: 'scarlett@gmail.com',
-    contra: 'qweQWE123-',
-    numero: '975758484'
-
-  }
 
   correo: string = '';     //correo del input
   contrasena: string = ''; //contraseña del input
 
   tipo: string = "";         //tipo del registrar (context)
 
+  usuario: any;
+
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
-  constructor(private router: Router, private toastController: ToastController, private activateroute: ActivatedRoute) {
-    this.activateroute.queryParams.subscribe(param => {
-      //valido si viene o no información en la ruta
+  constructor(
+    private router: Router,
+    private toastController: ToastController,
+    private activedrouter: ActivatedRoute,
+    private bd: ServicebdService,
+    private alertController: AlertController) {
 
+    this.activedrouter.queryParams.subscribe(res => {
       if (this.router.getCurrentNavigation()?.extras.state) {
-        this.tipo = this.router.getCurrentNavigation()?.extras?.state?.['tip'];
-        this.email = this.router.getCurrentNavigation()?.extras?.state?.['correo1'];
-        this.contras = this.router.getCurrentNavigation()?.extras?.state?.['contra'];
-
+        this.usuario = this.router.getCurrentNavigation()?.extras?.state?.['usuario'];
       }
     })
   }
 
   ngOnInit() {
+  }
+
+  async presentAlert12(title: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
   irPagina() {
@@ -74,8 +65,8 @@ export class LoginPage implements OnInit {
     this.correo = this.correo.replace(/\s+/g, '');
     this.correo = this.correo.trim(); // Para el correo
     this.contrasena = this.contrasena.trim(); // Para el correo
-    
-    if(this.correo == "" || this.contrasena === ""){
+
+    if (this.correo == "" || this.contrasena === "") {
       this.mensaje_3 = 'Rellena ambos campos.';
     }
 
@@ -117,46 +108,57 @@ export class LoginPage implements OnInit {
 
       if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >= 8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >= 8) {
         //this.router.navigate(['/menu1'], navigationextras);
-        this.router.navigate(['/menu1']);
+        this.bd.isDBReady.subscribe(async (val) => {
+          if (val) {
+            const usuarioAutenticado = await this.bd.seleccionarUsuarioLogin(this.correo, this.contrasena);
+        
+            if (usuarioAutenticado) {
+              this.router.navigate(['/menu1']); // Navegar si el usuario existe
+            } else {
+              // Mostrar mensaje de error
+              this.mensaje_3 = 'El Correo o contraseña inválido.';
+            }
+          }
+        });
       }
     }
   }
 
-  onSubmit() {
+    onSubmit() {
+
+    }
+    /*
+    async CamposVacios(position: 'top' | 'middle' | 'bottom') {
+      const toast = await this.toastController.create({
+        message: 'Por favor, rellene los campos en blanco',
+        duration: 1500,
+        position: position,
+      });
+  
+      await toast.present();
+    } 
+  
+    async correoYContrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
+      const toast = await this.toastController.create({
+        message: 'Correo o contraseña incorrecta.',
+        duration: 1500,
+        position: position,
+      });
+  
+      await toast.present();
+    } 
+  
+    async maxCaracter(position: 'top' | 'middle' | 'bottom') {
+      const toast = await this.toastController.create({
+        message: 'Supera el maximo de caracteres.',
+        duration: 1500,
+        position: position,
+      });
+  
+      await toast.present();
+    } */
 
   }
-  /*
-  async CamposVacios(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Por favor, rellene los campos en blanco',
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  } 
-
-  async correoYContrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Correo o contraseña incorrecta.',
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  } 
-
-  async maxCaracter(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'Supera el maximo de caracteres.',
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  } */
-
-}
 
 
 /*

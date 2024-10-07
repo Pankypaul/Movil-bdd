@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
-
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { PopoverController } from '@ionic/angular';
 
 
@@ -37,18 +37,22 @@ export class RegistrarPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
+  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()])[A-Za-z\d@#$%^&+=!-_()]{8,}$/;
 
 
-
-  validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
-
-  constructor(private router: Router, private toastController: ToastController,
+  constructor(private router: Router, 
+    //private toastController: ToastController,
     public popoverController: PopoverController,
-    private actionSheetCtrl: ActionSheetController,
+    //private actionSheetCtrl: ActionSheetController,
     private alertController: AlertController,
-    private bd: ServicebdService) { }
+    private bd: ServicebdService,
+    private storage: NativeStorage) { }
 
   ngOnInit() {
+  }
+
+  crear(){
+    
   }
 
   async presentAlert(nombre_usuario: string, msj: string) {
@@ -138,28 +142,23 @@ export class RegistrarPage implements OnInit {
     this.perfil.password = this.perfil.password.trim();
     this.perfil.password2 = this.perfil.password2.trim();
 
-    if (this.perfil.password.length < 8 || !this.validarContraseña.test(this.perfil.password)) {
+    if (!this.validarContraseña.test(this.perfil.password)) {
       this.mensaje_5 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
-
-    }
-
-    if (this.perfil.password2.length < 8 || !this.validarContraseña.test(this.perfil.password2)) {
-      this.mensaje_6 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
-    }
-
-    if (this.validarContraseña.test(this.perfil.password)) {
+    } else {
       console.log('Paso la contraseña');
     }
-
-    if (this.validarContraseña.test(this.perfil.password2)) {
+    
+    if (!this.validarContraseña.test(this.perfil.password2)) {
+      this.mensaje_6 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
+    } else {
       console.log('Paso repetir contraseña');
     }
-
-    if (this.perfil.password.length !== this.perfil.password2.length) {
+    
+    if (this.perfil.password !== this.perfil.password2) {
       this.mensaje_5 = 'Las contraseñas no son iguales';
       this.mensaje_6 = 'Las contraseñas no son iguales';
-
     }
+    
     
     this.bd.isDBReady.subscribe(async (val) => {
       if (val) {
@@ -188,7 +187,7 @@ export class RegistrarPage implements OnInit {
       algoAntesArroba &&
       algoEntreArrobaYPunto &&
       algoDespuesPunto &&
-      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password2) === this.validarContraseña.test(this.perfil.password2)) {
+      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password) === this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password)) {
       console.log('Pasa todo');
       
       const telefono = Number(this.perfil.telefono);
@@ -202,6 +201,8 @@ export class RegistrarPage implements OnInit {
             // Mostrar mensaje de error
             this.mensaje_3 = 'El Correo ya esta registrado.';
           } else {
+            this.storage.setItem(this.perfil.tipo, this.perfil.nombre)
+            this.presentAlert("variables creadas", this.perfil.tipo)
             //  this.presentAlert('ingreso de datos', 'nombre ' + this.perfil.tipo + (', ') + this.perfil.correo + (', ') + this.perfil.password)
             this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
             this.router.navigate(['/login'])

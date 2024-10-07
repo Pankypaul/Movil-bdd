@@ -361,8 +361,6 @@ export class ServicebdService {
     });
   }
   
-
-
   insertarUsuario(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, contrasena_usuario: string, rol_id_rol: number, descripcion: string, foto: string) {
     // Asegurarte de que c sea un objeto Date
     return this.database.executeSql('INSERT INTO usuario (nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto) VALUES (?,?,?,?,?,?,?)',

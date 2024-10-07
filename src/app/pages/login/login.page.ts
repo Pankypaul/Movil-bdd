@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+
 
 @Component({
   selector: 'app-login',
@@ -26,10 +28,11 @@ export class LoginPage implements OnInit {
 
   constructor(
     private router: Router,
-    private toastController: ToastController,
+    //private toastController: ToastController,
     private activedrouter: ActivatedRoute,
     private bd: ServicebdService,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private storage: NativeStorage) {
 
     this.activedrouter.queryParams.subscribe(res => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -37,6 +40,10 @@ export class LoginPage implements OnInit {
       }
     })
   }
+
+  //crear(){
+    //this.storage.setItem(this.tipo, )
+  //}
 
   ngOnInit() {
   }
@@ -123,6 +130,8 @@ export class LoginPage implements OnInit {
       }
     }
   }
+
+
 
     onSubmit() {
 

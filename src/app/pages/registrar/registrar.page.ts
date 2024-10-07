@@ -72,7 +72,7 @@ export class RegistrarPage implements OnInit {
     this.mensaje_5 = "";
     this.mensaje_6 = "";
 
-    if(!this.perfil.tipo ){
+    if (!this.perfil.tipo) {
       this.mensaje_2 = 'Elija un opción';
     }
 
@@ -147,11 +147,11 @@ export class RegistrarPage implements OnInit {
       this.mensaje_6 = 'La contraseña debe contener al menos 8 caracteres, una letra mayúscula, una letra minúscula, un número y un carácter especial.';
     }
 
-    if(this.validarContraseña.test(this.perfil.password)){
+    if (this.validarContraseña.test(this.perfil.password)) {
       console.log('Paso la contraseña');
     }
 
-    if(this.validarContraseña.test(this.perfil.password2)){
+    if (this.validarContraseña.test(this.perfil.password2)) {
       console.log('Paso repetir contraseña');
     }
 
@@ -160,6 +160,17 @@ export class RegistrarPage implements OnInit {
       this.mensaje_6 = 'Las contraseñas no son iguales';
 
     }
+    
+    this.bd.isDBReady.subscribe(async (val) => {
+      if (val) {
+        const correoUnico = await this.bd.seleccionarVerificacionCorreo(this.perfil.correo);
+
+        if (correoUnico) {
+          // Mostrar mensaje de error
+          this.mensaje_3 = 'El Correo ya esta registrado.';
+        } 
+      }
+    });
 
     console.log("----------------------------------------------");
     console.log('Nombre:', this.perfil.nombre);
@@ -170,25 +181,41 @@ export class RegistrarPage implements OnInit {
     console.log('Contraseña2:', this.perfil.password2);
     console.log("----------------------------------------------");
 
-    
+
 
     if (tieneArroba &&
       !tieneCaracteresInvalidos &&
       algoAntesArroba &&
       algoEntreArrobaYPunto &&
       algoDespuesPunto &&
-      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password2) ===  this.validarContraseña.test(this.perfil.password2)) {
+      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password2) === this.validarContraseña.test(this.perfil.password2)) {
       console.log('Pasa todo');
-      this.presentAlert('ingreso de datos', 'nombre ' + this.perfil.tipo + (', ') + this.perfil.correo + (', ') + this.perfil.password)
+      
       const telefono = Number(this.perfil.telefono);
-      this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
-      this.router.navigate(['/login'])
+
+
+      this.bd.isDBReady.subscribe(async (val) => {
+        if (val) {
+          const correoUnico = await this.bd.seleccionarVerificacionCorreo(this.perfil.correo);
+
+          if (correoUnico) {
+            // Mostrar mensaje de error
+            this.mensaje_3 = 'El Correo ya esta registrado.';
+          } else {
+            //  this.presentAlert('ingreso de datos', 'nombre ' + this.perfil.tipo + (', ') + this.perfil.correo + (', ') + this.perfil.password)
+            this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
+            this.router.navigate(['/login'])
+          }
+        }
+      });
+
+
     }
 
 
 
   }
 
-  
+
 }
 

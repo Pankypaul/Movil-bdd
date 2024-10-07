@@ -332,6 +332,34 @@ export class ServicebdService {
       return null; // Asegúrate de retornar null en caso de error
     });
   }
+
+
+  seleccionarVerificacionCorreo(correo: string): Promise<Usuario | null> {
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ?', 
+      [correo]).then(res => {
+      // Valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        const usuario = res.rows.item(0); // Obtiene el primer registro
+        // Retorno el objeto usuario encontrado
+        return {
+          id_usuario: usuario.id_usuario,
+          nombre_usuario: usuario.nombre_usuario,
+          correo_usuario: usuario.correo_usuario,
+          telefono_usuario: usuario.telefono_usuario,
+          contrasena_usuario: usuario.contrasena_usuario,
+          rol_id_rol: usuario.rol_id_rol,
+          descripcion: usuario.descripcion,
+          foto: usuario.foto
+        } as Usuario;
+      } else {
+        return null; // Retorna null si no hay coincidencias
+      }
+    })
+    .catch(e => {
+      this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+      return null; // Asegúrate de retornar null en caso de error
+    });
+  }
   
 
 

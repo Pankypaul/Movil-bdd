@@ -16,7 +16,8 @@
         <ion-title class="black-title ion-margin-bottom titulo">REGISTRARSE</ion-title>
 
         <ion-item  class="fondo-form">  <!--Se restringe los numeros-->
-          <ion-input maxlength="60" minlength="1"  class="texto" [(ngModel)]="perfil.nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" required ></ion-input>
+          <ion-input maxlength="60" minlength="1"  class="texto" [(ngModel)]="perfil.nombre" type="text" name="text" label-placement="floating" label="Nombre Completo" required pattern="[A-Za-z\s]*"
+          (ionInput)="validateName($event)"></ion-input>
           <!--<ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon>--> <!--(click)="presentPopover($event)"-->
         </ion-item>
         <ion-label color="danger" >{{mensaje_1}}</ion-label>
@@ -38,7 +39,7 @@
         <ion-label color="danger" >{{mensaje_3}}</ion-label>
         
         <ion-item class="fondo-form">
-          <ion-input maxlength="9" class="texto" [(ngModel)]="perfil.telefono" type="tel" name="number" label-placement="floating" placeholder="949634859" id="telefono" pattern="[0-9]*"  label="Telefono"  required></ion-input>
+          <ion-input maxlength="9" class="texto" [(ngModel)]="perfil.telefono" type="text" name="number" label-placement="floating" placeholder="949634859" id="telefono" pattern="[0-9]*" label="Telefono" required (ionInput)="validateNumero($event)" inputmode="numeric"></ion-input>
           <!--<ion-icon class="alerta" color="medium"   name="alert-circle-sharp" ></ion-icon>--> <!--(click)="presentPopover($event)"-->
         </ion-item>
         <ion-label color="danger" >{{mensaje_4}}</ion-label>

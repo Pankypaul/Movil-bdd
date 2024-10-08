@@ -66,7 +66,15 @@ export class RegistrarPage implements OnInit {
     await alert.present();
   }
 
+  validateName(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^A-Za-z\s]/g, '');
+  }
 
+  validateNumero(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^0-9]/g, ''); // Permite solo dígitos numéricos
+  }
 
   irPagina() {  //this.isEditable = !this.isEditable;
 
@@ -222,8 +230,10 @@ export class RegistrarPage implements OnInit {
         }
       });
 
+      
 
     }
+    
 
 
 

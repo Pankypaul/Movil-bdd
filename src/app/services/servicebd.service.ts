@@ -304,7 +304,42 @@ export class ServicebdService {
 
     })
 
+    
+
   }
+
+  //-----------------------------------------------------------------------------------------------------------------------------
+  guardarTipoStorage(correo: string, contrasena: string) {
+    return this.database.executeSql(
+      'SELECT id_usuario, rol_id_rol FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?', 
+      [correo, contrasena]  // Asegúrate de pasar los parámetros correctos
+    ).then(res => {
+      // variable para almacenar el resultado de la consulta
+      let items: any[] = [];
+      
+      // valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        // recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          // agrego los registros a mi lista
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            rol_id_rol: res.rows.item(i).rol_id_rol
+          });
+        }
+      }
+      
+      // Retornar los datos del usuario autenticado
+      return items; // Retorna los datos
+    }).catch(error => {
+      // Manejo de errores
+      this.presentAlert("Error al ejecutar la consulta SQL: ", error);
+      return []; // Retornar arreglo vacío en caso de error
+    });
+  }
+  
+
+  //-----------------------------------------------------------------------------------------------------------------------------
 
   seleccionarUsuarioLogin(correo: string, contrasena: string): Promise<Usuario | null> {
     return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?', 

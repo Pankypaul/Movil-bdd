@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { ToastController, ActionSheetController, AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -10,10 +11,13 @@ import { ToastController, ActionSheetController } from '@ionic/angular';
 })
 export class FooterTutorComponent  implements OnInit {
 
+  valor!: number;
+
   constructor(private router: Router, private toastController:ToastController,
-    private actionSheetCtrl: ActionSheetController) { }
+    private actionSheetCtrl: ActionSheetController,private storage: NativeStorage,private alertController: AlertController) { }
 
   ngOnInit() {}
+
   irPagina(){
     this.router.navigate(['/publicar1']);
   }
@@ -54,6 +58,34 @@ export class FooterTutorComponent  implements OnInit {
     await actionSheet.present();
   
 
+  }
+  
+  async dividirRoles() {
+    // Obtener el rol almacenado en el storage
+    const rol = await this.storage.getItem('Rol');
+  
+    // Verificar el valor del rol y redirigir a la página correspondiente
+    if (rol === 1) {
+      // Redirigir a la página correspondiente si el rol es 1
+      this.presentActionSheet();
+    } else if (rol === 0) { //Aprendiz 
+      // Redirigir a la página correspondiente si el rol es 0
+      this.router.navigate(['/publicar']);
+    } else {
+      // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
+      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+    }
+  }
+  
+
+  async presentAlert(msj:string) {
+    const alert = await this.alertController.create({
+      header: 'Info',
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 }
 

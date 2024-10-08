@@ -5,17 +5,17 @@
       <!--<ion-label color="logo">Publicación</ion-label>-->
     </ion-tab-button>
 
-    <ion-tab-button id="asignaturas" tab="ramos" [routerLink]="'/asignaturas'">
+    <ion-tab-button id="asignaturas" tab="ramos" (click)="dividirRoles()"> <!--[routerLink]="'/asignaturas'"-->
       <ion-icon color="dark" name="library"></ion-icon>
       <!--<ion-label class="logo">Ramos</ion-label>-->
     </ion-tab-button>
 
-    <ion-tab-button id="publicar" tab="publicar" [routerLink]="'/publicar'">
+    <ion-tab-button id="publicar" tab="publicar"(click)="dividirRoles()">
       <ion-icon color="dark" name="add-circle-sharp"></ion-icon>
       <ion-label class="logo"></ion-label>
     </ion-tab-button>
 
-    <ion-tab-button id="tutores" tab="tutores" [routerLink]="'/tutores'"> <!--*ngIf="tipo==='Tutor'"-->
+    <ion-tab-button id="tutores" tab="tutores" [routerLink]="'/tutores'"> <!--[routerLink]="'/publicar'"-->
       <ion-icon  color="dark" name="body-sharp"></ion-icon>
       <!--<ion-label  class="logo">Tutores</ion-label>-->
     </ion-tab-button>

@@ -41,9 +41,7 @@ export class LoginPage implements OnInit {
     })
   }
 
-  //crear(){
-    //this.storage.setItem(this.tipo, )
-  //}
+
 
   ngOnInit() {
   }
@@ -58,6 +56,13 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
+
+  async borrarStorage() {
+    await this.storage.clear();  // Borra todo el almacenamiento
+    console.log("Storage borrado");
+  }
+
+
   irPagina() {
     /*let navigationextras: NavigationExtras = {
       state: {
@@ -66,6 +71,7 @@ export class LoginPage implements OnInit {
         correo2: this.correo
       }
     }*/
+    this.borrarStorage();  // Se ejecuta automáticamente cuando se carga la página
 
     this.mensaje_3 = '';
 
@@ -114,99 +120,42 @@ export class LoginPage implements OnInit {
       }
 
       if (this.correo.trim() !== "" && this.contrasena.trim() !== "" && tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo.length >= 8 && this.validarContraseña.test(this.contrasena) && this.contrasena.length >= 8) {
-        //this.router.navigate(['/menu1'], navigationextras);
+        
         this.bd.isDBReady.subscribe(async (val) => {
           if (val) {
             const usuarioAutenticado = await this.bd.seleccionarUsuarioLogin(this.correo, this.contrasena);
         
             if (usuarioAutenticado) {
-              this.router.navigate(['/menu1']); // Navegar si el usuario existe
+              const usuarioStorage = await this.bd.guardarTipoStorage(this.correo, this.contrasena);
+        
+              if (usuarioStorage.length > 0) { // Asegúrate de que el arreglo tenga elementos
+                const { id_usuario, rol_id_rol } = usuarioStorage[0]; // Desestructuramos para obtener id_usuario y rol_id_rol
+                this.storage.setItem('Id', id_usuario); // Asegúrate de que sean strings si es necesario
+                this.storage.setItem('Rol', rol_id_rol); // Asegúrate de que sean strings si es necesario
+                this.presentAlert12("Variables creadas", `ID: ${id_usuario}, Rol: ${rol_id_rol}`); // Mensaje informativo
+        
+                this.router.navigate(['/menu1']); // Navegar si el usuario existe
+              } else {
+                // Si no se pudo obtener el usuario almacenado
+                console.log("No se encontraron datos del usuario en el almacenamiento.");
+              }
+        
             } else {
               // Mostrar mensaje de error
-              this.mensaje_3 = 'El Correo o contraseña inválido.';
+              this.mensaje_3 = 'El Correo o contraseña son inválidos.';
             }
           }
         });
+        
       }
     }
   }
 
 
 
-    onSubmit() {
 
-    }
-    /*
-    async CamposVacios(position: 'top' | 'middle' | 'bottom') {
-      const toast = await this.toastController.create({
-        message: 'Por favor, rellene los campos en blanco',
-        duration: 1500,
-        position: position,
-      });
-  
-      await toast.present();
-    } 
-  
-    async correoYContrasenaInvalido(position: 'top' | 'middle' | 'bottom') {
-      const toast = await this.toastController.create({
-        message: 'Correo o contraseña incorrecta.',
-        duration: 1500,
-        position: position,
-      });
-  
-      await toast.present();
-    } 
-  
-    async maxCaracter(position: 'top' | 'middle' | 'bottom') {
-      const toast = await this.toastController.create({
-        message: 'Supera el maximo de caracteres.',
-        duration: 1500,
-        position: position,
-      });
-  
-      await toast.present();
-    } */
+
+  onSubmit() {
 
   }
-
-
-/*
-
-if (!this.correo || !this.contrasena) {
-        this.CamposVacios('bottom');
-      } else if (this.correo.length >= 50 || this.contrasena.length >= 25) {
-        this.maxCaracter('bottom')
-      } else{
-        
-      }
-
-
-if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena /*&& this.tipo == 'Tutor' ) {   //(this.correo == this.Tutor.correo && this.contrasena == this.Tutor.contrasena)
-        
-        
-        //this.router.navigate(['/menu1'],navigationextras);
-
-      }else if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto && this.correo == this.email && this.contras == this.contrasena /*&& this.tipo == 'Aprendiz') {  //(this.correo == this.Aprendiz.correo && this.contrasena == this.Aprendiz.contrasena)
-        console.log("El correo es válido11");
-        
-        //this.router.navigate(['/menu'],navigationextras);
-
-
-        // this.router.navigate(['/perfil'],navigationextras);
-        /*console.log("tieneArroba",tieneArroba);
-        console.log("posicionArroba",posicionArroba);
-        console.log("posicionPunto",posicionPunto);
-
-        console.log("algoAntesArroba",algoAntesArroba);
-        console.log("algoEntreArrobaYPunto",algoEntreArrobaYPunto);
-        console.log("algoDespuesPunto",algoDespuesPunto); 
-      }else if(this.correo == this.Tutor.correo || this.contrasena == this.Tutor.contrasena){
-        this.router.navigate(['/menu1'],navigationextras);
-      
-      }else if(this.correo == this.Aprendiz.correo || this.contrasena == this.Aprendiz.contrasena){
-        this.router.navigate(['/menu'],navigationextras);
-
-      }else {
-        //this.correoYContrasenaInvalido('bottom');
-        //this.mensaje_1 = "El correo no es válido";
-      }*/
+}

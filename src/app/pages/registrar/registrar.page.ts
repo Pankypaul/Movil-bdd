@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
-import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import {  Router } from '@angular/router';
+import {  AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
-import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+//import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { PopoverController } from '@ionic/angular';
 
 
@@ -46,7 +46,8 @@ export class RegistrarPage implements OnInit {
     //private actionSheetCtrl: ActionSheetController,
     private alertController: AlertController,
     private bd: ServicebdService,
-    private storage: NativeStorage) { }
+    //private storage: NativeStorage
+    ) { }
 
   ngOnInit() {
   }
@@ -201,11 +202,22 @@ export class RegistrarPage implements OnInit {
             // Mostrar mensaje de error
             this.mensaje_3 = 'El Correo ya esta registrado.';
           } else {
-            this.storage.setItem(this.perfil.tipo, this.perfil.nombre)
-            this.presentAlert("variables creadas", this.perfil.tipo)
-            //  this.presentAlert('ingreso de datos', 'nombre ' + this.perfil.tipo + (', ') + this.perfil.correo + (', ') + this.perfil.password)
-            this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
-            this.router.navigate(['/login'])
+
+            //perfil.tipo
+
+            //APRENDIZ: 0
+            if(this.perfil.tipo  === 'Aprendiz'){ 
+              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 0, '', '');
+              this.presentAlert('tipo', this.perfil.tipo);
+              this.router.navigate(['/login'])
+            }
+           
+            //TUTOR: 1
+            if(this.perfil.tipo  === 'Tutor'){
+              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
+              this.presentAlert('tipo', this.perfil.tipo);
+              this.router.navigate(['/login'])
+            }
           }
         }
       });

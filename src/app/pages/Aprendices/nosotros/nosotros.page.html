@@ -12,6 +12,13 @@
 </ion-header>
 <ion-content [fullscreen]="true" class="centrar ion-padding ion-content">
   
+  <ion-item>
+    <ion-input label="Nombre de Variable de Storage" labelPlacement="floating" placeholder="Ingrese nombre" [(ngModel)]="tipo"></ion-input>
+  </ion-item>
+  <p>{{valor}}</p>
+  <ion-button color="success" (click)="consultar()">Consultar Variable Storage</ion-button>
+
+
   <div class="container">
     <h1 class="texto">¿Qué es la app y para qué sirve?</h1>
     <p class="texto2">

@@ -44,6 +44,8 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
+    this.storage.clear().then(() => this.presentAlert12('Éxito', 'Storage limpiado'))
+      .catch(err => this.presentAlert12('Error', err));
   }
 
   async presentAlert12(title: string, msj: string) {
@@ -134,7 +136,7 @@ export class LoginPage implements OnInit {
                 this.storage.setItem('Rol', rol_id_rol); // Asegúrate de que sean strings si es necesario
                 this.presentAlert12("Variables creadas", `ID: ${id_usuario}, Rol: ${rol_id_rol}`); // Mensaje informativo
         
-                this.router.navigate(['/menu1']); // Navegar si el usuario existe
+                this.router.navigate(['/menu']); // Navegar si el usuario existe
               } else {
                 // Si no se pudo obtener el usuario almacenado
                 console.log("No se encontraron datos del usuario en el almacenamiento.");

@@ -10,10 +10,10 @@
 <ion-content class="ion-padding" fullscreen>
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
 
-  <div class="botones">
+  <!--<div class="botones">
     <ion-button id="Aprendices" class="boton" (click)="mostrarCard('Aprendices')">Aprendices</ion-button>
     <ion-button id="Amigos" class="boton" (click)="mostrarCard('Amigos')">Cursos</ion-button>
-  </div>
+  </div>-->
 
 
   <div>
@@ -29,37 +29,15 @@
         <hr>
       </ion-card-header>
       <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
-
-      <ion-card-content>
-        <img [src]="x.foto_publi || '/assets/icon/pato.jpg'" alt="Perfil"/><!--*ngIf="x.foto_publi; else defaultImage"-->
-
-        <!--<ng-template #defaultImage>
-        <img src="/assets/icon/pato.jpg" alt="Imagen predeterminada">
-      </ng-template>-->
-        <br>
-        <hr>
-        <ion-label style="word-wrap: break-word; white-space: normal;">{{ x.descripcion_publi }}</ion-label>
-      </ion-card-content>
       <div class="centrarB">
         <ion-button class="verMas" (click)="irPagina()">Ver más</ion-button>
       </div>
 
     </ion-card>
 
-
-
-
-
-
-
-
-
   </div>
 
 
 </ion-content>
 
-
-
-
-<app-footer></app-footer>
+<app-footer-tutor></app-footer-tutor>

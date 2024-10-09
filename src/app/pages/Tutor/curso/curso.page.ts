@@ -6,6 +6,7 @@ import { ActionSheetController, AlertController, ToastController } from '@ionic/
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
 import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 /*---------------------------------------------------------------------------------
 // PONER ESTO EN EL CMD
@@ -34,6 +35,7 @@ export class CursoPage implements OnInit {
 
   nombre_curso: string = "";
   descripcion_curso: string = "";
+  id!: number;
 
   mensaje_1!: string;
   mensaje_2!: string;
@@ -44,7 +46,8 @@ export class CursoPage implements OnInit {
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
     private bd: ServicebdService,
-    private alertController: AlertController) { }
+    private alertController: AlertController,
+    private storage: NativeStorage) { }
 
 
   public alertButtons = [
@@ -117,8 +120,8 @@ export class CursoPage implements OnInit {
 
       this.presentToast('top');
       this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)
-
-      this.bd.insertarCurso(this.nombre_curso, this.descripcion_curso, this.photoUrl, this.fecha_curso, 1, 1); // Pasar el objeto Date
+      
+      this.bd.insertarCurso(this.nombre_curso, this.descripcion_curso, this.photoUrl, this.fecha_curso, this.id, 1); // Pasar el objeto Date
     }
   }
 
@@ -129,7 +132,7 @@ export class CursoPage implements OnInit {
       position: position,
 
     });
-    this.router.navigate(['/menu1']);
+    this.router.navigate(['/asignaturas1']);
 
     await toast.present();
   }
@@ -263,7 +266,11 @@ export class CursoPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.storage.getItem('Id').then((id_usuario: number) => {
+      this.id = id_usuario;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
 }

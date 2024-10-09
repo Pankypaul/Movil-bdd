@@ -24,11 +24,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Tutor/perfil1/perfil1.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'asignaturas',
-    loadChildren: () => import('./pages/Aprendices/asignaturas/asignaturas.module').then( m => m.AsignaturasPageModule)
-  },
-  
-  {
     path: 'asignaturas1',
     loadChildren: () => import('./pages/Tutor/asignaturas1/asignaturas.module').then( m => m.AsignaturasPageModule)
   },
@@ -39,10 +34,6 @@ const routes: Routes = [
   {
     path: 'menu',
     loadChildren: () => import('./pages/Aprendices/menu/menu.module').then( m => m.MenuPageModule)
-  },
-  {
-    path: 'menu1',
-    loadChildren: () => import('./pages/Tutor/menu1/menu1.module').then( m => m.MenuPageModule)
   },
   {
     path: 'registrar',

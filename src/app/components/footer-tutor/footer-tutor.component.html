@@ -1,11 +1,11 @@
 <ion-footer class="footer">
   <ion-tab-bar slot="bottom" class="footer">
-    <ion-tab-button id="menu" tab="home" [routerLink]="'/menu1'">
+    <ion-tab-button id="menu" tab="home" [routerLink]="'/menu'">
       <ion-icon color="dark" name="home"></ion-icon>
       <!--<ion-label color="logo">Publicación</ion-label>-->
     </ion-tab-button>
 
-    <ion-tab-button id="asignaturas" tab="ramos" [routerLink]="'/asignaturas1'">
+    <ion-tab-button id="asignaturas" tab="ramos" (click)="dividirRolesAsig()">
       <ion-icon color="dark" name="library"></ion-icon>
       <!--<ion-label class="logo">Ramos</ion-label>-->
     </ion-tab-button>
@@ -15,12 +15,12 @@
       <ion-label class="logo"></ion-label>
     </ion-tab-button>
 
-    <ion-tab-button id="tutores" tab="tutores" [routerLink]="'/aprendiz'"> <!--*ngIf="tipo==='Tutor'"-->
+    <ion-tab-button id="tutores" tab="tutores" (click)="irUsuarios()"> <!--*ngIf="tipo==='Tutor'"-->
       <ion-icon  color="dark" name="body-sharp"></ion-icon>
       <!--<ion-label  class="logo">Tutores</ion-label>-->
     </ion-tab-button>
 
-    <ion-tab-button id="perfil" tab="perfil" [routerLink]="'/perfil1'">
+    <ion-tab-button id="perfil" tab="perfil" [routerLink]="'/perfil'">
       <ion-icon  color="dark" name="person-sharp"></ion-icon>
       <!--<ion-label class="logo">Perfil</ion-label>-->
     </ion-tab-button>

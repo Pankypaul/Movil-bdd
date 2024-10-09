@@ -9,10 +9,6 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
 })
 export class MenuPage implements OnInit {
 
-  correo: string = '';     //correo del input
-  contrasena: string = ''; //contraseña del input
-  tipo: string= "";         //tipo del registrar (context)
-
   id: string= "";
 
 

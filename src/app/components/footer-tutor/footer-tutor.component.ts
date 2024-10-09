@@ -76,6 +76,39 @@ export class FooterTutorComponent  implements OnInit {
       this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
     }
   }
+
+  async dividirRolesAsig(){
+
+    const rol = await this.storage.getItem('Rol');
+  
+    // Verificar el valor del rol y redirigir a la página correspondiente
+    if (rol === 1 || rol === 0) {
+      // Redirigir a la página correspondiente si el rol es 1
+      this.router.navigate(['/asignaturas1'])
+
+    } else {
+      // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
+      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+    }
+  }
+
+  async irUsuarios(){
+    const rol = await this.storage.getItem('Rol');
+  
+    // Verificar el valor del rol y redirigir a la página correspondiente
+    if (rol === 1 || rol === 0) {
+      // Redirigir a la página correspondiente si el rol es 1
+      this.router.navigate(['/aprendiz'])
+
+    } else {
+      // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
+      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+    }
+    
+
+  }
+
+
   
 
   async presentAlert(msj:string) {

@@ -8,7 +8,7 @@ import { MenuPageRoutingModule } from './menu-routing.module';
 
 import { MenuPage } from './menu.page';
 
-import { ComponentsModule } from 'src/app/components/footer/components.module';  //Importo el ComponentsModule
+import { ComponentsModule } from 'src/app/components/footer-tutor/components.module';  //Importo el ComponentsModule
 
 @NgModule({
   imports: [

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
@@ -9,17 +10,25 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
   styleUrls: ['./asignaturas.page.scss'],
 })
 export class AsignaturasPage implements OnInit {
+  
   arregloCurso: any = [
     {
       id_curso: '',
       nombre_curso: '',
       descripcion_curso: '',
       foto_curso: '',
+      usuario_id_usuario: '',
       activo: '',  //Agregue el activo aqui tambien
     }
   ]
 
-  constructor(private router: Router, private bd: ServicebdService, private alertController: AlertController) { }
+  rol!: number;
+  id!: number;
+
+  constructor(private router: Router, 
+              private bd: ServicebdService, 
+              private alertController: AlertController, 
+              private storage: NativeStorage) { }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -31,9 +40,23 @@ export class AsignaturasPage implements OnInit {
         })
       }
     })
+
+    this.storage.getItem('Rol').then((rol: number) => {
+      this.rol = rol;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
+
+    this.storage.getItem('Id').then((id: number) => {
+      this.id = id;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
+  
   }
 
   irPagina(){
+    
     this.router.navigate(['/editar-curso'])
   }
 
@@ -62,7 +85,24 @@ export class AsignaturasPage implements OnInit {
   eliminar(x: any) {
     this.presentAlert12('ID para eliminar ', x.id_curso); //Este funciona (x.id_publi)
     this.bd.eliminarCurso(x.id_curso); //no cambie nada de esto ya que ocupe la misma funcion...
-   
   }
+
+
+
+  
+  
+
+
+
+  async presentAlert(msj:string) {
+    const alert = await this.alertController.create({
+      header: 'Info',
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
 
 }

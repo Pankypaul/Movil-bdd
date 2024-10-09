@@ -31,7 +31,7 @@ export class ServicebdService {
 
   //USUARIO
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY autoincrement, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
-
+  
   //CURSO
   tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY autoincrement, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
@@ -42,7 +42,7 @@ export class ServicebdService {
   tablaPublicacion: string = "CREATE TABLE IF NOT EXISTS publicacion ( id_publi INTEGER PRIMARY KEY autoincrement, titulo_publi VARCHAR(100) NOT NULL, descripcion_publi  VARCHAR(250) NOT NULL, foto_publi VARCHAR(300), fecha_publi VARCHAR(100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //COMENTARIO
-  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY autoincrement, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario DATE NOT NULL, publicacion_id_publi INTEGER NOT NULL, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));"
+  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY autoincrement, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario DATE NOT NULL, publicacion_id_publi INTEGER NOT NULL, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));";
 
   //RESPUESTA
   //PENDIENTE POR LE MOMENTO
@@ -50,7 +50,7 @@ export class ServicebdService {
   //LISTA
   tablaLista: string = "CREATE TABLE IF NOT EXISTS lista ( id_lista INTEGER PRIMARY KEY autoincrement, fecha_inscripcion VARCHAR(100) NOT NULL, curso_id_curso INTEGER NOT NULL, usuario_id_usuario INTEGER NOT NULL, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso), FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
-
+  //user: string = "INSERT or IGNORE INTO usuario(id_usuario, nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario , rol_id_rol ,descripcion , foto) VALUES (100,'PAUL HIDALGO', 'hidalgo2024@gmail.com', 949826942, '#Maleta123', 1, '','')"
   //-- 1 para activo, 0 para inactivo
 
   //variables para los insert por defecto en nuestras tablas
@@ -85,15 +85,17 @@ export class ServicebdService {
     await alert.present();
   }
 
-  
+
 
   //metodos para manipular los observables
   fetchPublicacion(): Observable<Publicacion[]> {
     return this.listadoPublicacion.asObservable();
   }
+
   fetchCurso(): Observable<Curso[]> {
     return this.listadoCurso.asObservable();
   }
+
   fetchUsuario(): Observable<Usuario[]> {
     return this.listadoUsuario.asObservable();
   }
@@ -131,6 +133,7 @@ export class ServicebdService {
       await this.database.executeSql(this.tablaPublicacion, []);
       await this.database.executeSql(this.tablaCurso, []);
       await this.database.executeSql(this.tablaUsuario, []);
+      //await this.database.executeSql(this.user, []);
       // await this.database.executeSql(this.tablaCurso, []);
 
       this.seleccionarPublicacion();
@@ -142,6 +145,9 @@ export class ServicebdService {
       this.presentAlert('Creación de Tablas', 'Error en crear las tablas: ' + JSON.stringify(e));
     }
   }
+
+
+
 
 
   seleccionarPublicacion() {
@@ -198,7 +204,7 @@ export class ServicebdService {
   modificarPublicacion(id_publi: number, titulo_publi: string, descripcion_publi: string, foto_publi: string) {
     this.presentAlert("service", "ID: " + id_publi);
     return this.database.executeSql('UPDATE publicacion SET titulo_publi = ?, descripcion_publi = ?, foto_publi = ? WHERE id_publi = ?', [titulo_publi, descripcion_publi, foto_publi, id_publi]).then(() => {
-      this.presentAlert("Modificar", "publicacion Modificada"+descripcion_publi);
+      this.presentAlert("Modificar", "publicacion Modificada" + descripcion_publi);
       this.seleccionarPublicacion();
     }).catch(e => {
       this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
@@ -210,7 +216,7 @@ export class ServicebdService {
 
 
 
-  seleccionarCurso(){
+  seleccionarCurso() {
     return this.database.executeSql('SELECT * FROM curso WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
       //variable para almacenar el resultado de la consulta
       let items: Curso[] = [];
@@ -274,9 +280,9 @@ export class ServicebdService {
 
   //usuario
 
-  seleccionarUsuario(){
-    
-    return this.database.executeSql('SELECT * FROM usuario WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+  seleccionarUsuario() {
+
+    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
       //variable para almacenar el resultado de la consulta
       let items: Usuario[] = [];
       //valido si trae al menos un registro
@@ -294,7 +300,7 @@ export class ServicebdService {
             rol_id_rol: res.rows.item(i).rol_id_rol,
             descripcion: res.rows.item(i).descripcion,
             foto: res.rows.item(i).foto
-          
+
           })
         }
 
@@ -304,19 +310,19 @@ export class ServicebdService {
 
     })
 
-    
+
 
   }
 
   //-----------------------------------------------------------------------------------------------------------------------------
   guardarTipoStorage(correo: string, contrasena: string) {
     return this.database.executeSql(
-      'SELECT id_usuario, rol_id_rol FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?', 
+      'SELECT id_usuario, rol_id_rol FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?',
       [correo, contrasena]  // Asegúrate de pasar los parámetros correctos
     ).then(res => {
       // variable para almacenar el resultado de la consulta
       let items: any[] = [];
-      
+
       // valido si trae al menos un registro
       if (res.rows.length > 0) {
         // recorro mi resultado
@@ -328,7 +334,7 @@ export class ServicebdService {
           });
         }
       }
-      
+
       // Retornar los datos del usuario autenticado
       return items; // Retorna los datos
     }).catch(error => {
@@ -337,65 +343,65 @@ export class ServicebdService {
       return []; // Retornar arreglo vacío en caso de error
     });
   }
-  
+
 
   //-----------------------------------------------------------------------------------------------------------------------------
 
   seleccionarUsuarioLogin(correo: string, contrasena: string): Promise<Usuario | null> {
-    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?', 
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ? AND contrasena_usuario = ?',
       [correo, contrasena]).then(res => {
-      // Valido si trae al menos un registro
-      if (res.rows.length > 0) {
-        const usuario = res.rows.item(0); // Obtiene el primer registro
-        // Retorno el objeto usuario encontrado
-        return {
-          id_usuario: usuario.id_usuario,
-          nombre_usuario: usuario.nombre_usuario,
-          correo_usuario: usuario.correo_usuario,
-          telefono_usuario: usuario.telefono_usuario,
-          contrasena_usuario: usuario.contrasena_usuario,
-          rol_id_rol: usuario.rol_id_rol,
-          descripcion: usuario.descripcion,
-          foto: usuario.foto
-        } as Usuario;
-      } else {
-        return null; // Retorna null si no hay coincidencias
-      }
-    })
-    .catch(e => {
-      this.presentAlert('Error al buscar usuario', JSON.stringify(e));
-      return null; // Asegúrate de retornar null en caso de error
-    });
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const usuario = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_usuario: usuario.id_usuario,
+            nombre_usuario: usuario.nombre_usuario,
+            correo_usuario: usuario.correo_usuario,
+            telefono_usuario: usuario.telefono_usuario,
+            contrasena_usuario: usuario.contrasena_usuario,
+            rol_id_rol: usuario.rol_id_rol,
+            descripcion: usuario.descripcion,
+            foto: usuario.foto
+          } as Usuario;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        this.presentAlert('Error al buscar usuario', JSON.stringify(e));
+        return null; // Asegúrate de retornar null en caso de error
+      });
   }
 
 
   seleccionarVerificacionCorreo(correo: string): Promise<Usuario | null> {
-    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ?', 
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo_usuario = ?',
       [correo]).then(res => {
-      // Valido si trae al menos un registro
-      if (res.rows.length > 0) {
-        const usuario = res.rows.item(0); // Obtiene el primer registro
-        // Retorno el objeto usuario encontrado
-        return {
-          id_usuario: usuario.id_usuario,
-          nombre_usuario: usuario.nombre_usuario,
-          correo_usuario: usuario.correo_usuario,
-          telefono_usuario: usuario.telefono_usuario,
-          contrasena_usuario: usuario.contrasena_usuario,
-          rol_id_rol: usuario.rol_id_rol,
-          descripcion: usuario.descripcion,
-          foto: usuario.foto
-        } as Usuario;
-      } else {
-        return null; // Retorna null si no hay coincidencias
-      }
-    })
-    .catch(e => {
-      this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
-      return null; // Asegúrate de retornar null en caso de error
-    });
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const usuario = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_usuario: usuario.id_usuario,
+            nombre_usuario: usuario.nombre_usuario,
+            correo_usuario: usuario.correo_usuario,
+            telefono_usuario: usuario.telefono_usuario,
+            contrasena_usuario: usuario.contrasena_usuario,
+            rol_id_rol: usuario.rol_id_rol,
+            descripcion: usuario.descripcion,
+            foto: usuario.foto
+          } as Usuario;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null; // Asegúrate de retornar null en caso de error
+      });
   }
-  
+
   insertarUsuario(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, contrasena_usuario: string, rol_id_rol: number, descripcion: string, foto: string) {
     // Asegurarte de que c sea un objeto Date
     return this.database.executeSql('INSERT INTO usuario (nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto) VALUES (?,?,?,?,?,?,?)',
@@ -407,8 +413,8 @@ export class ServicebdService {
       this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
-  
-  modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string,telefono_usuario: number, contrasena_usuario: string, descripcion: string, foto: string) {
+
+  modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string, telefono_usuario: number, contrasena_usuario: string, descripcion: string, foto: string) {
     this.presentAlert("service", "ID: " + id_usuario);
     return this.database.executeSql('UPDATE  SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, telefono_usuario = ?, contrasena_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, telefono_usuario, contrasena_usuario, descripcion, foto, id_usuario]).then(() => {
       this.presentAlert("Modificar", "Usuario Modificado" + nombre_usuario + ('correo ') + correo_usuario);
@@ -417,6 +423,8 @@ export class ServicebdService {
       this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
+
+
 
   /*
   eliminarNoticia(id: string) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 

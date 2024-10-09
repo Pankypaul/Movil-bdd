@@ -24,7 +24,7 @@ export class PerfilPage implements OnInit {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.router.navigate(['/login']); 
+        this.router.navigate(['/home']); 
       }
     }
   ];

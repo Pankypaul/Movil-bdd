@@ -40,3 +40,21 @@
     width: 50%;
     --background: rgba(182, 149, 192, 1);
 }
+
+.ion-content {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .cursos-contenido {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: flex-start; /* Alinea los cursos al inicio */
+  }
+  
+  .ion-card {
+    margin-bottom:50 px; /* Espaciado entre cursos */
+  }
+  
+  

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-aprendiz',
@@ -7,59 +9,48 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AprendizPage implements OnInit {
 
-    //Es la lista de los amigos pero falsa xd
-  items: Array<{ name: string, phone: string, email: string }> = [];
 
-  //Activamos el item para que pueda desplegarse la informacion
-  activeItem: { name: string, phone: string, email: string } | null = null;
-  constructor() { }
-
-  ngOnInit() {
-    this.items = this.generateItems(5);
-  }
+  arregloUsuario: any = [
+    {
+      id_usuario: '',
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+    }
+  ];
+  /*
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario
+  ( id_usuario INTEGER PRIMARY KEY autoincrement, 
+    nombre_usuario VARCHAR (60) NOT NULL,
+     correo_usuario VARCHAR(320) NOT NULL UNIQUE, 
+     telefono_usuario INTEGER NOT NULL,
+      contrasena_usuario VARCHAR(25) NOT NULL, 
+      rol_id_rol INTEGER NOT NULL, 
+      descripcion VARCHAR(250),
+      foto VARCHAR(300), 
+      FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";*/
 
   
-  //Esto lo del scroll infito
 
-  /*loadData(event: CustomEvent) {
-    setTimeout(() => {
-      const newItems = this.generateItems(20);
-      this.items = [...this.items, ...newItems];
-      (event as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
-  }*/
+  constructor(private bd: ServicebdService, private router: Router) { }
 
-  //Aqui se crea el item al azar como lo hacimos en python
-  generateItems(count: number): Array<{ name: string, phone: string, email: string }> {
-    const names = ['Juan Vasquez', 'Maria Anaiz Riquelme', 'Pedro Salasar', 'Ana Palma', 'Luis Antonio Rios', 'Carlos Gonzales', 'Melissa Torres', 'Jorge Vicente Fuentes', 'Laura Flor Hortencia', 'Marta Victoria Torres', 'Martin Elias Salvador'];
-    
-    const phones = ['9 7890 1222', '9 8765 4321', '9 5123 4567', '9 5765 4321', '9 2987 6543'];
-
-    //Y queda como un nuevo objeto al igual que en java
-    const newItems: Array<{ name: string, phone: string, email: string }> = [];
-
-    //Aqui pasa el for para crear y hacer un push al igual que lo hacemos en git
-    for (let i = 0; i < count; i++) {
-      const randomName = names[Math.floor(Math.random() * names.length)];
-      const randomPhone = phones[Math.floor(Math.random() * phones.length)];
-      newItems.push({
-        name: `${randomName}`,
-        phone: randomPhone,
-        email: `${randomName.toLowerCase().slice(0, 3)}@gmail.com` //Se muestra la info con esta `` raras
-      });
-    }
-
-    return newItems;
+  ngOnInit() {
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
   }
 
-  //Aquii activamos el panel para que se despliegue (solo se activa) 
-  togglePanel(item: { name: string, phone: string, email: string }) {
-    this.activeItem = this.activeItem === item ? null : item; 
+  ir(){
+    this.router.navigate (['/perfil-agregar-amigos'])
   }
 
-  //Al presionar se abre la pestaña por asi decir y muestra la información  
-  isExpanded(item: { name: string, phone: string, email: string }): boolean {
-    return this.activeItem === item;
-  }
 
 }

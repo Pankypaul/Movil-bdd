@@ -18,6 +18,10 @@ export class FooterTutorComponent  implements OnInit {
 
   ngOnInit() {}
 
+  irPerfil(){
+    this.router.navigate(['/perfil'])
+  }
+
   irPagina(){
     this.router.navigate(['/publicar1']);
   }

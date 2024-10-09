@@ -21,7 +21,8 @@ export class MenuPage implements OnInit {
       activo: '',  //Agregue el activo aqui tambien
     }
   ]
-  constructor(private router:Router /*,private activateroute:ActivatedRoute*/, private bd: ServicebdService) { 
+  constructor(private router:Router /*,private activateroute:ActivatedRoute*/, 
+              private bd: ServicebdService) { 
 
     /*this.activateroute.queryParams.subscribe(param =>{
       //valido si viene o no información en la ruta

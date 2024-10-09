@@ -8,7 +8,7 @@ import { PerfilPageRoutingModule } from './perfil-routing.module';
 
 import { PerfilPage } from './perfil.page';
 
-import { ComponentsModule } from 'src/app/components/footer/components.module';
+import { ComponentsModule } from 'src/app/components/footer-tutor/components.module';
 
 @NgModule({
   imports: [

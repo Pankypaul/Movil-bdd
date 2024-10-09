@@ -5,7 +5,9 @@ import { ToastController, ActionSheetController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
-import { NONE_TYPE } from '@angular/compiler';
+//import { NONE_TYPE } from '@angular/compiler';
+import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-perfil',
@@ -29,27 +31,48 @@ export class PerfilPage implements OnInit {
 
   originalPerfil: any; // Copia del objeto de perfil original
 
+  id!: number;
+
   mensaje_1: string = "";
   mensaje_2: string = "";
   mensaje_3: string = "";
   mensaje_4: string = "";
   mensaje_5: string = "";
 
-  perfil = {
-    nombre: 'Juan Pérez',
-    correo: 'juan@example.com',
-    telefono: 923428729,
-    tip: 'Aprendiz',
-    descripcion: 'Soy un desarrollador apasionado por la tecnología.',
-    imagen: 'assets/icon/pato.jpg'
-  };
+  perfil: any = [
+    {
+      
+      nombre_usuario: '',
+      correo_usuario: '',
+      telefono_usuario: '',
+      descripcion: '',
+      foto: '',
+      id_usuario: ''
+    }
+  ]
 
   constructor(private router: Router,
     private toastController: ToastController,
-    private actionSheetCtrl: ActionSheetController
-  ) { }
+    private actionSheetCtrl: ActionSheetController,
+    private bd: ServicebdService, 
+    private storage: NativeStorage) { }
 
   ngOnInit() {
+    this.bd.dbState().subscribe(data => {
+      //validar si la bd esta lista
+      if (data) {
+        //subscribir al observable de la listaNoticias
+        this.bd.fetchUsuario().subscribe(res => {
+          this.perfil = res;
+        })
+      }
+    })
+
+    this.storage.getItem('Id').then((id: number) => {
+      this.id = id;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
   validarTexto(event: any) {
@@ -230,7 +253,7 @@ export class PerfilPage implements OnInit {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.router.navigate(['/home']); 
+        this.router.navigate(['/home']);
       }
     }
   ];

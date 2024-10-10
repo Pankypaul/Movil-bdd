@@ -84,7 +84,7 @@
       </ion-item>
       <ion-label color="danger">{{mensaje_4}}</ion-label>
 
-      <ion-button expand="block" *ngIf="isEditable" class="boton" (click)="irPagina()">
+      <ion-button expand="block" *ngIf="isEditable" class="boton" (click)="irPagina(x.nombre_usuario, x.correo_usuario, x.telefono_usuario, x.descripcion, x.foto)">
         Guardar Perfil
       </ion-button>
       <ion-button expand="block" *ngIf="isEditable" class="boton" (click)="cancelEdit()">

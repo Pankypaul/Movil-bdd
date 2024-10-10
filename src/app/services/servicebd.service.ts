@@ -30,25 +30,25 @@ export class ServicebdService {
   tablaRol: string = "CREATE TABLE IF NOT EXISTS roles( id_rol INTEGER PRIMARY KEY, tipo_rol VARCHAR (10) NOT NULL);";
 
   //USUARIO
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY autoincrement, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
   
   //CURSO
-  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY autoincrement, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
+  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY AUTOINCREMENT, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //TEMA
-  tablaTema: string = "CREATE TABLE IF NOT EXISTS tema ( id_tema INTEGER PRIMARY KEY autoincrement, titulo_tema VARCHAR(100) NOT NULL, descripcion_tema VARCHAR(250) NOT NULL, fecha_tema DATE NOT NULL, curso_id_curso INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso));";
+  tablaTema: string = "CREATE TABLE IF NOT EXISTS tema ( id_tema INTEGER PRIMARY KEY AUTOINCREMENT, titulo_tema VARCHAR(100) NOT NULL, descripcion_tema VARCHAR(250) NOT NULL, fecha_tema DATE NOT NULL, curso_id_curso INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso));";
 
   //PUBLICACIÓN
-  tablaPublicacion: string = "CREATE TABLE IF NOT EXISTS publicacion ( id_publi INTEGER PRIMARY KEY autoincrement, titulo_publi VARCHAR(100) NOT NULL, descripcion_publi  VARCHAR(250) NOT NULL, foto_publi VARCHAR(300), fecha_publi VARCHAR(100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
+  tablaPublicacion: string = "CREATE TABLE IF NOT EXISTS publicacion ( id_publi INTEGER PRIMARY KEY AUTOINCREMENT, titulo_publi VARCHAR(100) NOT NULL, descripcion_publi  VARCHAR(250) NOT NULL, foto_publi VARCHAR(300), fecha_publi VARCHAR(100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //COMENTARIO
-  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY autoincrement, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario DATE NOT NULL, publicacion_id_publi INTEGER NOT NULL, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));";
+  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY AUTOINCREMENT, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario DATE NOT NULL, publicacion_id_publi INTEGER NOT NULL, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));";
 
   //RESPUESTA
   //PENDIENTE POR LE MOMENTO
 
   //LISTA
-  tablaLista: string = "CREATE TABLE IF NOT EXISTS lista ( id_lista INTEGER PRIMARY KEY autoincrement, fecha_inscripcion VARCHAR(100) NOT NULL, curso_id_curso INTEGER NOT NULL, usuario_id_usuario INTEGER NOT NULL, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso), FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
+  tablaLista: string = "CREATE TABLE IF NOT EXISTS lista ( id_lista INTEGER PRIMARY KEY AUTOINCREMENT, fecha_inscripcion VARCHAR(100) NOT NULL, curso_id_curso INTEGER NOT NULL, usuario_id_usuario INTEGER NOT NULL, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso), FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //user: string = "INSERT or IGNORE INTO usuario(id_usuario, nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario , rol_id_rol ,descripcion , foto) VALUES (100,'PAUL HIDALGO', 'hidalgo2024@gmail.com', 949826942, '#Maleta123', 1, '','')"
   //-- 1 para activo, 0 para inactivo
@@ -133,6 +133,11 @@ export class ServicebdService {
       await this.database.executeSql(this.tablaPublicacion, []);
       await this.database.executeSql(this.tablaCurso, []);
       await this.database.executeSql(this.tablaUsuario, []);
+      await this.database.executeSql(this.tablaRol, []);
+      await this.database.executeSql(this.tablaTema, []);
+      await this.database.executeSql(this.tablaComentario, []);
+      await this.database.executeSql(this.tablaLista, []);
+
       //await this.database.executeSql(this.user, []);
       // await this.database.executeSql(this.tablaCurso, []);
 
@@ -414,9 +419,14 @@ export class ServicebdService {
     });
   }
 
-  modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string, telefono_usuario: number, contrasena_usuario: string, descripcion: string, foto: string) {
+  modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {
+    // Comprobar si los campos obligatorios son válidos
+    if (!id_usuario || !nombre_usuario || !correo_usuario || !telefono_usuario) {
+        this.presentAlert("Modificar", "Error: Todos los campos son obligatorios.");
+        return;
+    }
     this.presentAlert("service", "ID: " + id_usuario);
-    return this.database.executeSql('UPDATE  SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, telefono_usuario = ?, contrasena_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, telefono_usuario, contrasena_usuario, descripcion, foto, id_usuario]).then(() => {
+    return this.database.executeSql('UPDATE usuario SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto, id_usuario]).then(() => {
       this.presentAlert("Modificar", "Usuario Modificado" + nombre_usuario + ('correo ') + correo_usuario);
       this.seleccionarUsuario();
     }).catch(e => {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { /*NavigationExtras,*/ Router } from '@angular/router';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { /*NavigationExtras,*/ ActivatedRoute, Router } from '@angular/router';
+import { ToastController, ActionSheetController, AlertController } from '@ionic/angular';
 
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
@@ -50,12 +50,20 @@ export class PerfilPage implements OnInit {
       id_usuario: ''
     }
   ]
-
+    
   constructor(private router: Router,
     private toastController: ToastController,
     private actionSheetCtrl: ActionSheetController,
     private bd: ServicebdService, 
-    private storage: NativeStorage) { }
+    private storage: NativeStorage, 
+    private alertController: AlertController,
+    private activedrouter: ActivatedRoute){
+      /*this.activedrouter.queryParams.subscribe(() => {
+        if (this.router.getCurrentNavigation()?.extras.state) {
+          this.perfil = this.router.getCurrentNavigation()?.extras?.state?.['usuario'];
+        }
+      })*/
+     }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -85,7 +93,7 @@ export class PerfilPage implements OnInit {
     }
 
     // Actualizamos el valor del modelo
-    this.perfil.nombre = event.target.value;
+    this.perfil.nombre_usuario = event.target.value;
   }
 
 
@@ -100,7 +108,7 @@ export class PerfilPage implements OnInit {
     }
 
     // Limitar a 9 caracteres
-    if (String(this.perfil.telefono).length >= 9 && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(key)) {
+    if (String(this.perfil.telefono_usuario).length >= 9 && !['Backspace', 'ArrowLeft', 'ArrowRight'].includes(key)) {
       event.preventDefault(); // Prevenir la entrada de más caracteres si no es una tecla de control
     }
 
@@ -114,7 +122,7 @@ export class PerfilPage implements OnInit {
     // Permitir que el campo esté vacío
     if (input === '') {
       this.mensaje_2 = ''; // Limpiar el mensaje de error
-      this.perfil.correo = input; // Actualizar el modelo
+      this.perfil.correo_usuario = input; // Actualizar el modelo
       return; // Salir de la función
     }
 
@@ -130,49 +138,50 @@ export class PerfilPage implements OnInit {
     }
 
     // Actualizar el modelo con el valor corregido
-    this.perfil.correo = event.target.value;
+    this.perfil.correo_usuario = event.target.value;
   }
 
 
-  irPagina() {  //this.isEditable = !this.isEditable;
-
+  irPagina(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {  //this.isEditable = !this.isEditable;
+    this.presentAlert12('ID2', `ID: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+    
     this.mensaje_1 = "";
     this.mensaje_2 = "";
     this.mensaje_3 = "";
     this.mensaje_4 = "";
 
-    this.perfil.nombre = this.perfil.nombre.trim(); // Elimina los espacios vacios
-    this.perfil.correo = this.perfil.correo.replace(/\s+/g, '');
-    this.perfil.correo = this.perfil.correo.trim(); // Para el correo
+    nombre_usuario = nombre_usuario.trim(); // Elimina los espacios vacios
+    correo_usuario = correo_usuario.replace(/\s+/g, '');
+    correo_usuario = correo_usuario.trim(); // Para el correo
 
 
-    const isDescripcionValida = this.perfil.descripcion.trim() !== "" &&
-      this.perfil.descripcion.trim().toUpperCase() !== "NONE";
+    const isDescripcionValida = descripcion.trim() !== "" &&
+      descripcion.trim().toUpperCase() !== "NONE";
 
-    const isNombreValido = this.perfil.nombre.length > 1 &&
-      this.perfil.nombre.trim().toUpperCase() !== "NONE" && this.perfil.nombre.trim();
+    const isNombreValido = nombre_usuario.length > 1 &&
+      nombre_usuario.trim().toUpperCase() !== "NONE" && nombre_usuario.trim();
 
-    const comillas = String(this.perfil.telefono).indexOf('´'); // Encuentra la posición de la comilla
+    const comillas = String(telefono_usuario).indexOf('´'); // Encuentra la posición de la comilla
 
-    const isTelefonoValido = String(this.perfil.telefono).length === 9 && comillas === -1; // Asegúrate de que no haya comilla
+    const isTelefonoValido = String(telefono_usuario).length === 9 && comillas === -1; // Asegúrate de que no haya comilla
 
 
-    const tieneArroba = (this.perfil.correo.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
-    const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(this.perfil.correo); // Verifica caracteres no permitidos
+    const tieneArroba = (correo_usuario.match(/@/g) || []).length === 1; // Verifica que solo haya un '@'
+    const tieneCaracteresInvalidos = /[(),<>;:\[\]{}]/.test(correo_usuario); // Verifica caracteres no permitidos
 
-    const posicionArroba = this.perfil.correo.indexOf('@');
-    const posicionPunto = this.perfil.correo.lastIndexOf('.');
+    const posicionArroba = correo_usuario.indexOf('@');
+    const posicionPunto = correo_usuario.lastIndexOf('.');
 
     const algoAntesArroba = posicionArroba > 0; // Asegura que haya algo antes del '@'
     const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
-    const algoDespuesPunto = posicionPunto < this.perfil.correo.length - 1; // Asegura que haya algo después del '.'
+    const algoDespuesPunto = posicionPunto < correo_usuario.length - 1; // Asegura que haya algo después del '.'
 
-    if (!this.perfil.nombre || this.perfil.nombre.trim() === "" || this.perfil.nombre.trim().toUpperCase() === "NONE") {
+    if (!nombre_usuario || nombre_usuario.trim() === "" || nombre_usuario.trim().toUpperCase() === "NONE") {
       this.mensaje_1 = 'El nombre es obligatorio y no puede estar vacio.';
     }
 
-    if (!this.perfil.correo || this.perfil.correo.trim() === "" || this.perfil.correo.trim().toUpperCase() === "NONE") {
-      this.mensaje_2 = 'El Correo es obligatorio';
+    if (!correo_usuario || correo_usuario.trim() === "" || correo_usuario.trim().toUpperCase() === "NONE") {
+      this.mensaje_2 = 'El correo_usuario es obligatorio';
     }
     else {
 
@@ -186,7 +195,7 @@ export class PerfilPage implements OnInit {
 
 
 
-    const comilla = String(this.perfil.telefono).indexOf('´');
+    const comilla = String(telefono_usuario).indexOf('´');
     if (comilla !== -1) {
       // La comilla (´) está presente en el correo
       this.mensaje_3 = 'El telefono no puede contener la comilla (´).';
@@ -203,12 +212,9 @@ export class PerfilPage implements OnInit {
     }
 
 
-    if (!this.perfil.descripcion || this.perfil.descripcion.trim() === "" || this.perfil.descripcion.trim().toUpperCase() === "NONE") {
+    if (!descripcion || descripcion.trim() === "" || descripcion.trim().toUpperCase() === "NONE") {
       this.mensaje_4 = 'Rellene este campo';
     }
-
-
-
 
     if (tieneArroba &&
       !tieneCaracteresInvalidos &&
@@ -216,22 +222,40 @@ export class PerfilPage implements OnInit {
       algoEntreArrobaYPunto &&
       algoDespuesPunto &&
       isTelefonoValido &&
-      (isDescripcionValida && isNombreValido)) {
-      this.isEditable = !this.isEditable;
-      console.log('hola');
-    }
+      isDescripcionValida && isNombreValido) {
+    
+    // Concatenación mejorada con template literals
+    this.presentAlert12('ID', `ID: ${this.id}, Nombre: ${nombre_usuario}`);
+    this.presentAlert12('ID', `ID: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+    // Asegúrate de que el orden de los parámetros es el correcto
+    this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
+    //window.location.reload();
+    // Cambia el estado de edición
+    this.isEditable = !this.isEditable;
+  }
+  
 
 
+  }
+
+  async presentAlert12(title: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
 
   // Cambia entre modo de edición y solo lectura
   toggleEditMode() {
     this.isEditable = !this.isEditable;
 
-    if (this.isEditable) {
+   /* if (this.isEditable) {
       // Guarda una copia del perfil original
       this.originalPerfil = { ...this.perfil };
-    }
+    }*/
   }
 
 
@@ -239,10 +263,11 @@ export class PerfilPage implements OnInit {
   //Deshace los cambios del perfil 
   cancelEdit() {
     // Restaura los valores originales
-    this.perfil = { ...this.originalPerfil };
+    /*this.perfil = { ...this.originalPerfil };*/
     // Cambia a modo no editable
     this.isEditable = false;
-  }
+}
+
 
   public alertButtons = [
     {
@@ -382,7 +407,7 @@ export class PerfilPage implements OnInit {
 
       state: {
         nom: this.perfil.nombre,
-        email: this.perfil.correo,
+        email: this.perfil.correo, 
         fono: this.perfil.telefono,
         desc: this.perfil.descripcion,
         img: this.photoUrl

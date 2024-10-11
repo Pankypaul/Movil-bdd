@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
@@ -34,7 +34,8 @@ export class AprendizPage implements OnInit {
 
   
 
-  constructor(private bd: ServicebdService, private router: Router) { }
+  constructor(private bd: ServicebdService, 
+              private router: Router) { }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -48,8 +49,20 @@ export class AprendizPage implements OnInit {
     })
   }
 
-  ir(){
-    this.router.navigate (['/perfil-agregar-amigos'])
+  ir(nombre_usuario: string, correo_usuario: string, foto: string, id_usuario: number, rol_id_rol: number){ // Accede al primer elemento del arreglo
+
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        nom: nombre_usuario,
+        email: correo_usuario,
+        img: foto,
+        id: id_usuario,
+        rol: rol_id_rol,
+        
+      }
+    }
+    this.router.navigate (['/perfil-agregar-amigos'],navigationextras);
   }
 
 

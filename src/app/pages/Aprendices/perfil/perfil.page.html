@@ -49,7 +49,7 @@
       <ion-item class="fondo">
         <ion-icon name="person" slot="start" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
         <ion-input class="" maxlength="60" minlength="1" [(ngModel)]="x.nombre_usuario" type="text"
-          (ionInput)="validarTexto($event)" [readonly]="!isEditable"></ion-input>
+          (ionInput)="validarTexto($event)" [readonly]="!isEditable"(ionInput)="validateName($event)" ></ion-input>
       </ion-item>
       <ion-label color="danger">{{mensaje_1}}</ion-label>
 
@@ -66,8 +66,7 @@
       <!-- Telefono 3-->
       <ion-item class="fondo">
         <ion-icon name="call" slot="start" style="font-size: 24px; color: rgba(182, 149, 192, 1)"></ion-icon>
-        <ion-input class="" maxlength="9" [(ngModel)]="x.telefono_usuario" type="tel" placeholder="Ej:9 49634859"
-          (keydown)="restrictInput($event)" [readonly]="!isEditable"></ion-input>
+        <ion-input class="" maxlength="9" [(ngModel)]="x.telefono_usuario" type="tel" placeholder="Ej:9 49634859" [readonly]="!isEditable" (ionInput)="validateNumero($event)" inputmode="numeric"></ion-input>
       </ion-item>
       <ion-label color="danger">{{mensaje_3}}</ion-label>
 

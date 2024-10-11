@@ -83,6 +83,17 @@ export class PerfilPage implements OnInit {
     });
   }
 
+  validateName(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^A-Za-z\s]/g, '');
+  }
+
+  validateNumero(event: any) {
+    const input = event.target.value;
+    event.target.value = input.replace(/[^0-9]/g, ''); // Permite solo dígitos numéricos
+  }
+
+
   validarTexto(event: any) {
     const pattern = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]*$/; // Solo letras y espacios
     let input = event.target.value;

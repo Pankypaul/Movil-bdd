@@ -20,10 +20,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Aprendices/perfil/perfil.module').then( m => m.PerfilPageModule)
   },
   {
-    path: 'perfil1',
-    loadChildren: () => import('./pages/Tutor/perfil1/perfil1.module').then( m => m.PerfilPageModule)
-  },
-  {
     path: 'asignaturas1',
     loadChildren: () => import('./pages/Tutor/asignaturas1/asignaturas.module').then( m => m.AsignaturasPageModule)
   },

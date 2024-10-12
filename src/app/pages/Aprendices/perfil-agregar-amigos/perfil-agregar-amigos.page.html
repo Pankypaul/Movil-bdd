@@ -5,53 +5,58 @@
       <!--slot="end" Es la para la derecha-->
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Perfil de {{nombre}}</ion-title>
+    <div *ngFor="let x of arregloUsuario">
+      <ion-title *ngIf="id === x.id_usuario">Perfil de {{x.nombre_usuario}}</ion-title>
+    </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content >
+  <button></button>
+  <div class="ion-padding" *ngFor="let x of arregloUsuario">
+    <div class="container" *ngIf="id === x.id_usuario">
+      <!-- Imagen de perfil -->
+      <div class="centrar">
+        <img class="imagen" [src]="x.foto || '/assets/icon/pato.jpg'" alt="Perfil">
 
-  <div class="container">
-    <!-- Imagen de perfil -->
-    <div class="centrar">
-      <img class="imagen" [src]="foto || '/assets/icon/pato.jpg'" alt="Perfil">
+
+        <!-- Nombre de usuario -->
+        <h2 class="nombre" *ngIf="x.rol_id_rol === 0">{{x.nombre_usuario}} (Aprendiz)<!--({{tipos}})--></h2>
+        <h2 class="nombre" *ngIf="x.rol_id_rol === 1">{{x.nombre_usuario}} (Tutor)<!--({{tipos}})--></h2>
+      </div>
 
 
-      <!-- Nombre de usuario -->
-      <h2 class="nombre">{{nombre}} {{rol1}}<!--({{tipos}})--></h2>
+      <!-- Información de contacto -->
+      <ion-list>
+        <ion-item>
+          <ion-icon name="mail" slot="start"></ion-icon>
+          <ion-label>{{x.correo_usuario}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="call" slot="start"></ion-icon>
+          <ion-label>+56{{x.telefono_usuario}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            Descripción :
+          </ion-label>
+
+          <ion-label class="texto">
+            {{x.descripcion}}
+          </ion-label>
+        </ion-item>
+
+        <!--<ion-item>
+            <ion-icon name="book" slot="start"></ion-icon>
+            <ion-label>Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.</ion-label>
+          </ion-item>-->
+      </ion-list>
+
+      <!-- Botones de acción -->
+      <!--<ion-button expand="block" color="primary" (click)="presentToast('top')" routerLink="/amigos"> Agrega amigo</ion-button>-->
     </div>
-
-
-    <!-- Información de contacto -->
-    <ion-list>
-      <ion-item>
-        <ion-icon name="mail" slot="start"></ion-icon>
-        <ion-label>{{correo}}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-icon name="call" slot="start"></ion-icon>
-        <ion-label>+56{{telefono}}</ion-label>
-      </ion-item>
-
-      <ion-item>
-        <ion-label>
-          Descripción :
-        </ion-label>
-
-        <ion-label class="texto">
-          {{descripcion}}
-        </ion-label>
-      </ion-item>
-
-      <!--<ion-item>
-          <ion-icon name="book" slot="start"></ion-icon>
-          <ion-label>Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.</ion-label>
-        </ion-item>-->
-    </ion-list>
-
-    <!-- Botones de acción -->
-    <!--<ion-button expand="block" color="primary" (click)="presentToast('top')" routerLink="/amigos"> Agrega amigo</ion-button>-->
   </div>
 
 </ion-content>

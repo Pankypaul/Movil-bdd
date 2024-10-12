@@ -41,7 +41,6 @@ export class PerfilPage implements OnInit {
 
   perfil: any = [
     {
-      
       nombre_usuario: '',
       correo_usuario: '',
       telefono_usuario: '',

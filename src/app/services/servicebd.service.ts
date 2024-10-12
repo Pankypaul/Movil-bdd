@@ -182,7 +182,7 @@ export class ServicebdService {
 
     })
   }
-  insertarPublicacion(titulo: string, descripcion: string, photoUrl: string, fecha_publi: string, usuarioId: number = 1, activo: number = 1) {
+  insertarPublicacion(titulo: string, descripcion: string, photoUrl: string, fecha_publi: string, usuarioId: number, activo: number = 1) {
     // Asegurarte de que fecha_publi sea un objeto Date
     return this.database.executeSql('INSERT INTO publicacion(titulo_publi, descripcion_publi, foto_publi, fecha_publi, usuario_id_usuario, activo) VALUES (?,?,?,?,?,?)',
       [titulo, descripcion, photoUrl, fecha_publi, usuarioId, activo]

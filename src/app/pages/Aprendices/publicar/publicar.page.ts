@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastController, ActionSheetController } from '@ionic/angular';
+import { ToastController, ActionSheetController, AlertController } from '@ionic/angular';
 
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
 import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 /*---------------------------------------------------------------------------------
 // PONER ESTO EN EL CMD
@@ -39,6 +40,7 @@ export class PublicarPage implements OnInit {
   titulo_publi: string = "";
   descripcion_publi: string = "";
 
+  id!: number; //id del localStorage
 
   mensaje_1!: string;
   mensaje_2!: string;
@@ -47,7 +49,9 @@ export class PublicarPage implements OnInit {
     private toastController: ToastController,
     private router: Router,
     private actionSheetCtrl: ActionSheetController,
-    private bd: ServicebdService) { }
+    private bd: ServicebdService,
+    private storage: NativeStorage,
+    private alertController: AlertController) { }
 
   public alertButtons = [
     {
@@ -59,6 +63,16 @@ export class PublicarPage implements OnInit {
       cssClass: 'alert-button-confirm',
     },
   ];
+
+  async presentAlert(titulo_publi: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: titulo_publi,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 
   irPubli() {
     this.router.navigate(['/mi-publicacion'])
@@ -81,6 +95,7 @@ export class PublicarPage implements OnInit {
 
 
   irPagina() {
+    
     console.log(this.fecha_publi);  // Esto mostrará la fecha en formato DD/MM/YYYY
 
     // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
@@ -111,7 +126,7 @@ export class PublicarPage implements OnInit {
     if (this.descripcion_publi.trim() !== "" && this.titulo_publi.trim() !== "" && this.hasPhoto === true) {
 
       this.presentToast('top');
-      this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, 1, 1); // Pasar el objeto Date
+      this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, this.id, 1); // Pasar el objeto Date
     }
   }
 
@@ -258,7 +273,11 @@ export class PublicarPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.storage.getItem('Id').then((id_usuario: number) => {
+      this.id = id_usuario;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
 

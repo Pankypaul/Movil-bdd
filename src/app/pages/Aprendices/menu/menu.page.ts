@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
@@ -9,12 +11,13 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
 })
 export class MenuPage implements OnInit {
 
-  id: string= "";
+  id!: number; //id del localStorage
 
 
   arregloPublicacion: any = [
     {
-      id: '',
+      id_publi: '',
+      id_usuario: '',
       titulo: '',
       descripcion: '',
       foto_publi: '',
@@ -22,7 +25,9 @@ export class MenuPage implements OnInit {
     }
   ]
   constructor(private router:Router /*,private activateroute:ActivatedRoute*/, 
-              private bd: ServicebdService) { 
+              private bd: ServicebdService,
+              private alertController: AlertController,
+              private storage: NativeStorage) { 
 
     /*this.activateroute.queryParams.subscribe(param =>{
       //valido si viene o no información en la ruta
@@ -47,16 +52,28 @@ export class MenuPage implements OnInit {
       }
     })
   }
-  irPagina(){
-    this.router.navigate(['/chat'])
+  
+  irPagina(id_usuario: number, id_publi: number){
+
+      id_usuario;
+      console.log('ID del usuario:', id_usuario, id_publi); // Esto muestra el ID en la consola
+      let navigationextras: NavigationExtras = {
+  
+        state: {
+          id_us: id_usuario,
+          id_cu: id_publi
+        }
+      }
+      this.router.navigate(['/chat'],navigationextras);
+    
   }
 
   irPerfil(){
     this.router.navigate(['/perfil-agregar-amigos'])
   }
 
-  mostrarCard(id: string) {
+  /*mostrarCard(id: string) {
     this.id = id;
-  }
+  }*/
 
 }

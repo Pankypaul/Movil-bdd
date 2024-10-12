@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { ServicebdService } from 'src/app/services/servicebd.service';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-aprendiz',
@@ -35,7 +37,8 @@ export class AprendizPage implements OnInit {
   
 
   constructor(private bd: ServicebdService, 
-              private router: Router) { }
+              private router: Router,
+              private alertController:AlertController) { }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -49,21 +52,30 @@ export class AprendizPage implements OnInit {
     })
   }
 
-  ir(nombre_usuario: string, correo_usuario: string, foto: string, id_usuario: number, rol_id_rol: number){ // Accede al primer elemento del arreglo
+  async presentAlert12(title: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: title,
+      message: msj,
+      buttons: ['OK'],
+    });
 
+    await alert.present();
+  }
+
+  ir(id_usuario: number){ // Accede al primer elemento del arreglo
+    this.arregloUsuario.id_usuario;
+    console.log('ID del usuario:', id_usuario); // Esto muestra el ID en la consola
     let navigationextras: NavigationExtras = {
 
       state: {
-        nom: nombre_usuario,
-        email: correo_usuario,
-        img: foto,
-        id: id_usuario,
-        rol: rol_id_rol,
-        
+        id: id_usuario
       }
     }
     this.router.navigate (['/perfil-agregar-amigos'],navigationextras);
   }
+
+ 
+  
 
 
 }

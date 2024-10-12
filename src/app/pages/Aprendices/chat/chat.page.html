@@ -9,11 +9,11 @@
 
 <ion-content  [fullscreen]="true">
 
-  <div class="container">
-    <div class="container6">
-      <ion-item class="fondo unir" lines="none">
-        <img class="imagen" src="/assets/icon/pato.jpg" alt="foto perfil">
-        <p class="nombre">Maria Luisa Diaz</p>
+  <div class="container" *ngFor="let x of arregloPublicacion">
+    <div class="container6" *ngFor="let y of arregloUsuario">
+      <ion-item class="fondo unir" lines="none" *ngIf="id_usu === y.usuario_id_usuario">
+        <img class="imagen" [src]="y.foto || '/assets/icon/pato.jpg'" alt="foto perfil">
+        <p class="nombre">{{y.nombre_usuario}}</p>
       </ion-item>
       <hr class="hr">
       <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>

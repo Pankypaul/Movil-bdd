@@ -13,15 +13,19 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 })
 export class PerfilAgregarAmigosPage implements OnInit {
 
-  nombre: string = "";
-  telefono!: number;
-  correo: string = "";
-  tipos: string = "";
-  descripcion: string = "";
-  foto: string = "";
-  id_usuario: string = "";
-  rol1!: number;
-
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
+  
   id!: number;
 
   constructor(private router: Router,
@@ -33,23 +37,29 @@ export class PerfilAgregarAmigosPage implements OnInit {
       //valido si viene o no información en la ruta
 
       if (this.router.getCurrentNavigation()?.extras.state) {
-        this.nombre = this.router.getCurrentNavigation()?.extras?.state?.['nom'];
-        this.rol1 = this.router.getCurrentNavigation()?.extras?.state?.['rol'];
-        this.correo = this.router.getCurrentNavigation()?.extras?.state?.['email'];
-        this.foto = this.router.getCurrentNavigation()?.extras?.state?.['img'];
-        this.id_usuario = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+        this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
       }
     })
 
   }
 
   ngOnInit() {
+    
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
   }
 
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Haz agregado a ' + this.nombre + ' a tus amigos',
+      message: 'Haz agregado a ' + this.arregloUsuario.nombre + ' a tus amigos',
       duration: 1500,
       position: position,
     });

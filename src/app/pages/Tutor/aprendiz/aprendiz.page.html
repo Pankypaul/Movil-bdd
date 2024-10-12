@@ -15,8 +15,8 @@
   <ion-card class="container" *ngFor="let x of arregloUsuario">
     <ion-card-header>
       <div class="unir">
-        <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil x.id_usuario">
-        <p class="nombre">{{ x.nombre_usuario }}</p>
+        <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil ">
+        <p class="nombre">{{ x.nombre_usuario }}{{x.id_usuario}}</p>
       </div>
       <hr>
     </ion-card-header>
@@ -27,7 +27,7 @@
     
     <p class="texto"> Email: {{ x.correo_usuario }}</p>
     <div class="centrarB">
-      <ion-button class="verMas" (click)="ir(x.nombre_usuario, x.correo_usuario, x.foto, x.id_usuario, x.rol_id_rol)">Ir al perfil</ion-button>
+      <ion-button class="verMas" (click)="ir(x.id_usuario)">Ir al perfil</ion-button>
     </div>
     
   </ion-card>

@@ -24,13 +24,13 @@
 
         <div class="unir" (click)="irPerfil()">
           <img class="maria" src="/assets/icon/maria.webp" alt="maria">
-          <p class="nombre">Maria Torres</p>
+          <p class="nombre">Maria Torres {{x.usuario_id_usuario}} {{x.id_publi}}</p>
         </div>
         <hr>
       </ion-card-header>
       <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
       <div class="centrarB">
-        <ion-button class="verMas" (click)="irPagina()">Ver más</ion-button>
+        <ion-button class="verMas" (click)="irPagina(x.usuario_id_usuario, x.id_publi)">Ver más</ion-button>
       </div>
 
     </ion-card>

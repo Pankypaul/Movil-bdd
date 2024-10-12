@@ -7,47 +7,45 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content  [fullscreen]="true">
+<ion-content [fullscreen]="true">
 
   <div class="container" *ngFor="let x of arregloPublicacion">
-    <div class="container6" *ngFor="let y of arregloUsuario">
-      <ion-item class="fondo unir" lines="none" *ngIf="id_usu === y.usuario_id_usuario">
-        <img class="imagen" [src]="y.foto || '/assets/icon/pato.jpg'" alt="foto perfil">
-        <p class="nombre">{{y.nombre_usuario}}</p>
-      </ion-item>
-      <hr class="hr">
-      <ion-card-title class="texto">Necesito ayuda con mi tarea de nivelación de matematicas</ion-card-title>
-      <div class="centrar1">
-        <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
-      </div>
-  
-      <hr class="hr">
-        
-      <ion-card-content class="descripcion">
-        <p>DESCRIPCIÓN</p>
-        Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien, 
-        si alguien me puede ayudar, muchas gracias de antemano.
-      </ion-card-content>
-    </div>
 
-    <hr class="hr">
-    
+    <div *ngIf="x.id_publi === id_pub">
+      <div class="container6"> <!--*ngFor="let y of arregloUsuario"-->
+        <ion-item class="fondo unir" lines="none" > <!--*ngIf="id_usu === y.usuario_id_usuario"-->
+          <img class="imagen" src="/assets/icon/pato.jpg" alt="foto perfil">
+          <p class="nombre">paul</p>
+        </ion-item>
+        <hr class="hr">
+        <ion-card-title class="texto">{{x.titulo_publi}}</ion-card-title>
+        <div class="centrar1">
+          <img class="tarea" src="/assets/icon/tarea1.jpeg" alt="tarea1">
+        </div>
 
-    <div class="container3">
-      <div class="unir color" (click)="irPagina()">
-        <img class="imagen" src="/assets/icon/maria.webp" alt="maria" >
-        <p class="nombre1">Melanie Ortiz</p>
-        <hr>
+        <hr class="hr">
+
+        <ion-card-content class="descripcion">
+          <p>DESCRIPCIÓN</p>
+          Necesito ayuda con esta tarea de nivelación matematica, la hice pero no se si este bien,
+          si alguien me puede ayudar, muchas gracias de antemano.
+        </ion-card-content>
       </div>
-      <p class="texto5">Para hacer eso es super facil debes realizar sumas</p>
+
+      <hr class="hr">
+
+
+      <div class="container3">
+        <div class="unir color" (click)="irPagina()">
+          <img class="imagen" src="/assets/icon/maria.webp" alt="maria">
+          <p class="nombre1">Melanie Ortiz</p>
+          <hr>
+        </div>
+        <p class="texto5">Para hacer eso es super facil debes realizar sumas</p>
+      </div>
+      <div class="centrar">
+        <input class="escribir" type="text" placeholder="Escribir">
+      </div>
     </div>
-  
-    
-    <div class="centrar">
-      <input class="escribir" type="text" placeholder="Escribir">
-      
-    </div>    
   </div>
-
-
 </ion-content>

@@ -21,7 +21,7 @@
     <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
 
     <ion-card-content>
-      <img [src]="x.foto_publi || '/assets/icon/pato.jpg'" alt="Perfil"/> <!--*ngIf="x.foto_publi; else defaultImage"-->
+      <img [src]="x.foto_publi" alt="Perfil"/> <!--*ngIf="x.foto_publi; else defaultImage"-->
 
       <!--<ng-template #defaultImage>
         <img src="/assets/icon/pato.jpg" alt="Imagen predeterminada">

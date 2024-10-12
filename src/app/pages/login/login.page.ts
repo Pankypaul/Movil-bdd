@@ -44,7 +44,7 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
-    this.storage.clear().then(() => this.presentAlert12('Éxito', 'Storage limpiado'))
+    this.storage.clear()
       .catch(err => this.presentAlert12('Error', err));
   }
 

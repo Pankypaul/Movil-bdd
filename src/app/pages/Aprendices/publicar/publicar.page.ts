@@ -119,11 +119,11 @@ export class PublicarPage implements OnInit {
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if (this.hasPhoto === false) {
+    /*if (this.hasPhoto === false) {
       this.mensaje_3 = 'Este campo es obligatorio ';
-    }
+    }*/
     // true si hay una imagen, false si está vacío o null
-    if (this.descripcion_publi.trim() !== "" && this.titulo_publi.trim() !== "" && this.hasPhoto === true) {
+    if (this.descripcion_publi.trim() !== "" && this.titulo_publi.trim() !== "" ) {/*&& this.hasPhoto === true*/
 
       this.presentToast('top');
       this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, this.id, 1); // Pasar el objeto Date

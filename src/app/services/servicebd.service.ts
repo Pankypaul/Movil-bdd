@@ -25,6 +25,7 @@ export class ServicebdService {
 
 
   //variables de creación de Tablas
+  
 
   //ROL
   tablaRol: string = "CREATE TABLE IF NOT EXISTS roles( id_rol INTEGER PRIMARY KEY, tipo_rol VARCHAR (10) NOT NULL);";
@@ -156,7 +157,7 @@ export class ServicebdService {
 
 
   seleccionarPublicacion() {
-    return this.database.executeSql('SELECT * FROM publicacion WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+    return this.database.executeSql('SELECT * FROM publicacion WHERE activo = 1 ORDER BY fecha_publi DESC', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
       //variable para almacenar el resultado de la consulta
       let items: Publicacion[] = [];
       //valido si trae al menos un registro
@@ -222,7 +223,7 @@ export class ServicebdService {
 
 
   seleccionarCurso() {
-    return this.database.executeSql('SELECT * FROM curso WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+    return this.database.executeSql('SELECT * FROM curso WHERE activo = 1 ORDER BY fecha_inicio DESC', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
       //variable para almacenar el resultado de la consulta
       let items: Curso[] = [];
       //valido si trae al menos un registro
@@ -287,7 +288,7 @@ export class ServicebdService {
 
   seleccionarUsuario() {
 
-    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+    return this.database.executeSql('SELECT * FROM usuario ORDER BY id_usuario DESC', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
       //variable para almacenar el resultado de la consulta
       let items: Usuario[] = [];
       //valido si trae al menos un registro
@@ -434,6 +435,7 @@ export class ServicebdService {
     });
   }
 
+  
 
 
   /*

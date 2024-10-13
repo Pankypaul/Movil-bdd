@@ -61,6 +61,10 @@ export class EditarCursoPage implements OnInit {
     await alert.present();
   }
 
+  volver(){
+    this.router.navigate(['/asignaturas1']);
+  }
+
   irPagina() {
 
 

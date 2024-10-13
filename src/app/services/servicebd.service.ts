@@ -320,6 +320,8 @@ export class ServicebdService {
 
   }
 
+
+
   //-----------------------------------------------------------------------------------------------------------------------------
   guardarTipoStorage(correo: string, contrasena: string) {
     return this.database.executeSql(
@@ -434,6 +436,26 @@ export class ServicebdService {
       this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
+
+  //-----------------------------------------------
+
+  seleccionarCorreo(id_usuario: number): Promise<string | null> {
+    return this.database.executeSql(
+      'SELECT correo_usuario FROM usuario WHERE id_usuario = ?',
+      [id_usuario]
+    ).then(res => {
+      if (res.rows.length > 0) {
+        // Retorna directamente el valor de 'correo_usuario' del primer (y único) registro
+        return res.rows.item(0).correo_usuario as string;
+      } else {
+        return null; // Retorna null si no hay resultados
+      }
+    }).catch(e => {
+      this.presentAlert('Error al obtener el correo', JSON.stringify(e));
+      return null; // Maneja el error retornando null
+    });
+  }
+  
 
   
 

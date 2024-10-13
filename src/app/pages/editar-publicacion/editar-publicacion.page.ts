@@ -51,7 +51,7 @@ export class EditarPublicacionPage implements OnInit {
     },
   ];
   irPubli(){
-    this.router.navigate(['/publicar'])
+    this.router.navigate(['/menu']);
   }
 
   irPagina(){

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { /*NavigationExtras,*/ ActivatedRoute, Router } from '@angular/router';
 import { ToastController, ActionSheetController, AlertController } from '@ionic/angular';
 
@@ -56,7 +56,8 @@ export class PerfilPage implements OnInit {
     private bd: ServicebdService,
     private storage: NativeStorage,
     private alertController: AlertController,
-    private activedrouter: ActivatedRoute) {
+    private activedrouter: ActivatedRoute,
+    private cdr: ChangeDetectorRef) {
     /*this.activedrouter.queryParams.subscribe(() => {
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.perfil = this.router.getCurrentNavigation()?.extras?.state?.['usuario'];
@@ -153,7 +154,9 @@ export class PerfilPage implements OnInit {
 
 
   irPagina(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {  //this.isEditable = !this.isEditable;
-    this.presentAlert12('ID2', `ID: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+
+
+
 
     this.mensaje_1 = "";
     this.mensaje_2 = "";
@@ -225,7 +228,7 @@ export class PerfilPage implements OnInit {
     if (!descripcion || descripcion.trim() === "" || descripcion.trim().toUpperCase() === "NONE") {
       this.mensaje_4 = 'Rellene este campo';
     }
-    const correoActual = correo_usuario; // Cambia esto a tu lógica actual para obtener el correo
+
 
     if (tieneArroba &&
       !tieneCaracteresInvalidos &&
@@ -236,11 +239,18 @@ export class PerfilPage implements OnInit {
       isDescripcionValida && isNombreValido) {
       this.bd.isDBReady.subscribe(async (val) => {
         if (val) {
-          const correoUnico = await this.bd.seleccionarVerificacionCorreo(correo_usuario);
 
-          if (correo_usuario !== correoActual && correoUnico) {
+          const correoActual = await this.bd.seleccionarCorreo(this.id);
+
+          const correoUnico = await this.bd.seleccionarVerificacionCorreo(correo_usuario); // true == correo existe 
+
+          //const correo_encontrado = correoUnico?.correo_usuario
+
+          console.log('correo actual ', correoActual);
+          //   p  !== a && false ()
+          if (correo_usuario !== correoActual && !correoUnico) {
             // Concatenación mejorada con template literals
-            this.presentAlert12('correo_usuario !== correoActual && !correoUnico', `ID: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+            this.presentAlert12('correo_usuario !== correoActual && !correoUnico', `ID4: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
             // Asegúrate de que el orden de los parámetros es el correcto
             this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
             //window.location.reload();
@@ -248,29 +258,31 @@ export class PerfilPage implements OnInit {
             this.isEditable = !this.isEditable;
           }
 
-          if (correo_usuario === correoActual) {
-            if (correoUnico) {
-              // Mostrar mensaje de error
-              this.mensaje_3 = 'El Correo ya esta registrado.';// Si es true, significa que el correo ya existe
+          //   p !== a && true
+          if (correo_usuario !== correoActual && correoUnico) {
 
-            } else {
-              // Concatenación mejorada con template literals
-              this.presentAlert12('correo_usuario === correoActual', `ID: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
-              // Asegúrate de que el orden de los parámetros es el correcto
-              this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
-              //window.location.reload();
-              // Cambia el estado de edición
-              this.isEditable = !this.isEditable;
-            }
+            // Mostrar mensaje de error
+            this.mensaje_2 = 'El Correo ya esta registrado.';// Si es true, significa que el correo ya existe
 
+          } if (correo_usuario === correoActual) {
+            // Concatenación mejorada con template literals
+            this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+            // Asegúrate de que el orden de los parámetros es el correcto
+            this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
+            //window.location.reload();
+            // Cambia el estado de edición
+            this.isEditable = !this.isEditable;
           }
+
         }
+
+
       })
     }
 
-      
-    
-    
+
+
+
   }
 
 
@@ -288,20 +300,19 @@ export class PerfilPage implements OnInit {
   toggleEditMode() {
     this.isEditable = !this.isEditable;
 
-    /* if (this.isEditable) {
-       // Guarda una copia del perfil original
-       this.originalPerfil = { ...this.perfil };
-     }*/
+    if (this.isEditable) {
+      // Guarda una copia del perfil original
+      this.originalPerfil = { ...this.perfil };
+    }
   }
-
-
 
   //Deshace los cambios del perfil 
   cancelEdit() {
-    // Restaura los valores originales
-    /*this.perfil = { ...this.originalPerfil };*/
-    // Cambia a modo no editable
+    this.perfil = { ...this.originalPerfil };
     this.isEditable = false;
+    //this.cdr.detectChanges();
+    window.location.reload();
+    //this.perfil.reset();
   }
 
 

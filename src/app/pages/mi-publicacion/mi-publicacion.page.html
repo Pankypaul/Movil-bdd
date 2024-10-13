@@ -10,12 +10,14 @@
 
 <ion-content [fullscreen]="true">
   <ion-card class="container" *ngFor="let x of arregloPublicacion">
-    <ion-card-header>
-      <div class="unir">
-        <img class="maria" src="/assets/icon/maria.webp" alt="maria">
-        <p class="nombre">Maria Torres</p>
+    <ion-card-header *ngFor="let y of arregloUsuario">
+      <div *ngIf="x.usuario_id_usuario === y.id_usuario">
+        <div class="unir">
+          <img class="maria" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+          <p class="nombre">{{y.nombre_usuario}}</p>
+        </div>
+        <hr>
       </div>
-      <hr>
     </ion-card-header>
 
     <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>

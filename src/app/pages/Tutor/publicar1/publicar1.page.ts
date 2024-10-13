@@ -5,6 +5,8 @@ import { ToastController, ActionSheetController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
+import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 /*---------------------------------------------------------------------------------
 // PONER ESTO EN EL CMD
@@ -34,13 +36,28 @@ export class PublicarPage implements OnInit {
   titulo: string = "";
   descripcion :string = "";
 
+  id!: number;
   mensaje_1!: string;
   mensaje_2!: string;
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
 
   constructor(
     private toastController:ToastController,
     private router:Router, 
-    private actionSheetCtrl: ActionSheetController) { }
+    private actionSheetCtrl: ActionSheetController,
+    private bd: ServicebdService,
+    private storage: NativeStorage) { }
   
   public alertButtons = [
     {
@@ -216,7 +233,20 @@ export class PublicarPage implements OnInit {
   
   
   ngOnInit() {
-    
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
+    this.storage.getItem('Id').then((id_usuario: number) => {
+      this.id = id_usuario;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
 }

@@ -60,10 +60,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/Aprendices/chat/chat.module').then( m => m.ChatPageModule)
   },
   {
-    path: 'editar-perfil',
-    loadChildren: () => import('./pages/Aprendices/editar-perfil/editar-perfil.module').then( m => m.EditarPerfilPageModule)
-  },
-  {
     path: 'ayuda',
     loadChildren: () => import('./pages/Aprendices/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },

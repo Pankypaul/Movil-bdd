@@ -6,6 +6,7 @@ import { ActionSheetController, AlertController, ToastController } from '@ionic/
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
 import { ServicebdService } from 'src/app/services/servicebd.service';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-editar-curso',
@@ -22,7 +23,19 @@ export class EditarCursoPage implements OnInit {
   mensaje_1!: string;
   mensaje_2!: string;
 
-
+  id!: number; //id del localStorage
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
   curso: any;
 
   constructor(
@@ -31,7 +44,8 @@ export class EditarCursoPage implements OnInit {
     private router: Router,
     private bd: ServicebdService,
     private actionSheetCtrl: ActionSheetController,
-    private alertController: AlertController) {
+    private alertController: AlertController,
+    private storage: NativeStorage) {
 
     this.activedrouter.queryParams.subscribe(res => {
       if (this.router.getCurrentNavigation()?.extras.state) {
@@ -239,7 +253,20 @@ export class EditarCursoPage implements OnInit {
   }
 
   ngOnInit() {
-
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
+    this.storage.getItem('Id').then((id: number) => {
+      this.id = id;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
 }

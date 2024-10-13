@@ -40,6 +40,18 @@ export class CursoPage implements OnInit {
   mensaje_1!: string;
   mensaje_2!: string;
   mensaje_3!: string;
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
 
   constructor(
     private toastController: ToastController,
@@ -266,6 +278,15 @@ export class CursoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
     this.storage.getItem('Id').then((id_usuario: number) => {
       this.id = id_usuario;
     }).catch(err => {

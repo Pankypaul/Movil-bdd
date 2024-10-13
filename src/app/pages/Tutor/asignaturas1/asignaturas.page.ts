@@ -21,6 +21,19 @@ export class AsignaturasPage implements OnInit {
       activo: '',  //Agregue el activo aqui tambien
     }
   ]
+  
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
 
   rol!: number;
   id!: number;
@@ -37,6 +50,16 @@ export class AsignaturasPage implements OnInit {
         //subscribir al observable de la listaNoticias
         this.bd.fetchCurso().subscribe(res => {
           this.arregloCurso = res;
+        })
+      }
+    })
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
         })
       }
     })

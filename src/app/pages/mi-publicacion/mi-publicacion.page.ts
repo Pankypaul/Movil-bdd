@@ -21,6 +21,20 @@ export class MiPublicacionPage implements OnInit {
     }
   ]
 
+  id!: number; //id del localStorage
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
+
   constructor(private router: Router, private bd: ServicebdService, private alertController: AlertController) { }
 
   ngOnInit() {
@@ -30,6 +44,15 @@ export class MiPublicacionPage implements OnInit {
         //subscribir al observable de la listaNoticias
         this.bd.fetchPublicacion().subscribe(res => {
           this.arregloPublicacion = res;
+        })
+      }
+    })
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
         })
       }
     })

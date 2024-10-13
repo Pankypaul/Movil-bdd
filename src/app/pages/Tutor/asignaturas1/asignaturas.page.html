@@ -18,7 +18,9 @@
       <img class="imagen" [routerLink]="[('/menu-asignatura')]" alt="lenguaje" [src]="x.foto_curso || '/assets/icon/pato.jpg'" />
       <ion-card-header [routerLink]="[('/menu-asignatura')]">
         <ion-card-title class="texto">{{x.nombre_curso}}</ion-card-title>
-        <ion-card-subtitle>Romina Riquelme</ion-card-subtitle>
+        <div *ngFor="let y of arregloUsuario">
+          <ion-card-subtitle *ngIf="x.usuario_id_usuario === y.id_usuario">{{y.nombre_usuario}}</ion-card-subtitle>
+        </div>
       </ion-card-header>
 
       <div *ngIf="rol === 1 && id === x.usuario_id_usuario">

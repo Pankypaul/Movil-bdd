@@ -27,10 +27,10 @@
 
       <div class="centrar">
         <!-- Si hay foto, muestra la nueva foto que se tomo en la camara o la eligio de la galeria -->
-        <img *ngIf="hasPhoto" class="imagen" [src]=" x.foto || photoUrl" alt="Perfil">
+        <img class="imagen" [src]="photoUrl || x.foto || 'assets/icon/pato.jpg'" alt="Perfil">
 
         <!-- Si no hay foto, muestra la imagen por del pato  -->
-        <img *ngIf="!hasPhoto" class="imagen" src="assets/icon/pato.jpg" alt="Perfil">
+        <!--<img *ngIf="!hasPhoto" class="imagen" src="assets/icon/pato.jpg" alt="Perfil">-->
         <br>
         <br>
         <!-- Foto o imagen -->

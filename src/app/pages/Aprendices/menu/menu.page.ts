@@ -12,7 +12,18 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
 export class MenuPage implements OnInit {
 
   id!: number; //id del localStorage
-
+  arregloUsuario: any = [
+    {
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+      descripcion: '',
+      id_usuario: '',
+      
+    }
+  ];
 
   arregloPublicacion: any = [
     {
@@ -48,6 +59,15 @@ export class MenuPage implements OnInit {
         //subscribir al observable de la listaNoticias
         this.bd.fetchPublicacion().subscribe(res=>{
           this.arregloPublicacion = res;
+        })
+      }
+    })
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
         })
       }
     })

@@ -13,18 +13,15 @@
 
 
   <ion-card class="card centrar">
+    <div *ngFor="let x of arregloUsuario">
+      <ion-item class="fondo" lines="none" *ngIf="id === x.id_usuario">
+        <ion-avatar class="">
+          <img [src]="x.foto || '/assets/icon/pato.jpg'" alt="Perfil">
+        </ion-avatar>
+        <ion-label class="nombre" placeholder="Nombre">{{x.nombre_usuario}}</ion-label>
 
-    <ion-item class="fondo" lines="none">
-      <ion-avatar class="">
-        <img src="/assets/icon/pato.jpg" alt="Perfil">
-      </ion-avatar>
-      <ion-item>
-        <ion-label position="stacked">Nombre</ion-label>
-        <ion-label>{{ nombre }}</ion-label> <!-- Esto mostrará el valor de "nombre" -->
       </ion-item>
-
-    </ion-item>
-
+    </div>
     <ion-item class="fondo">
       <ion-input maxLength="50" placeholder="Título" [(ngModel)]="titulo_publi"></ion-input>
     </ion-item>

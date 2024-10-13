@@ -65,6 +65,8 @@ export class PerfilPage implements OnInit {
     })*/
   }
 
+  
+
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
       //validar si la bd esta lista
@@ -82,6 +84,8 @@ export class PerfilPage implements OnInit {
       console.error('Error al obtener el rol:', err);
     });
   }
+
+  
 
   validateName(event: any) {
     const input = event.target.value;
@@ -155,7 +159,9 @@ export class PerfilPage implements OnInit {
 
   irPagina(nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {  //this.isEditable = !this.isEditable;
 
-
+    if (this.hasPhoto === false) {
+      this.photoUrl = foto;
+    }
 
 
     this.mensaje_1 = "";
@@ -266,9 +272,9 @@ export class PerfilPage implements OnInit {
 
           } if (correo_usuario === correoActual) {
             // Concatenación mejorada con template literals
-            this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+            this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${this.photoUrl} `);
             // Asegúrate de que el orden de los parámetros es el correcto
-            this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
+            this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, this.photoUrl);
             //window.location.reload();
             // Cambia el estado de edición
             this.isEditable = !this.isEditable;

@@ -96,9 +96,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/lista/lista.module').then( m => m.ListaPageModule)
   },
   {
+    path: 'editar-tema',
+    loadChildren: () => import('./pages/editar-tema/editar-tema.module').then( m => m.EditarTemaPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/Aprendices/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
+
 
 
 

@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, ActionSheetController, AlertController } from '@ionic/angular';
-
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera'; // ESTO ES DE LA CAMARA
 import { defineCustomElements } from '@ionic/pwa-elements/loader'; // ESTO ES DE LA CAMARA
-import { ServicebdService } from 'src/app/services/servicebd.service';
-import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+
 @Component({
-  selector: 'app-editar-publicacion',
-  templateUrl: './editar-publicacion.page.html',
-  styleUrls: ['./editar-publicacion.page.scss'],
+  selector: 'app-editar-tema',
+  templateUrl: './editar-tema.page.html',
+  styleUrls: ['./editar-tema.page.scss'],
 })
-export class EditarPublicacionPage implements OnInit {
+export class EditarTemaPage implements OnInit {
+
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
-  titulo_publi: string = "";
-  descripcion_publi :string = "";
+  titulo_tema: string = "";
+  descripcion_tema :string = "";
 
   mensaje_1!: string;
   mensaje_2!: string;
 
-  publicacion: any;
 
   id!: number; //id del localStorage
   arregloUsuario: any = [
@@ -38,22 +38,23 @@ export class EditarPublicacionPage implements OnInit {
     }
   ];
 
-  constructor(
-    private toastController:ToastController,
-    private activedrouter: ActivatedRoute, 
-    private router: Router,
+  tema1: any;
+
+  constructor(private router:Router,
+    private toastController:ToastController, 
+    private activateroute: ActivatedRoute,
     private bd: ServicebdService, 
     private actionSheetCtrl: ActionSheetController,
-    private alertController: AlertController,
-    private storage: NativeStorage) { 
+    private storage: NativeStorage, 
+    private alertController: AlertController) {     
+    this.activateroute.queryParams.subscribe(() => {
+    //valido si viene o no información en la ruta
 
-      this.activedrouter.queryParams.subscribe(res=>{
-        if(this.router.getCurrentNavigation()?.extras.state){
-          this.publicacion = this.router.getCurrentNavigation()?.extras?.state?.['publicar'];
-        }
-      })
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.tema1 = this.router.getCurrentNavigation()?.extras?.state?.['tema'];
     }
-  
+  })}
+
   public alertButtons = [
     {
       text: 'No',
@@ -73,25 +74,25 @@ export class EditarPublicacionPage implements OnInit {
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if(this.publicacion.titulo_publi.trim() === ""){
-      this.publicacion.titulo_publi = '';
+    if(this.tema1.titulo_tema.trim() === ""){
+      this.tema1.titulo_tema = '';
       this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.publicacion.descripcion_publi.trim() === ""){
-      this.publicacion.descripcion_publi = '';
+    if(this.tema1.descripcion_tema.trim() === ""){
+      this.tema1.descripcion_tema = '';
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
     if (this.hasPhoto === false) {
-      this.photoUrl = this.publicacion.foto_publi;
+      this.photoUrl = this.tema1.foto_publi;
     }
 
-    if( this.publicacion.descripcion_publi.trim() !== ""  && this.publicacion.titulo_publi.trim() !== "" ){
+    if( this.tema1.descripcion_tema.trim() !== ""  && this.tema1.titulo_tema.trim() !== "" ){
       this.presentToast('top');
-      this.presentAlert12('ID', this.publicacion.id_publi+this.publicacion.descripcion_publi);
-      this.bd.modificarPublicacion(this.publicacion.id_publi, this.publicacion.titulo_publi, this.publicacion.descripcion_publi, this.photoUrl);
-      this.router.navigate(['/menu'])
+      this.presentAlert12('ID', this.tema1.id_tema+this.tema1.descripcion_tema);
+      this.bd.modificarTema(this.tema1.id_tema, this.tema1.titulo_tema, this.tema1.descripcion_tema, this.photoUrl);
+      this.router.navigate(['/asignaturas1'])
     }
   }
 
@@ -251,19 +252,27 @@ export class EditarPublicacionPage implements OnInit {
       // validar si la bd está lista
       if (data) {
         // suscribirse al observable de fetchUsuario
+        this.bd.fetchTema().subscribe(res => {
+          this.tema1 = res;
+        })
+      }
+    })
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
         this.bd.fetchUsuario().subscribe(res => {
           this.arregloUsuario = res;
         })
       }
     })
-    
+
     this.storage.getItem('Id').then((id: number) => {
       this.id = id;
     }).catch(err => {
       console.error('Error al obtener el rol:', err);
     });
   }
-  
-
 
 }

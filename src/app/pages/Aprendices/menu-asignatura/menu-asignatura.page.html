@@ -1,51 +1,67 @@
 <ion-header [translucent]="true" class="fondo">
   <ion-toolbar class="toolbar">
-    
+
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    
-    <ion-title>Materia : Python</ion-title>
-    
+
+    <ion-title></ion-title>
+
   </ion-toolbar>
-  
+
 </ion-header>
 
-<ion-content [fullscreen]="true" >
+<ion-content [fullscreen]="true">
   <ion-searchbar class="arriba" animated="true" placeholder="Buscar"></ion-searchbar>
-  
-  <div class="botones">
-    <ion-button id="Aprendices" class="boton" (click)="irPubli()">NUEVO TEMA</ion-button>
-    <ion-button id="Amigos" class="boton" (click)="irLista()">PARTICIPANTES</ion-button>
+
+  <div class="botones" *ngFor="let y of arregloUsuario">
+    <ion-button *ngIf="rol === 1 && id === y.id_usuario" id="Aprendices" class="boton" (click)="irPubli()">NUEVO
+      TEMA</ion-button>
+    <ion-button *ngIf="rol === 1 && id === y.id_usuario" id="Amigos" class="boton"
+      (click)="irLista()">PARTICIPANTES</ion-button>
   </div>
 
   <ion-card class="container">
-    <ion-card-header (click)="irPagina()">
-      
-      <div class="unir">
-        <img class="maria" src="/assets/icon/maria.webp" alt="maria" >
-        <p class="nombre">{{nombre}}</p>
-        <p class="materia">Python</p>
+    <div *ngFor="let x of arregloTema">
+      <div *ngFor="let y of arregloUsuario">
+        <div *ngFor="let p of arregloCurso">
+          <div *ngIf="id_curs === x.curso_id_curso && y.id_usuario === p.usuario_id_usuario">
+            <ion-card-header (click)="irPagina()">
+
+              <div class="unir">
+                <img class="maria" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+                <p class="nombre">{{y.nombre_usuario}}</p>
+                
+              </div>
+              <hr>
+            </ion-card-header>
+            <p class="materia">{{x.fecha_tema}}</p>
+            <ion-card-title class="texto">{{x.titulo_tema}}</ion-card-title>
+            <div class="centrar">
+              <img class="tarea" [src]="x.foto_tema || '/assets/icon/python.jpg'" alt="informe">
+            </div>
+            <hr>
+
+            <ion-card-content class="descripcion">
+              {{x.descripcion_tema}}
+            </ion-card-content>
+
+            <div *ngIf="rol === 1 && id === y.id_usuario">
+              <div class="unir2">
+                <ion-button class="boton2" (click)="eliminar(x)">
+                  <ion-icon slot="icon-only" name="trash"></ion-icon>
+                </ion-button>
+                <ion-button class="boton2" (click)="modificar(x)">
+                  <ion-icon slot="icon-only" name="pencil"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <hr>
-    </ion-card-header>
-    <ion-card-title class="texto">Introduccion a Python</ion-card-title>
-    <div class="centrar">
-      <img class="tarea" src="/assets/icon/python.jpg" alt="informe">
+
     </div>
-    <hr>
-    
-    <ion-card-content class="descripcion">
-      Hola a todos, el dia sabado 6 de septiembre estare realizando una tutoria
-      sobre python basico, les dejo mis redes sociales y el link de la reunión.
-    </ion-card-content>
-    <p class="separar">Instagram: &#64;Ro_Riquelme</p>
-    <p class="separar">WhatsApp: {{telefono}}</p>
-    <p class="separar">Correo: {{correo}}</p>
-    <p class="separar" lines="none">Link: https://discord.com/Ro_Riquelme</p>
+
   </ion-card>
-
 </ion-content>
-
-
-

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, ActionSheetController } from '@ionic/angular';
 
 
@@ -33,8 +33,8 @@ export class PublicarPage implements OnInit {
   photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
-  titulo: string = "";
-  descripcion :string = "";
+  titulo_tema: string = "";
+  descripcion_tema:string = "";
 
   id!: number;
   mensaje_1!: string;
@@ -52,12 +52,23 @@ export class PublicarPage implements OnInit {
     }
   ];
 
+  id_cur!: number; //context desde menu-asignatura
+
   constructor(
     private toastController:ToastController,
     private router:Router, 
     private actionSheetCtrl: ActionSheetController,
     private bd: ServicebdService,
-    private storage: NativeStorage) { }
+    private storage: NativeStorage, 
+    private activateroute: ActivatedRoute) {
+      this.activateroute.queryParams.subscribe(() => {
+      //valido si viene o no información en la ruta
+
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.id_cur = this.router.getCurrentNavigation()?.extras?.state?.['id_c'];
+      }
+    })
+  }
   
   public alertButtons = [
     {
@@ -70,21 +81,45 @@ export class PublicarPage implements OnInit {
     },
   ];
 
+  today = new Date();
+
+  // Obtener día, mes y año
+  day = ('0' + this.today.getDate()).slice(-2);  // Asegurarse de que tenga 2 dígitos
+  year = this.today.getFullYear().toString().slice(-2);  // Obtener los últimos 2 dígitos del año
+
+  // Nombres de los meses abreviados
+  months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  month = this.months[this.today.getMonth()];  // Obtener el nombre abreviado del mes
+
+  // Formato final DD-MON-YY
+  fecha_tema = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
+
   irPagina(){
+
+    console.log(this.fecha_tema);  // Esto mostrará la fecha en formato DD/MM/YYYY
+
+    // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
+    let [day, month, year] = this.fecha_tema.split('/'); // Descomponer la fecha
+    let formattedForDate = `${year}-${month}-${day}`; // Reorganizar a YYYY-MM-DD
+    let dateObj = new Date(formattedForDate); // Crear un objeto Date
+
+    console.log('Objeto Date:', dateObj); // Verificar el objeto Date
 
     this.mensaje_1 = '';
     this.mensaje_2 = '';
 
-    if(this.titulo === ""){
+    if(this.titulo_tema === ""){
       this.mensaje_1 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion === ""){
+    if(this.descripcion_tema === ""){
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if(this.descripcion !== "" && this.titulo !== ""){
+    if(this.descripcion_tema !== "" && this.titulo_tema !== ""){
       this.presentToast('top');
+      console.log(this.titulo_tema, (' '), this.descripcion_tema, (' '), this.fecha_tema, (' '), this.photoUrl, (' '), this.id_cur);
+      this.bd.insertarTema(this.titulo_tema, this.descripcion_tema, this.fecha_tema, this.photoUrl, this.id_cur, 1); // Pasar el objeto Date
     }
   }
 
@@ -95,7 +130,7 @@ export class PublicarPage implements OnInit {
       position: position,
       
     });
-    this.router.navigate(['/menu1']);
+    this.router.navigate(['/menu']);
 
     await toast.present();
   }

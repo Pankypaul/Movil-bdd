@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Publicacion } from './publicacion';
 import { Curso } from './curso';
 import { Usuario } from './usuario';
+import { Tema } from './tema';
 @Injectable({
   providedIn: 'root'
 })
@@ -34,10 +35,10 @@ export class ServicebdService {
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
   
   //CURSO
-  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY AUTOINCREMENT, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300) NOT NULL, fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
+  tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY AUTOINCREMENT, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300), fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //TEMA
-  tablaTema: string = "CREATE TABLE IF NOT EXISTS tema ( id_tema INTEGER PRIMARY KEY AUTOINCREMENT, titulo_tema VARCHAR(100) NOT NULL, descripcion_tema VARCHAR(250) NOT NULL, fecha_tema DATE NOT NULL, curso_id_curso INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso));";
+  tablaTema: string = "CREATE TABLE IF NOT EXISTS tema ( id_tema INTEGER PRIMARY KEY AUTOINCREMENT, titulo_tema VARCHAR(100) NOT NULL, descripcion_tema VARCHAR(250) NOT NULL, fecha_tema VARCHAR(100) NOT NULL, foto_tema VARCHAR(300), curso_id_curso INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (curso_id_curso) REFERENCES curso(id_curso));";
 
   //PUBLICACIÓN
   tablaPublicacion: string = "CREATE TABLE IF NOT EXISTS publicacion ( id_publi INTEGER PRIMARY KEY AUTOINCREMENT, titulo_publi VARCHAR(100) NOT NULL, descripcion_publi  VARCHAR(250) NOT NULL, foto_publi VARCHAR(300), fecha_publi VARCHAR(100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
@@ -101,6 +102,10 @@ export class ServicebdService {
     return this.listadoUsuario.asObservable();
   }
 
+  fetchTema(): Observable<Usuario[]> {
+    return this.listadoTema.asObservable();
+  }
+
 
 
   dbState() {
@@ -145,6 +150,7 @@ export class ServicebdService {
       this.seleccionarPublicacion();
       this.seleccionarCurso();
       this.seleccionarUsuario();
+      this.seleccionarTema();
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
@@ -188,10 +194,10 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO publicacion(titulo_publi, descripcion_publi, foto_publi, fecha_publi, usuario_id_usuario, activo) VALUES (?,?,?,?,?,?)',
       [titulo, descripcion, photoUrl, fecha_publi, usuarioId, activo]
     ).then(() => {
-      this.presentAlert("Insertar", "publicación Registrada");
+      //this.presentAlert("Insertar", "publicación Registrada");
       this.seleccionarPublicacion();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -199,21 +205,21 @@ export class ServicebdService {
   eliminarPublicacion(id_publi: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
     return this.database.executeSql('UPDATE publicacion SET activo = 0 WHERE id_publi = ?', [id_publi])  //Cambie toda esta funcion menos el nombre 
       .then(() => {
-        this.presentAlert("Eliminar", "publicacion marcada como inactiva");
+        //this.presentAlert("Eliminar", "publicacion marcada como inactiva");
         this.seleccionarPublicacion();  // Actualizar la lista de noticias
       })
       .catch(e => {
-        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+        //this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       });
   }
 
   modificarPublicacion(id_publi: number, titulo_publi: string, descripcion_publi: string, foto_publi: string) {
-    this.presentAlert("service", "ID: " + id_publi);
+    //this.presentAlert("service", "ID: " + id_publi);
     return this.database.executeSql('UPDATE publicacion SET titulo_publi = ?, descripcion_publi = ?, foto_publi = ? WHERE id_publi = ?', [titulo_publi, descripcion_publi, foto_publi, id_publi]).then(() => {
-      this.presentAlert("Modificar", "publicacion Modificada" + descripcion_publi);
+      //this.presentAlert("Modificar", "publicacion Modificada" + descripcion_publi);
       this.seleccionarPublicacion();
     }).catch(e => {
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -255,20 +261,20 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO curso (nombre_curso, descripcion_curso, foto_curso, fecha_inicio, usuario_id_usuario, activo) VALUES (?,?,?,?,?,?)',
       [nombre_curso, descripcion_curso, foto_curso, fecha_inicio, usuario_id_usuario, activo]
     ).then(() => {
-      this.presentAlert("Insertar", "Curso Registrado");
+      //this.presentAlert("Insertar", "Curso Registrado");
       this.seleccionarCurso();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
   modificarCurso(id_curso: number, nombre_curso: string, descripcion_curso: string, foto_curso: string) {
-    this.presentAlert("service", "ID: " + id_curso);
+    //this.presentAlert("service", "ID: " + id_curso);
     return this.database.executeSql('UPDATE curso SET nombre_curso = ?, descripcion_curso = ?, foto_curso = ? WHERE id_curso = ?', [nombre_curso, descripcion_curso, foto_curso, id_curso]).then(() => {
-      this.presentAlert("Modificar", "curso Modificado" + descripcion_curso);
+      //this.presentAlert("Modificar", "curso Modificado" + descripcion_curso);
       this.seleccionarCurso();
     }).catch(e => {
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -276,11 +282,11 @@ export class ServicebdService {
   eliminarCurso(id_curso: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
     return this.database.executeSql('UPDATE curso SET activo = 0 WHERE id_curso = ?', [id_curso])  //Cambie toda esta funcion menos el nombre 
       .then(() => {
-        this.presentAlert("Eliminar", "publicacion marcada como inactiva");
+        //this.presentAlert("Eliminar", "publicacion marcada como inactiva");
         this.seleccionarCurso();  // Actualizar la lista de noticias
       })
       .catch(e => {
-        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+        //this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       });
   }
 
@@ -347,7 +353,7 @@ export class ServicebdService {
       return items; // Retorna los datos
     }).catch(error => {
       // Manejo de errores
-      this.presentAlert("Error al ejecutar la consulta SQL: ", error);
+      //this.presentAlert("Error al ejecutar la consulta SQL: ", error);
       return []; // Retornar arreglo vacío en caso de error
     });
   }
@@ -377,7 +383,7 @@ export class ServicebdService {
         }
       })
       .catch(e => {
-        this.presentAlert('Error al buscar usuario', JSON.stringify(e));
+        //this.presentAlert('Error al buscar usuario', JSON.stringify(e));
         return null; // Asegúrate de retornar null en caso de error
       });
   }
@@ -405,7 +411,7 @@ export class ServicebdService {
         }
       })
       .catch(e => {
-        this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
         return null; // Asegúrate de retornar null en caso de error
       });
   }
@@ -415,25 +421,25 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO usuario (nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto) VALUES (?,?,?,?,?,?,?)',
       [nombre_usuario, correo_usuario, telefono_usuario, contrasena_usuario, rol_id_rol, descripcion, foto]
     ).then(() => {
-      this.presentAlert("Insertar", "Usuario Registrado");
+      //this.presentAlert("Insertar", "Usuario Registrado");
       this.seleccionarUsuario();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
   modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {
     // Comprobar si los campos obligatorios son válidos
     if (!id_usuario || !nombre_usuario || !correo_usuario || !telefono_usuario) {
-        this.presentAlert("Modificar", "Error: Todos los campos son obligatorios.");
+        //this.presentAlert("Modificar", "Error: Todos los campos son obligatorios.");
         return;
     }
-    this.presentAlert("service", "ID: " + id_usuario);
+    //this.presentAlert("service", "ID: " + id_usuario);
     return this.database.executeSql('UPDATE usuario SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto, id_usuario]).then(() => {
-      this.presentAlert("Modificar", "Usuario Modificado" + nombre_usuario + ('correo ') + correo_usuario);
+      //this.presentAlert("Modificar", "Usuario Modificado" + nombre_usuario + ('correo ') + correo_usuario);
       this.seleccionarUsuario();
     }).catch(e => {
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -451,11 +457,81 @@ export class ServicebdService {
         return null; // Retorna null si no hay resultados
       }
     }).catch(e => {
-      this.presentAlert('Error al obtener el correo', JSON.stringify(e));
+      //this.presentAlert('Error al obtener el correo', JSON.stringify(e));
       return null; // Maneja el error retornando null
     });
   }
-  
+
+  //--------------------------------------------------------------------------
+
+  // tema
+
+  seleccionarTema() {
+
+    return this.database.executeSql('SELECT * FROM tema WHERE activo = 1 ORDER BY id_tema DESC', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+      //variable para almacenar el resultado de la consulta
+      let items: Tema[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+
+            id_tema: res.rows.item(i).id_tema,
+            titulo_tema: res.rows.item(i).titulo_tema,
+            descripcion_tema: res.rows.item(i).descripcion_tema,
+            fecha_tema: res.rows.item(i).fecha_tema,
+            foto_tema: res.rows.item(i).foto_tema,
+            curso_id_curso: res.rows.item(i).curso_id_curso,
+            activo: res.rows.item(i).activo
+
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoTema.next(items as any);
+
+    })
+  }
+
+
+  insertarTema(titulo_tema: string, descripcion_tema: string, fecha_tema: string, foto_tema: string, curso_id_curso: number, activo: number = 1) {
+    // Asegurarte de que fecha_publi sea un objeto Date
+    return this.database.executeSql('INSERT INTO tema(titulo_tema, descripcion_tema, fecha_tema, foto_tema, curso_id_curso, activo) VALUES (?,?,?,?,?,?)',
+      [titulo_tema, descripcion_tema, fecha_tema, foto_tema, curso_id_curso, activo]
+    ).then(() => {
+      this.presentAlert("Insertar", "Tema Registrado");
+      this.seleccionarTema();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+
+  eliminarTema(id_tema: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
+    return this.database.executeSql('UPDATE tema SET activo = 0 WHERE id_tema = ?', [id_tema])  //Cambie toda esta funcion menos el nombre 
+      .then(() => {
+        this.presentAlert("Eliminar", "tema marcada como inactiva");
+        this.seleccionarTema();  // Actualizar la lista de noticias
+      })
+      .catch(e => {
+        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+      });
+  }
+
+  modificarTema(id_tema: number, titulo_tema: string, descripcion_tema: string, foto_tema: string) {
+    this.presentAlert("service", "ID: " + id_tema);
+    return this.database.executeSql('UPDATE tema SET titulo_tema = ?, descripcion_tema = ?, foto_tema = ? WHERE id_tema = ?', [titulo_tema, descripcion_tema, foto_tema, id_tema]).then(() => {
+      this.presentAlert("Modificar", "tema Modificado" + descripcion_tema);
+      this.seleccionarTema();
+    }).catch(e => {
+      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+
 
   
 

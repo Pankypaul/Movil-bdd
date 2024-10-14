@@ -110,13 +110,6 @@ export class AsignaturasPage implements OnInit {
     this.bd.eliminarCurso(x.id_curso); //no cambie nada de esto ya que ocupe la misma funcion...
   }
 
-
-
-  
-  
-
-
-
   async presentAlert(msj:string) {
     const alert = await this.alertController.create({
       header: 'Info',
@@ -125,6 +118,18 @@ export class AsignaturasPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  ir(id_curso: number){ // Accede al primer elemento del arreglo
+    this.arregloCurso.id_curso;
+    console.log('ID del usuario:', id_curso); // Esto muestra el ID en la consola
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_cur: id_curso
+      }
+    }
+    this.router.navigate (['/menu-asignatura'],navigationextras);
   }
 
 

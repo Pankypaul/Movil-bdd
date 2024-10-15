@@ -6,6 +6,7 @@ import { Publicacion } from './publicacion';
 import { Curso } from './curso';
 import { Usuario } from './usuario';
 import { Tema } from './tema';
+import { Comentario } from './comentario';
 @Injectable({
   providedIn: 'root'
 })
@@ -44,7 +45,7 @@ export class ServicebdService {
   tablaPublicacion: string = "CREATE TABLE IF NOT EXISTS publicacion ( id_publi INTEGER PRIMARY KEY AUTOINCREMENT, titulo_publi VARCHAR(100) NOT NULL, descripcion_publi  VARCHAR(250) NOT NULL, foto_publi VARCHAR(300), fecha_publi VARCHAR(100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
   //COMENTARIO
-  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY AUTOINCREMENT, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario DATE NOT NULL, publicacion_id_publi INTEGER NOT NULL, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));";
+  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario( idcomentario INTEGER PRIMARY KEY AUTOINCREMENT, comentario VARCHAR(220) NOT NULL, usuario_id_usuario INTEGER NOT NULL, fecha_comentario VARCHAR(100) NOT NULL, publicacion_id_publi INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY (usuario_id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY (publicacion_id_publi) REFERENCES publicacion(id_publi));";
 
   //RESPUESTA
   //PENDIENTE POR LE MOMENTO
@@ -102,10 +103,13 @@ export class ServicebdService {
     return this.listadoUsuario.asObservable();
   }
 
-  fetchTema(): Observable<Usuario[]> {
+  fetchTema(): Observable<Tema[]> {
     return this.listadoTema.asObservable();
   }
 
+  fetchComentario(): Observable<Comentario[]> {
+    return this.listadoComentario.asObservable();
+  }
 
 
   dbState() {
@@ -151,6 +155,7 @@ export class ServicebdService {
       this.seleccionarCurso();
       this.seleccionarUsuario();
       this.seleccionarTema();
+      this.seleccionarComentario();
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
@@ -531,6 +536,61 @@ export class ServicebdService {
     });
   }
 
+  //----------------------------------------------------
+
+  // Comentario
+
+  seleccionarComentario() {
+
+    return this.database.executeSql('SELECT * FROM comentario WHERE activo = 1', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+      //variable para almacenar el resultado de la consulta
+      let items: Comentario[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+
+            idcomentario: res.rows.item(i).idcomentario,
+            comentario: res.rows.item(i).comentario,
+            usuario_id_usuario: res.rows.item(i).usuario_id_usuario,
+            fecha_comentario: res.rows.item(i).fecha_comentario,
+            publicacion_id_publi: res.rows.item(i).publicacion_id_publi,
+            activo: res.rows.item(i).activo,
+
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoComentario.next(items as any);
+
+    })
+  }
+
+  insertarComentario(comentario: string, usuario_id_usuario: number, fecha_comentario: string, publicacion_id_publi: number, activo: number = 1) {
+    // Asegurarte de que fecha_publi sea un objeto Date
+    return this.database.executeSql('INSERT INTO comentario(comentario, usuario_id_usuario, fecha_comentario, publicacion_id_publi, activo) VALUES (?,?,?,?,?)',
+      [comentario, usuario_id_usuario, fecha_comentario, publicacion_id_publi, activo]
+    ).then(() => {
+      this.presentAlert("Insertar", "Comentario Registrado");
+      this.seleccionarComentario();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+  eliminarComentario(idcomentario: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
+    return this.database.executeSql('UPDATE comentario SET activo = 0 WHERE idcomentario = ?', [idcomentario])  //Cambie toda esta funcion menos el nombre 
+      .then(() => {
+        this.presentAlert("Eliminar", "comentario marcada como inactiva");
+        this.seleccionarComentario();  // Actualizar la lista de noticias
+      })
+      .catch(e => {
+        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+      });
+  }
 
 
   

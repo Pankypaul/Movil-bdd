@@ -120,13 +120,15 @@ export class AsignaturasPage implements OnInit {
     await alert.present();
   }
 
-  ir(id_curso: number){ // Accede al primer elemento del arreglo
+  ir(id_curso: number, x: any){ // Accede al primer elemento del arreglo
     this.arregloCurso.id_curso;
     console.log('ID del usuario:', id_curso); // Esto muestra el ID en la consola
     let navigationextras: NavigationExtras = {
 
       state: {
-        id_cur: id_curso
+        id_cur: id_curso,
+        curso: x
+
       }
     }
     this.router.navigate (['/menu-asignatura'],navigationextras);

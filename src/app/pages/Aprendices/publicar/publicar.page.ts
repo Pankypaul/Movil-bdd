@@ -54,6 +54,8 @@ export class PublicarPage implements OnInit {
       
     }
   ];
+
+  
   mensaje_1!: string;
   mensaje_2!: string;
   mensaje_3!: string;
@@ -294,6 +296,7 @@ export class PublicarPage implements OnInit {
         })
       }
     })
+
     this.storage.getItem('Id').then((id_usuario: number) => {
       this.id = id_usuario;
     }).catch(err => {

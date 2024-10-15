@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { ToastController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
@@ -8,6 +10,14 @@ import { ServicebdService } from 'src/app/services/servicebd.service';
   styleUrls: ['./chat.page.scss'],
 })
 export class ChatPage implements OnInit {
+
+  photoUrl: string = ''; // Inicializa photoUrl como cadena vacía
+  public hasPhoto: boolean = false; // Variable para determinar si hay una foto
+
+  comentario: string = ""; //input comentar
+
+  id!: number; //localStorage
+  rol!: number; //localStorage
 
   id_usu!: number; //contex
   id_pub!: number; //contex
@@ -37,9 +47,22 @@ export class ChatPage implements OnInit {
     }
   ];
 
+  arregloComentario: any = [
+    {
+      idcomentario: '',
+      comentario: '',
+      usuario_id_usuario: '',
+      fecha_comentario: '',
+      publicacion_id_publi: '',
+      activo: '',
+    }
+  ];
+
   constructor(private router: Router,
               private activateroute: ActivatedRoute,
-              private bd: ServicebdService) { 
+              private bd: ServicebdService,
+              private toastController: ToastController,
+              private storage: NativeStorage) { 
 
     this.activateroute.queryParams.subscribe(() => {
       //valido si viene o no información en la ruta
@@ -70,10 +93,75 @@ export class ChatPage implements OnInit {
         })
       }
     })
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchComentario().subscribe(res => {
+          this.arregloComentario = res;
+        })
+      }
+    })
+
+    this.storage.getItem('Id').then((id_usuario: number) => {
+      this.id = id_usuario;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
+
+    this.storage.getItem('Rol').then((rol: number) => {
+      this.rol = rol;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
+  }
+
+  today = new Date();
+
+  // Obtener día, mes y año
+  day = ('0' + this.today.getDate()).slice(-2);  // Asegurarse de que tenga 2 dígitos
+  year = this.today.getFullYear().toString().slice(-2);  // Obtener los últimos 2 dígitos del año
+
+  // Nombres de los meses abreviados
+  months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  month = this.months[this.today.getMonth()];  // Obtener el nombre abreviado del mes
+
+  // Formato final DD-MON-YY
+  fecha_comentario = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
+
+  enviar(){
+    console.log(this.fecha_comentario);  // Esto mostrará la fecha en formato DD/MM/YYYY
+
+    // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
+    let [day, month, year] = this.fecha_comentario.split('/'); // Descomponer la fecha
+    let formattedForDate = `${year}-${month}-${day}`; // Reorganizar a YYYY-MM-DD
+    let dateObj = new Date(formattedForDate); // Crear un objeto Date
+
+    console.log('Objeto Date:', dateObj); // Verificar el objeto Date
+
+    if (this.comentario.trim() !== "" ) {/*&& this.hasPhoto === true*/
+
+      this.presentToast('top');
+      console.log(this.comentario, (' '), this.id,(' '), this.fecha_comentario,(' '), this.id_pub,(' '), 1);
+      this.bd.insertarComentario(this.comentario, this.id, this.fecha_comentario, this.id_pub, 1); // Pasar el objeto Date
+      this.comentario = '';
+    }
   }
 
   irPagina(){
     this.router.navigate(['/perfil-agregar-amigos'])
+  }
+
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Publicado con exito',
+      duration: 1500,
+      position: position,
+
+    });
+
+    await toast.present();
   }
 
 }

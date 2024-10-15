@@ -13,51 +13,63 @@
 
     <div *ngFor="let x of arregloPublicacion">
       <div *ngIf="x.id_publi === id_pub">
-        <div class="container6"> 
-          <div *ngFor="let y of arregloUsuario"><!---->
+        <div class="container6"><!---->
+          <div *ngFor="let y of arregloUsuario">
             <div *ngIf="id_usu === y.id_usuario">
               <ion-item class="fondo unir" lines="none"> <!---->
                 <img class="imagen" [src]=" y.foto || 'assets/icon/pato.jpg'" alt="No tiene foto">
                 <p class="nombre">{{y.nombre_usuario}}</p>
               </ion-item>
-      
+
               <hr class="hr">
               <ion-note slot="end" class="small-text right-space">{{ x.fecha_publi }}</ion-note>
-      
+
               <ion-card-title class="texto">{{x.titulo_publi}}</ion-card-title>
-      
+
               <div class="centrar1">
                 <img class="tarea" [src]="x.foto_publi" alt="No tiene foto">
               </div>
-      
+
               <hr class="hr">
-      
+
               <ion-card-content class="descripcion">
                 <ion-note position="stacked">Descripción:</ion-note>
                 <p>
                   {{x.descripcion_publi}}
                 </p>
               </ion-card-content>
+              <hr class="hr">
+
             </div>
-            
           </div>
 
-        </div>
-      </div>
-      <hr class="hr">
-      <div class="container3">
-        <div class="unir color" (click)="irPagina()">
-          <img class="imagen" src="/assets/icon/maria.webp" alt="maria">
-          <p class="nombre1">Melanie Ortiz</p>
-          <hr>
-        </div>
-        <p class="texto5">Para hacer eso es super facil debes realizar sumas</p>
-      </div>
-      <div class="centrar">
-        <input class="escribir" type="text" placeholder="Escribir">
-      </div>
+          <div *ngFor="let c of arregloComentario">
+            <div *ngFor="let y of arregloUsuario">
+              <div class="container3"
+                *ngIf="id_pub === c.publicacion_id_publi && y.id_usuario === c.usuario_id_usuario">
+                <div class="unir color" (click)="irPagina()">
+                  <img class="imagen" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+                  <p *ngIf="y.rol_id_rol === 0" class="nombre1">{{y.nombre_usuario}}</p>
+                  <p *ngIf="y.rol_id_rol === 1" class="nombre3">{{y.nombre_usuario}}</p>
+                  <hr>
+                </div>
+                <div>
+                  <!--id_pub (context de menu) debe ser igual al que se guarda en comentario, asi se sabe a que publicacion pertenece e comentario-->
+                  <p class="texto5">{{c.comentario}}</p>
+                </div>
 
+              </div>
+            </div>
+
+          </div>
+          <div class="centrar unir">
+            <ion-input class="escribir" type="text" placeholder="  Comenta" [(ngModel)]="comentario"></ion-input>
+            <ion-button (click)="enviar()" class="enviar"><ion-icon name="send-outline"></ion-icon></ion-button>
+          </div>
+        </div>
       </div>
-      
+    </div>
+
   </div>
+
 </ion-content>

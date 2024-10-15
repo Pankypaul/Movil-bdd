@@ -21,46 +21,43 @@
       (click)="irLista()">PARTICIPANTES</ion-button>
   </div>
 
-  <ion-card class="container">
-    <div *ngFor="let x of arregloTema">
-      <div *ngFor="let y of arregloUsuario">
-        <div *ngFor="let p of arregloCurso">
-          <div *ngIf="id_curs === x.curso_id_curso && y.id_usuario === p.usuario_id_usuario">
-            <ion-card-header (click)="irPagina()">
+  <ion-card class="container" *ngFor="let x of arregloTema">
+    <div>
 
-              <div class="unir">
-                <img class="maria" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
-                <p class="nombre">{{y.nombre_usuario}}</p>
-                
-              </div>
-              <hr>
-            </ion-card-header>
-            <p class="materia">{{x.fecha_tema}}</p>
-            <ion-card-title class="texto">{{x.titulo_tema}}</ion-card-title>
-            <div class="centrar">
-              <img class="tarea" [src]="x.foto_tema || '/assets/icon/python.jpg'" alt="informe">
-            </div>
-            <hr>
+      <div *ngIf="id_curs === x.curso_id_curso">
+        <ion-card-header (click)="irPagina()">
 
-            <ion-card-content class="descripcion">
-              {{x.descripcion_tema}}
-            </ion-card-content>
+          <div class="unir" *ngFor="let y of arregloUsuario">
+            <img *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="maria"
+              [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+            <p *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="nombre">
+              {{y.nombre_usuario}}</p>
 
-            <div *ngIf="rol === 1 && id === y.id_usuario">
-              <div class="unir2">
-                <ion-button class="boton2" (click)="eliminar(x)">
-                  <ion-icon slot="icon-only" name="trash"></ion-icon>
-                </ion-button>
-                <ion-button class="boton2" (click)="modificar(x)">
-                  <ion-icon slot="icon-only" name="pencil"></ion-icon>
-                </ion-button>
-              </div>
-            </div>
+          </div>
+          <hr>
+        </ion-card-header>
+        <p class="materia">{{x.fecha_tema}}</p>
+        <ion-card-title class="texto">{{x.titulo_tema}}</ion-card-title>
+        <div class="centrar">
+          <img class="tarea" [src]="x.foto_tema || '/assets/icon/python.jpg'" alt="informe">
+        </div>
+        <hr>
+
+        <ion-card-content class="descripcion">
+          {{x.descripcion_tema}}
+        </ion-card-content>
+
+        <div *ngFor="let y of arregloUsuario">
+          <div class="unir2" *ngIf="rol === 1 && id === y.id_usuario">
+            <ion-button class="boton2" (click)="eliminar(x)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+            <ion-button class="boton2" (click)="modificar(x)">
+              <ion-icon slot="icon-only" name="pencil"></ion-icon>
+            </ion-button>
           </div>
         </div>
-
       </div>
-
     </div>
 
   </ion-card>

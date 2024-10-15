@@ -54,6 +54,8 @@ export class MenuAsignaturaPage implements OnInit {
     }
   ];
 
+  curso1: any;
+
 
   id_curs!: number; //contex desde asignatura
   constructor(private router:Router, 
@@ -66,6 +68,7 @@ export class MenuAsignaturaPage implements OnInit {
 
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.id_curs = this.router.getCurrentNavigation()?.extras?.state?.['id_cur'];
+        this.curso1 = this.router.getCurrentNavigation()?.extras?.state?.['curso'];
       }
     })
   }

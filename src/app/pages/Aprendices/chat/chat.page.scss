@@ -57,8 +57,10 @@
 }
 
 .escribir {
+  --background: rgb(255, 255, 255);
   margin-top: 2rem;
-  width: 90%;
+  width: 80%;
+  text-align: start;
 }
 
 .container2 {
@@ -153,9 +155,22 @@
   padding-bottom: 1rem;
 }
 
-.nombre1 {
+.nombre1 { //tutor
   margin-top: 15px;
   text-align: center;
   margin-left: 15px;
   color: #7e0073;
+}
+
+.nombre3 { //aprendiz
+  margin-top: 15px;
+  text-align: center;
+  margin-left: 15px;
+  color: #1b007e;
+}
+
+
+.enviar{
+  --background: rgba(182, 149, 192, 1);
+  margin-top: 2rem;
 }

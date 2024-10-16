@@ -21,6 +21,10 @@
       (click)="irLista()">PARTICIPANTES</ion-button>
   </div>
 
+  <ion-button *ngIf="rol === 0" (click)="listar()">
+    <ion-icon name="heart"></ion-icon>
+  </ion-button>
+
   <ion-card class="container" *ngFor="let x of arregloTema">
     <div>
 

@@ -7,6 +7,8 @@ import { Curso } from './curso';
 import { Usuario } from './usuario';
 import { Tema } from './tema';
 import { Comentario } from './comentario';
+import { Lista } from './lista';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -111,6 +113,10 @@ export class ServicebdService {
     return this.listadoComentario.asObservable();
   }
 
+  fetchLista(): Observable<Lista[]> {
+    return this.listadoLista.asObservable();
+  }
+
 
   dbState() {
     return this.isDBReady.asObservable();
@@ -156,6 +162,7 @@ export class ServicebdService {
       this.seleccionarUsuario();
       this.seleccionarTema();
       this.seleccionarComentario();
+      this.seleccionarLista();
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
@@ -592,6 +599,71 @@ export class ServicebdService {
       });
   }
 
+  //------lista-------------------------------
+
+  seleccionarLista() {
+
+    return this.database.executeSql('SELECT * FROM lista', []).then(res => {  // Agrege "Where activo = 1" el 1 son para las cosas habilitadas.
+      //variable para almacenar el resultado de la consulta
+      let items: Lista[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+
+            id_lista: res.rows.item(i).id_lista,
+            fecha_inscripcion: res.rows.item(i).fecha_inscripcion,
+            curso_id_curso: res.rows.item(i).curso_id_curso,
+            usuario_id_usuario: res.rows.item(i).usuario_id_usuario,
+
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoLista.next(items as any);
+
+    })
+  }
+
+
+  insertarLista(fecha_inscripcion: string, curso_id_curso: number, usuario_id_usuario: number) {
+    // Asegurarte de que fecha_publi sea un objeto Date
+    return this.database.executeSql('INSERT INTO lista(fecha_inscripcion, curso_id_curso, usuario_id_usuario) VALUES (?,?,?)',
+      [fecha_inscripcion, curso_id_curso, usuario_id_usuario]
+    ).then(() => {
+      this.presentAlert("Insertar", "Lista Registrado");
+      this.seleccionarLista();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+
+  seleccionarVerificacionLista(id_usuario: number): Promise<Lista | null> {
+    return this.database.executeSql('SELECT * FROM Lista WHERE usuario_id_usuario = ?',
+      [id_usuario]).then(res => {
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const lista = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_lista: lista.id_lista,
+            fecha_inscripcion: lista.fecha_inscripcion,
+            curso_id_curso: lista.curso_id_curso,
+            usuario_id_usuario: lista.usuario_id_usuario
+          } as Lista;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null; // Asegúrate de retornar null en caso de error
+      });
+  }
 
   
 

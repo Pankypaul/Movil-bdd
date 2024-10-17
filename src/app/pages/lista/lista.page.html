@@ -1,46 +1,29 @@
 <ion-header [translucent]="true">
   <ion-toolbar class="toolbar">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
 
-    <ion-title>Lista</ion-title>
+    <ion-title>Seguidores</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
-  <ion-list>
-    <!-- Itera sobre los elementos de la lista -->
-    <ion-item *ngFor="let item of items" (click)="togglePanel(item)">
 
-      <ion-label >
-        <ion-label class="accordion-content">{{ item.name }}</ion-label>
-        <ion-label *ngIf="isExpanded(item)" class="accordion-content">{{ item.phone }}</ion-label>
-        <ion-label *ngIf="isExpanded(item)" class="accordion-content">Email: {{ item.email }}</ion-label>
-        <ion-button *ngIf="isExpanded(item)" routerLink="/perfil">ir perfil</ion-button>
-      </ion-label>
-      
-      <ion-icon 
-        name="chevron-down" 
-        slot="end" 
-        *ngIf="!isExpanded(item)">
-      </ion-icon>
-      
-      <ion-icon 
-        name="chevron-up" 
-        slot="end" 
-        *ngIf="isExpanded(item)">
-      </ion-icon>
-    </ion-item>
 
-    <!-- Infinite Scroll -->
-    <!--<ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
-      <ion-infinite-scroll-content
-        loadingSpinner="bubbles"
-        loadingText="Cargando más...">
-      </ion-infinite-scroll-content>
-    </ion-infinite-scroll>-->
+  <ion-card class="container" *ngFor="let x of arregloUsuario">
+    <div *ngFor="let l of arregloLista">
+      <ion-card-header *ngIf="l.usuario_id_usuario === x.id_usuario && l.curso_id_curso === curso1.id_curso">
+        <div class="unir">
+          <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil ">
+          <p class="nombre">{{ x.nombre_usuario }}</p>
+        </div>
+        <hr>
+      </ion-card-header>
+    </div>
+    
+    
+  </ion-card>
 
-  </ion-list>
 </ion-content>

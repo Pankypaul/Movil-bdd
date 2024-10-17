@@ -8,6 +8,7 @@ import { Usuario } from './usuario';
 import { Tema } from './tema';
 import { Comentario } from './comentario';
 import { Lista } from './lista';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Injectable({
   providedIn: 'root'
@@ -642,9 +643,9 @@ export class ServicebdService {
   }
 
 
-  seleccionarVerificacionLista(id_usuario: number): Promise<Lista | null> {
-    return this.database.executeSql('SELECT * FROM Lista WHERE usuario_id_usuario = ?',
-      [id_usuario]).then(res => {
+  seleccionarVerificacionLista(id_usuario: number, id_curso: number): Promise<Lista | null> {
+    return this.database.executeSql('SELECT * FROM lista WHERE usuario_id_usuario = ? AND curso_id_curso = ?',
+      [id_usuario, id_curso]).then(res => {
         // Valido si trae al menos un registro
         if (res.rows.length > 0) {
           const lista = res.rows.item(0); // Obtiene el primer registro
@@ -664,6 +665,38 @@ export class ServicebdService {
         return null; // Asegúrate de retornar null en caso de error
       });
   }
+
+  eliminarUsuarioLista(usuario_id_usuario:number){
+    return this.database.executeSql('DELETE FROM lista WHERE usuario_id_usuario = ?',[usuario_id_usuario]).then(res=>{
+      this.presentAlert("Eliminar","Usuario Eliminado");
+      this.seleccionarLista();
+    }).catch(e=>{
+      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  //---------------------------
+
+  async NotificacionNuevaPubli() {
+    // Solicita permisos si es necesario
+    const permStatus = await LocalNotifications.requestPermissions();
+    if (permStatus.display === 'granted') {
+      // Programa la notificación
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 1,
+            title: "¡Necesitan tu ayuda!",
+            body: "Se ha agregado una nueva publicación.",
+            schedule: { at: new Date(Date.now() + 1000 * 1) },
+          }
+        ]
+      });
+    } else {
+      console.log("Permiso de notificaciones denegado");
+    }
+  }
+
 
   
 

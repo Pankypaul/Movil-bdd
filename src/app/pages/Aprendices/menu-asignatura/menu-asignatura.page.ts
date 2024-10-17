@@ -15,10 +15,10 @@ export class MenuAsignaturaPage implements OnInit {
   public hasPhoto: boolean = false; // Variable para determinar si hay una foto
 
 
-  nombre:string="Romina Riquelme"; 
-  telefono:string="9 1213 5445";
-  correo:string="Ro_Riquelme@gmail.com"; 
-  tip:String='Tutor';
+  nombre: string = "Romina Riquelme";
+  telefono: string = "9 1213 5445";
+  correo: string = "Ro_Riquelme@gmail.com";
+  tip: String = 'Tutor';
 
   arregloTema: any = [
     {
@@ -55,19 +55,33 @@ export class MenuAsignaturaPage implements OnInit {
       foto: '',
       descripcion: '',
       id_usuario: '',
-      
+
     }
   ];
 
+  arregloLista: any = [
+    {
+      id_lista: '',
+      fecha_inscripcion: '',
+      curso_id_curso: '',
+      usuario_id_usuario: '',
+    }
+  ];
+
+  
+
+
   curso1: any;
 
-
+  usuarioUnico1!: boolean;
+  
   id_curs!: number; //contex desde asignatura
-  constructor(private router:Router, 
-              private activateroute: ActivatedRoute,
-              private bd: ServicebdService, 
-              private storage: NativeStorage, 
-              private alertController: AlertController){ 
+
+  constructor(private router: Router,
+    private activateroute: ActivatedRoute,
+    private bd: ServicebdService,
+    private storage: NativeStorage,
+    private alertController: AlertController) {
     this.activateroute.queryParams.subscribe(() => {
       //valido si viene o no información en la ruta
 
@@ -78,7 +92,7 @@ export class MenuAsignaturaPage implements OnInit {
     })
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.bd.dbState().subscribe(data => {
       //validar si la bd esta lista
       if (data) {
@@ -108,6 +122,16 @@ export class MenuAsignaturaPage implements OnInit {
       }
     })
 
+    this.bd.dbState().subscribe(data => {
+      //validar si la bd esta lista
+      if (data) {
+        //subscribir al observable de la listaNoticias
+        this.bd.fetchLista().subscribe(res => {
+          this.arregloLista = res;
+        })
+      }
+    })
+
     //--------
 
     this.storage.getItem('Rol').then((rol: number) => {
@@ -121,31 +145,66 @@ export class MenuAsignaturaPage implements OnInit {
     }).catch(err => {
       console.error('Error al obtener el rol:', err);
     });
+
+
+    //----------
+
+    
+    
+    
+
+
+    this.initializeData();
   }
 
+  async initializeData() {
+    try {
+      this.rol = await this.storage.getItem('Rol');
+      this.id = await this.storage.getItem('Id');
+
+      // Verificar el estado del seguimiento inicial
+      if (await this.bd.isDBReady) {
+        const usuarioUnico = await this.bd.seleccionarVerificacionLista(this.id, this.id_curs);
+        this.usuarioUnico1 = !!usuarioUnico; // true si sigue el curso, false si no
+      }
+    } catch (error) {
+      console.error('Error al inicializar los datos:', error);
+    }
+  }
+  
+
   irPagina() {
-  let navigationextras: NavigationExtras = {
+    let navigationextras: NavigationExtras = {
       state: {
         name: this.nombre,
         phone: this.telefono,
         email: this.correo,
-        tipo:  this.tip
+        tipo: this.tip
       }
     };
     this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
   }
-  irPubli(){
+  irPubli() {
     let navigationextras: NavigationExtras = {
 
       state: {
         id_c: this.id_curs
       }
     }
-    this.router.navigate(['/publicar1'],navigationextras)
+    this.router.navigate(['/publicar1'], navigationextras)
   }
-  irLista(){
-    this.router.navigate(['/lista'])
+  irLista() {
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_c: this.id_curs,
+        curso: this.curso1
+      }
+    }
+    this.router.navigate(['/lista'], navigationextras)
   }
+
+
 
   async presentAlert12(title: string, msj: string) {
     const alert = await this.alertController.create({
@@ -186,34 +245,28 @@ export class MenuAsignaturaPage implements OnInit {
   // Formato final DD-MON-YY
   fecha_publi = `${this.day}-${this.month}-${this.year}`;  // Ahora está en el formato correcto
 
-
-  listar(){
-    console.log(this.fecha_publi);  // Esto mostrará la fecha en formato DD/MM/YYYY
-
-    // Convertir la fecha a YYYY-MM-DD para crear un objeto Date
-    let [day, month, year] = this.fecha_publi.split('/'); // Descomponer la fecha
-    let formattedForDate = `${year}-${month}-${day}`; // Reorganizar a YYYY-MM-DD
-    let dateObj = new Date(formattedForDate); // Crear un objeto Date
-
-    console.log('Objeto Date:', dateObj); // Verificar el objeto Date
-
-
-    this.bd.isDBReady.subscribe(async (val) => {
-      if (val) {
-        const usuarioUnico = await this.bd.seleccionarVerificacionLista(this.id);
-        console.log('usuario Unico ', usuarioUnico);
-        if (usuarioUnico) {
-          this.presentAlert12('ya esta registrado en este curso', 'ya se registro en este curso');
-
-        } 
-        else if (this.rol === 0 && !usuarioUnico){
-          console.log(this.fecha_publi, (' '), this.id_curs,(' '), this.id);
-          this.bd.insertarLista(this.fecha_publi, this.id_curs, this.id);
-        }
-      }
-    });
   
 
-  }
+  async listar() {
+    try {
+      if (await this.bd.isDBReady) {
+        const usuarioUnico = await this.bd.seleccionarVerificacionLista(this.id, this.id_curs);
 
+        if (this.rol === 0 && usuarioUnico) {
+          // Usuario sigue el curso, entonces lo eliminamos de la lista
+          this.bd.eliminarUsuarioLista(this.id);
+          this.presentAlert12('Haz dejado de seguir este curso', 'Nos veremos pronto, sigue aprendiendo!');
+          this.usuarioUnico1 = false; // Cambiar estado de seguimiento
+        } else if (this.rol === 0 && !usuarioUnico) {
+          // Usuario no sigue el curso, entonces lo agregamos a la lista
+          const fechaActual = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
+          this.bd.insertarLista(fechaActual, this.id_curs, this.id);
+          this.presentAlert12('Bienvenido al curso', this.nombre);
+          this.usuarioUnico1 = true; // Cambiar estado de seguimiento
+        }
+      }
+    } catch (error) {
+      console.error('Error al actualizar la lista de seguimiento:', error);
+    }
+  }
 }

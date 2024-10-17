@@ -20,10 +20,12 @@
     <ion-button *ngIf="rol === 1 && id === y.id_usuario" id="Amigos" class="boton"
       (click)="irLista()">PARTICIPANTES</ion-button>
   </div>
-
-  <ion-button *ngIf="rol === 0" (click)="listar()">
-    <ion-icon name="heart"></ion-icon>
+  <ion-button *ngIf="rol === 0" class="seguir" (click)="listar()">
+    <ion-icon *ngIf="usuarioUnico1" name="heart"></ion-icon>
+    <ion-icon *ngIf="!usuarioUnico1" name="heart-outline"></ion-icon>
   </ion-button>
+
+
 
   <ion-card class="container" *ngFor="let x of arregloTema">
     <div>

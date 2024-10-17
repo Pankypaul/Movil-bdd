@@ -141,6 +141,7 @@ export class PublicarPage implements OnInit {
 
       this.presentToast('top');
       this.bd.insertarPublicacion(this.titulo_publi, this.descripcion_publi, this.photoUrl, this.fecha_publi, this.id, 1); // Pasar el objeto Date
+      this.bd.NotificacionNuevaPubli();
     }
   }
 

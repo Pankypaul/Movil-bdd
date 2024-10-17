@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { AlertController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-lista',
@@ -7,14 +11,94 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListaPage implements OnInit {
 
+  arregloUsuario: any = [
+    {
+      id_usuario: '',
+      rol_id_rol: '',
+      nombre_usuario: '',
+      telefono_usuario: '',
+      correo_usuario: '',
+      foto: '',
+    }
+  ];
+
+  arregloLista: any = [
+    {
+      id_lista: '',
+      fecha_inscripcion: '',
+      curso_id_curso: '',
+      usuario_id_usuario: '',
+    }
+  ];
+
+  arregloCurso: any = [
+    {
+      id_curso: '',
+      nombre_curso: '',
+      descripcion_curso: '',
+      foto_curso: '',
+      usuario_id_usuario: '',
+      activo: '',  //Agregue el activo aqui tambien
+    }
+  ]
+
+  curso1: any;
+
+
+
+  id_curso_c!: number; //contex
+
   items: Array<{ name: string, phone: string, email: string }> = [];
 
   //Activamos el item para que pueda desplegarse la informacion
   activeItem: { name: string, phone: string, email: string } | null = null;
-  constructor() { }
+  constructor(private router:Router, 
+    private activateroute: ActivatedRoute,
+    private bd: ServicebdService, 
+    private storage: NativeStorage, 
+    private alertController: AlertController) { 
+    this.activateroute.queryParams.subscribe(() => {
+    //valido si viene o no información en la ruta
+
+    if (this.router.getCurrentNavigation()?.extras.state) {
+      this.id_curso_c = this.router.getCurrentNavigation()?.extras?.state?.['id_c'];
+      this.curso1 = this.router.getCurrentNavigation()?.extras?.state?.['curso'];
+    }
+  })}
 
   ngOnInit() {
-    this.items = this.generateItems(5);
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchLista().subscribe(res => {
+          this.arregloLista = res;
+        })
+      }
+    })
+
+    
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchCurso().subscribe(res => {
+          this.arregloCurso = res;
+        })
+      }
+    })
+    
   }
 
   

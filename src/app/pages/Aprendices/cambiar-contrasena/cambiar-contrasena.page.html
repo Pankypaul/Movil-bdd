@@ -13,32 +13,45 @@
 <ion-content [fullscreen]="true" class="ion-padding ion-text-center">
   <div class="background center-div">
     <div class="container">
-      
-      <form (ngSubmit)="onSubmit()" class="form-container">
+
+      <div *ngFor="let x of arregloUsuario">
+        <form *ngIf="id === x.id_usuario" (ngSubmit)="onSubmit(x.contrasena_usuario, x.correo_usuario)" class="form-container">
         
-        <ion-title class="titulo">CAMBIAR CONTRASEÑA</ion-title>
+          <ion-title class="titulo">CAMBIAR CONTRASEÑA</ion-title>
   
-        <ion-item class="fondo-form">
-          <ion-input maxlength="320" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
-        </ion-item>
-        <!-- Mensaje de error para correo -->
-        <ion-label color="danger">{{mensaje_1}}</ion-label>
-
-        <ion-item class="fondo-form">
-          <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="nueva" type="password" name="nueva" label-placement="floating" label="Contraseña nueva" required></ion-input>
-        </ion-item>
-        <!-- Mensaje de error para contraseña -->
-        <ion-label color="danger">{{mensaje_2}}</ion-label>
-
-        <ion-item class="fondo-form">
-          <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="repetirNueva" type="password" name="repetirNueva" label-placement="floating" label="Repetir contraseña" required></ion-input>
-        </ion-item>
-        <!-- Mensaje de error para contraseña -->
-        <ion-label color="danger">{{mensaje_3}}</ion-label>
   
-        <ion-button type="submit" shape="round" class="boton" >Cambiar Contraseña</ion-button>
+    
+          <ion-item class="fondo-form">
+            <ion-input maxlength="320" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para correo -->
+          <ion-label color="danger">{{mensaje_1}}</ion-label>
   
-      </form>
+          
+          <ion-item class="fondo-form">
+            <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="antigua" type="password" name="antigua" label-placement="floating" label="Contraseña antigua" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para contraseña -->
+          <ion-label color="danger">{{mensaje_4}}</ion-label>
+  
+  
+          <ion-item class="fondo-form">
+            <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="nueva" type="password" name="nueva" label-placement="floating" label="Contraseña nueva" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para contraseña -->
+          <ion-label color="danger">{{mensaje_2}}</ion-label>
+  
+          <ion-item class="fondo-form">
+            <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="repetirNueva" type="password" name="repetirNueva" label-placement="floating" label="Repetir contraseña" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para contraseña -->
+          <ion-label color="danger">{{mensaje_3}}</ion-label>
+    
+          <ion-button type="submit" shape="round" class="boton" >Cambiar Contraseña</ion-button>
+    
+        </form>
+      </div>
+      
   
       
     </div> 

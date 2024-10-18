@@ -666,8 +666,8 @@ export class ServicebdService {
       });
   }
 
-  eliminarUsuarioLista(usuario_id_usuario:number){
-    return this.database.executeSql('DELETE FROM lista WHERE usuario_id_usuario = ?',[usuario_id_usuario]).then(res=>{
+  eliminarUsuarioLista(usuario_id_usuario: number, curso_id_curso: number){
+    return this.database.executeSql('DELETE FROM lista WHERE usuario_id_usuario = ? and curso_id_curso = ?',[usuario_id_usuario, curso_id_curso]).then(()=>{
       this.presentAlert("Eliminar","Usuario Eliminado");
       this.seleccionarLista();
     }).catch(e=>{
@@ -675,7 +675,7 @@ export class ServicebdService {
     })
   }
 
-  //---------------------------
+  //-------------notificaciones--------------
 
   async NotificacionNuevaPubli() {
     // Solicita permisos si es necesario
@@ -698,6 +698,99 @@ export class ServicebdService {
   }
 
 
+  async NotificacionNuevoCurso() {
+    // Solicita permisos si es necesario
+    const permStatus = await LocalNotifications.requestPermissions();
+    if (permStatus.display === 'granted') {
+      // Programa la notificación
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 2,
+            title: "¡Ven a aprender!",
+            body: "Se ha creado un nuevo curso.",
+            schedule: { at: new Date(Date.now() + 1000 * 1) },
+          }
+        ]
+      });
+    } else {
+      console.log("Permiso de notificaciones denegado");
+    }
+  }
+
+  async NotificacionNuevoTema() {
+    // Solicita permisos si es necesario
+    const permStatus = await LocalNotifications.requestPermissions();
+    if (permStatus.display === 'granted') {
+      // Programa la notificación
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 3,
+            title: "Cursos que sigues",
+            body: "Se ha agregado un nuevo tema al curso.",
+            schedule: { at: new Date(Date.now() + 1000 * 1) },
+          }
+        ]
+      });
+    } else {
+      console.log("Permiso de notificaciones denegado");
+    }
+  }
+
+  async NotificacionRegistroTutor() {
+    // Solicita permisos si es necesario
+    const permStatus = await LocalNotifications.requestPermissions();
+    if (permStatus.display === 'granted') {
+      // Programa la notificación
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 4,
+            title: "¡Bienvenido a TaskApp!",
+            body: "Se el tutor de muchos estudiantes, crea cursos y comparte tus conocimientos con todos.",
+            schedule: { at: new Date(Date.now() + 1000 * 1) },
+          }
+        ]
+      });
+    } else {
+      console.log("Permiso de notificaciones denegado");
+    }
+  }
+
+
+  async NotificacionRegistroAprendiz() {
+    // Solicita permisos si es necesario
+    const permStatus = await LocalNotifications.requestPermissions();
+    if (permStatus.display === 'granted') {
+      // Programa la notificación
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 5,
+            title: "¡Bienvenido a TaskApp!",
+            body: "Aprende y comparte todas las dudas que tengas con todos.",
+            schedule: { at: new Date(Date.now() + 1000 * 1) },
+          }
+        ]
+      });
+    } else {
+      console.log("Permiso de notificaciones denegado");
+    }
+  }
+
+
+  //-----------------CAMBIAR_CONTRASEÑA------------------------
+
+  modificarContrasena(id_usuario: number, correo_usuario: string, contrasena_usuario: string) {
+    //this.presentAlert("service", "ID: " + id_usuario);
+    return this.database.executeSql('UPDATE usuario SET contrasena_usuario = ? WHERE id_usuario = ? AND correo_usuario = ?', [contrasena_usuario, id_usuario, correo_usuario]).then(() => {
+      this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    });
+  }
   
 
 

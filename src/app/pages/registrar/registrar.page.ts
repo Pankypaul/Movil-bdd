@@ -218,6 +218,7 @@ export class RegistrarPage implements OnInit {
               this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 0, '', '');
               this.presentAlert('tipo', this.perfil.tipo);
               this.router.navigate(['/login'])
+              this.bd.NotificacionRegistroAprendiz();
             }
            
             //TUTOR: 1
@@ -225,6 +226,7 @@ export class RegistrarPage implements OnInit {
               this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
               this.presentAlert('tipo', this.perfil.tipo);
               this.router.navigate(['/login'])
+              this.bd.NotificacionRegistroTutor();
             }
           }
         }

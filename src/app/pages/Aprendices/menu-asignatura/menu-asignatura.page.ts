@@ -254,7 +254,7 @@ export class MenuAsignaturaPage implements OnInit {
 
         if (this.rol === 0 && usuarioUnico) {
           // Usuario sigue el curso, entonces lo eliminamos de la lista
-          this.bd.eliminarUsuarioLista(this.id);
+          this.bd.eliminarUsuarioLista(this.id, this.id_curs);
           this.presentAlert12('Haz dejado de seguir este curso', 'Nos veremos pronto, sigue aprendiendo!');
           this.usuarioUnico1 = false; // Cambiar estado de seguimiento
         } else if (this.rol === 0 && !usuarioUnico) {

@@ -134,6 +134,7 @@ export class CursoPage implements OnInit {
       this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)
       
       this.bd.insertarCurso(this.nombre_curso, this.descripcion_curso, this.photoUrl, this.fecha_curso, this.id, 1); // Pasar el objeto Date
+      this.bd.NotificacionNuevoCurso();
     }
   }
 

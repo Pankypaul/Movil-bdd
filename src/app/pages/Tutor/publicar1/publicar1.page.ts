@@ -39,6 +39,7 @@ export class PublicarPage implements OnInit {
   id!: number;
   mensaje_1!: string;
   mensaje_2!: string;
+
   arregloUsuario: any = [
     {
       rol_id_rol: '',
@@ -48,6 +49,13 @@ export class PublicarPage implements OnInit {
       foto: '',
       descripcion: '',
       id_usuario: '',
+      
+    }
+  ];
+
+  arregloCurso: any = [
+    {
+      nombre_curso: '',
       
     }
   ];
@@ -120,6 +128,7 @@ export class PublicarPage implements OnInit {
       this.presentToast('top');
       console.log(this.titulo_tema, (' '), this.descripcion_tema, (' '), this.fecha_tema, (' '), this.photoUrl, (' '), this.id_cur);
       this.bd.insertarTema(this.titulo_tema, this.descripcion_tema, this.fecha_tema, this.photoUrl, this.id_cur, 1); // Pasar el objeto Date
+      this.bd.NotificacionNuevoTema();
     }
   }
 
@@ -277,6 +286,17 @@ export class PublicarPage implements OnInit {
         })
       }
     })
+
+    this.bd.dbState().subscribe(data => {
+      // validar si la bd está lista
+      if (data) {
+        // suscribirse al observable de fetchUsuario
+        this.bd.fetchCurso().subscribe(res => {
+          this.arregloCurso = res;
+        })
+      }
+    })
+
     this.storage.getItem('Id').then((id_usuario: number) => {
       this.id = id_usuario;
     }).catch(err => {

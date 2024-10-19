@@ -103,7 +103,7 @@ export class EditarCursoPage implements OnInit {
 
     if (this.curso.descripcion_curso.trim() !== "" && this.curso.nombre_curso.trim() !== "") {
       this.presentToast('top');
-      this.presentAlert12('ID', this.curso.id_curso + ('nombre_curso') + this.curso.nombre_curso + ('descripcion_curso') + this.curso.descripcion_curso + ('photoUrl') + this.photoUrl);
+      //this.presentAlert12('ID', this.curso.id_curso + ('nombre_curso') + this.curso.nombre_curso + ('descripcion_curso') + this.curso.descripcion_curso + ('photoUrl') + this.photoUrl);
       this.bd.modificarCurso(this.curso.id_curso, this.curso.nombre_curso, this.curso.descripcion_curso, this.photoUrl);
       this.router.navigate(['/asignaturas1 '])
     }

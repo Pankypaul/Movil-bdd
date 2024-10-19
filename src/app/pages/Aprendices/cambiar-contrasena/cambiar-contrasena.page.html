@@ -18,9 +18,7 @@
         <form *ngIf="id === x.id_usuario" (ngSubmit)="onSubmit(x.contrasena_usuario, x.correo_usuario)" class="form-container">
         
           <ion-title class="titulo">CAMBIAR CONTRASEÑA</ion-title>
-  
-  
-    
+          
           <ion-item class="fondo-form">
             <ion-input maxlength="320" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
           </ion-item>

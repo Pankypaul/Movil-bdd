@@ -6,15 +6,14 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <div *ngFor="let x of arregloUsuario">
-      <ion-title *ngIf="id === x.id_usuario">Perfil de {{x.nombre_usuario}}</ion-title>
+      <ion-title *ngIf="id === x.id_usuario || id_usu === x.id_usuario || id_usua === x.id_usuario">Perfil de {{x.nombre_usuario}}</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <button></button>
-  <div class="ion-padding" *ngFor="let x of arregloUsuario">
-    <div class="container" *ngIf="id === x.id_usuario">
+<ion-content>
+  <div *ngFor="let x of arregloUsuario">
+    <ion-card class="card centrar" *ngIf="id === x.id_usuario || id_usu === x.id_usuario || id_usua === x.id_usuario">
       <!-- Imagen de perfil -->
       <div class="centrar">
         <img class="imagen" [src]="x.foto || '/assets/icon/pato.jpg'" alt="Perfil">
@@ -27,23 +26,23 @@
 
 
       <!-- Información de contacto -->
-      <ion-list>
-        <ion-item>
-          <ion-icon name="mail" slot="start"></ion-icon>
-          <ion-label>{{x.correo_usuario}}</ion-label>
+      <div class="fondo">
+        <ion-item class="fondo">
+          <ion-icon style="font-size: 24px; color: rgba(182, 149, 192, 1)" name="mail" slot="start"></ion-icon>
+          <ion-label class="fondo">{{x.correo_usuario}}</ion-label>
         </ion-item>
 
-        <ion-item>
-          <ion-icon name="call" slot="start"></ion-icon>
-          <ion-label>+56{{x.telefono_usuario}}</ion-label>
+        <ion-item class="fondo">
+          <ion-icon style="font-size: 24px; color: rgba(182, 149, 192, 1)" name="call" slot="start"></ion-icon>
+          <ion-label class="fondo">+56{{x.telefono_usuario}}</ion-label>
         </ion-item>
 
-        <ion-item>
-          <ion-label>
+        <ion-item class="fondo">
+          <ion-label class="fondo">
             Descripción :
           </ion-label>
 
-          <ion-label class="texto">
+          <ion-label class="texto tam">
             {{x.descripcion}}
           </ion-label>
         </ion-item>
@@ -52,11 +51,11 @@
             <ion-icon name="book" slot="start"></ion-icon>
             <ion-label>Soy estudiante de tercer año, estudio ingenieria en informatica, me gusta el deporte y ver animes, me especializo en programación web y bases de datos.</ion-label>
           </ion-item>-->
-      </ion-list>
+      </div>
 
       <!-- Botones de acción -->
       <!--<ion-button expand="block" color="primary" (click)="presentToast('top')" routerLink="/amigos"> Agrega amigo</ion-button>-->
-    </div>
+    </ion-card>
   </div>
 
 </ion-content>

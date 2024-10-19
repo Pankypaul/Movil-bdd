@@ -89,7 +89,7 @@ export class EditarPublicacionPage implements OnInit {
 
     if( this.publicacion.descripcion_publi.trim() !== ""  && this.publicacion.titulo_publi.trim() !== "" ){
       this.presentToast('top');
-      this.presentAlert12('ID', this.publicacion.id_publi+this.publicacion.descripcion_publi);
+      //this.presentAlert12('ID', this.publicacion.id_publi+this.publicacion.descripcion_publi);
       this.bd.modificarPublicacion(this.publicacion.id_publi, this.publicacion.titulo_publi, this.publicacion.descripcion_publi, this.photoUrl);
       this.router.navigate(['/menu'])
     }

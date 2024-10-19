@@ -12,7 +12,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-searchbar class="arriba" animated="true" placeholder="Buscar"></ion-searchbar>
+  <ion-searchbar (ionInput)="onSearch($event)" [(ngModel)]="buscador1" class="arriba" animated="true" placeholder="Buscar"></ion-searchbar>
+
+
 
   <div class="botones" *ngFor="let y of arregloUsuario">
     <ion-button *ngIf="rol === 1 && id === y.id_usuario" id="Aprendices" class="boton" (click)="irPubli()">NUEVO
@@ -25,18 +27,20 @@
     <ion-icon *ngIf="!usuarioUnico1" name="heart-outline"></ion-icon>
   </ion-button>
 
-
+  <div *ngIf="resultado1 === null && buscador1">
+    <p>No existe ningún curso con el nombre {{buscador1}}.</p>
+  </div>
 
   <ion-card class="container" *ngFor="let x of arregloTema">
-    <div>
+    <div *ngIf="!buscador1 || buscador1.trim() === '' || tituloEncontrado == x.titulo_tema">
 
       <div *ngIf="id_curs === x.curso_id_curso">
-        <ion-card-header (click)="irPagina()">
+        <ion-card-header>
 
           <div class="unir" *ngFor="let y of arregloUsuario">
-            <img *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="maria"
+            <img (click)="irPagina(y.id_usuario)" *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="maria"
               [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
-            <p *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="nombre">
+            <p (click)="irPagina(y.id_usuario)" *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="nombre">
               {{y.nombre_usuario}}</p>
 
           </div>

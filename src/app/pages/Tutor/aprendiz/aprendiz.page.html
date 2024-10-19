@@ -9,27 +9,35 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-searchbar animated="true" placeholder="Buscar"></ion-searchbar>
+  <ion-searchbar (ionInput)="onSearch($event)" [(ngModel)]="buscador1" animated="true"
+    placeholder="Buscar"></ion-searchbar>
+
+  <div *ngIf="resultado1 === null && buscador1">
+    <p>No existe ningún curso con el nombre {{buscador1}}.</p>
+  </div>
 
 
   <ion-card class="container" *ngFor="let x of arregloUsuario">
-    <ion-card-header>
-      <div class="unir">
-        <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil ">
-        <p class="nombre">{{ x.nombre_usuario }}</p>
+    <div *ngIf="!buscador1 || buscador1.trim() == '' || tituloEncontrado == x.nombre_usuario">
+      <ion-card-header>
+        <div class="unir">
+          <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil ">
+          <p class="nombre">{{ x.nombre_usuario }}</p>
+        </div>
+        <hr>
+      </ion-card-header>
+
+      <p class="texto">
+        Tipo de usuario: {{ x.rol_id_rol === 1 ? 'Tutor' : 'Aprendiz' }}
+      </p>
+
+      <p class="texto"> Email: {{ x.correo_usuario }}</p>
+      <div class="centrarB">
+        <ion-button class="verMas" (click)="ir(x.id_usuario)">Ir al perfil</ion-button>
       </div>
-      <hr>
-    </ion-card-header>
-    
-    <p class="texto">
-      Tipo de usuario: {{ x.rol_id_rol === 1 ? 'Tutor' : 'Aprendiz' }}
-    </p>
-    
-    <p class="texto"> Email: {{ x.correo_usuario }}</p>
-    <div class="centrarB">
-      <ion-button class="verMas" (click)="ir(x.id_usuario)">Ir al perfil</ion-button>
     </div>
-    
+
+
   </ion-card>
 
 </ion-content>

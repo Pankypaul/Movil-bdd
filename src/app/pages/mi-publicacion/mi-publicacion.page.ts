@@ -69,7 +69,7 @@ export class MiPublicacionPage implements OnInit {
   }
 
   modificar(x: any) {
-    this.presentAlert12('ID', x.id_publi);
+    //this.presentAlert12('ID', x.id_publi);
     let navigationsExtras: NavigationExtras = {
       state: {
         publicar: x
@@ -81,7 +81,7 @@ export class MiPublicacionPage implements OnInit {
   }
 
   eliminar(x: any) {
-    this.presentAlert12('ID para eliminar ', x.id_publi); //Este funciona (x.id_publi)
+    //this.presentAlert12('ID para eliminar ', x.id_publi); //Este funciona (x.id_publi)
     this.bd.eliminarPublicacion(x.id_publi); //no cambie nada de esto ya que ocupe la misma funcion...
    
   }

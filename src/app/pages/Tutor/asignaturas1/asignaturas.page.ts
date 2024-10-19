@@ -38,6 +38,13 @@ export class AsignaturasPage implements OnInit {
   rol!: number;
   id!: number;
 
+
+  buscador1!: string;
+  tituloEncontrado!: string;
+
+  resultado1: any;
+
+
   constructor(private router: Router, 
               private bd: ServicebdService, 
               private alertController: AlertController, 
@@ -94,7 +101,7 @@ export class AsignaturasPage implements OnInit {
   }
 
   modificar(x: any) {
-    this.presentAlert12('ID', x.id_curso);
+    //this.presentAlert12('ID', x.id_curso);
     let navigationsExtras: NavigationExtras = {
       state: {
         curso: x
@@ -106,7 +113,7 @@ export class AsignaturasPage implements OnInit {
   }
 
   eliminar(x: any) {
-    this.presentAlert12('ID para eliminar ', x.id_curso); //Este funciona (x.id_publi)
+    //this.presentAlert12('ID para eliminar ', x.id_curso); //Este funciona (x.id_publi)
     this.bd.eliminarCurso(x.id_curso); //no cambie nada de esto ya que ocupe la misma funcion...
   }
 
@@ -132,6 +139,26 @@ export class AsignaturasPage implements OnInit {
       }
     }
     this.router.navigate (['/menu-asignatura'],navigationextras);
+  }
+
+  onSearch(event: any) {
+    const searchValue = event.target.value; // Obtiene el valor actual del ion-searchbar
+    this.buscador1 = searchValue; // Actualiza el valor de buscador1
+    this.buscador(searchValue); // Llama a la función buscador con el valor
+  }
+
+
+  async buscador(buscar: string){
+    const resultado = await this.bd.buscadorCurso(buscar);
+    console.log('buscador ', resultado);
+    this.resultado1 = resultado;
+    console.log(this.resultado1);
+
+    if (resultado) {
+      this.tituloEncontrado = resultado.nombre_curso; // Guarda el título en la variable
+    } else {
+      this.tituloEncontrado = 'No se encontro el curso'; // Mensaje si no se encuentra
+    }
   }
 
 

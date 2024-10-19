@@ -90,7 +90,7 @@ export class EditarTemaPage implements OnInit {
 
     if( this.tema1.descripcion_tema.trim() !== ""  && this.tema1.titulo_tema.trim() !== "" ){
       this.presentToast('top');
-      this.presentAlert12('ID', this.tema1.id_tema+this.tema1.descripcion_tema);
+      //this.presentAlert12('ID', this.tema1.id_tema+this.tema1.descripcion_tema);
       this.bd.modificarTema(this.tema1.id_tema, this.tema1.titulo_tema, this.tema1.descripcion_tema, this.photoUrl);
       this.router.navigate(['/asignaturas1'])
     }

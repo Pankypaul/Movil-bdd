@@ -21,7 +21,7 @@ export class NosotrosPage implements OnInit {
 
   consultar(){
     this.storage.getItem(this.tipo).then(data=>{
-      this.presentAlert('Valor es : '+ data);
+      //this.presentAlert('Valor es : '+ data);
       this.valor = data;
     })
   }

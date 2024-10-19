@@ -77,7 +77,7 @@ export class FooterTutorComponent  implements OnInit {
       this.router.navigate(['/publicar']);
     } else {
       // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
-      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+      //this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
     }
   }
 
@@ -92,7 +92,7 @@ export class FooterTutorComponent  implements OnInit {
 
     } else {
       // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
-      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+      //this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
     }
   }
 
@@ -106,7 +106,7 @@ export class FooterTutorComponent  implements OnInit {
 
     } else {
       // Si no existe o es otro valor, puedes manejar el error o redirigir a una página por defecto
-      this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
+      //this.presentAlert('Error' + 'No se pudo determinar el rol del usuario.');
     }
     
 

@@ -22,6 +22,12 @@ export class AprendizPage implements OnInit {
       foto: '',
     }
   ];
+
+  buscador1!: string;
+  tituloEncontrado!: string;
+
+  resultado1: any;
+
   /*
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario
   ( id_usuario INTEGER PRIMARY KEY autoincrement, 
@@ -74,7 +80,25 @@ export class AprendizPage implements OnInit {
     this.router.navigate (['/perfil-agregar-amigos'],navigationextras);
   }
 
- 
+  onSearch(event: any) {
+    const searchValue = event.target.value; // Obtiene el valor actual del ion-searchbar
+    this.buscador1 = searchValue; // Actualiza el valor de buscador1
+    this.buscador(searchValue); // Llama a la función buscador con el valor
+  }
+
+
+  async buscador(buscar: string){
+    const resultado = await this.bd.buscadorUsuario(buscar);
+    console.log('buscador ', resultado);
+    this.resultado1 = resultado;
+    console.log(this.resultado1);
+
+    if (resultado) {
+      this.tituloEncontrado = resultado.nombre_usuario; // Guarda el título en la variable
+    } else {
+      this.tituloEncontrado = 'No se encontro el curso'; // Mensaje si no se encuentra
+    }
+  }
   
 
 

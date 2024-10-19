@@ -17,6 +17,7 @@ export class ServicebdService {
   //variable de conexión a Base de Datos
   public database!: SQLiteObject;
 
+
   /*
   rol (ya que otras tablas, como usuario, dependen de ella).
   usuario (depende de rol).
@@ -30,14 +31,14 @@ export class ServicebdService {
 
 
   //variables de creación de Tablas
-  
+
 
   //ROL
   tablaRol: string = "CREATE TABLE IF NOT EXISTS roles( id_rol INTEGER PRIMARY KEY, tipo_rol VARCHAR (10) NOT NULL);";
 
   //USUARIO
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario( id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nombre_usuario VARCHAR (60) NOT NULL, correo_usuario VARCHAR(320) NOT NULL UNIQUE, telefono_usuario INTEGER NOT NULL, contrasena_usuario VARCHAR(25) NOT NULL, rol_id_rol INTEGER NOT NULL, descripcion VARCHAR(250), foto VARCHAR(300), FOREIGN KEY(rol_id_rol) REFERENCES rol(id_rol));";
-  
+
   //CURSO
   tablaCurso: string = "CREATE TABLE IF NOT EXISTS curso( id_curso INTEGER PRIMARY KEY AUTOINCREMENT, nombre_curso VARCHAR(100) NOT NULL, descripcion_curso  VARCHAR(250) NOT NULL, foto_curso VARCHAR(300), fecha_inicio VARCHAR (100) NOT NULL, usuario_id_usuario INTEGER NOT NULL, activo INTEGER DEFAULT 1, FOREIGN KEY(usuario_id_usuario) REFERENCES usuario(id_usuario));";
 
@@ -140,7 +141,7 @@ export class ServicebdService {
       // Llamamos a la función para crear las tablas
       await this.crearTablas();  // Asegúrate de que `crearTablas` retorne una promesa
     } catch (e) {
-      this.presentAlert('Base de Datos', 'Error en crear la BD: ' + JSON.stringify(e));
+      //this.presentAlert('Base de Datos', 'Error en crear la BD: ' + JSON.stringify(e));
     }
   }
 
@@ -167,7 +168,7 @@ export class ServicebdService {
       // Modificar el estado de la Base de Datos
       this.isDBReady.next(true);
     } catch (e) {
-      this.presentAlert('Creación de Tablas', 'Error en crear las tablas: ' + JSON.stringify(e));
+      //this.presentAlert('Creación de Tablas', 'Error en crear las tablas: ' + JSON.stringify(e));
     }
   }
 
@@ -444,8 +445,8 @@ export class ServicebdService {
   modificarUsuario(id_usuario: number, nombre_usuario: string, correo_usuario: string, telefono_usuario: number, descripcion: string, foto: string) {
     // Comprobar si los campos obligatorios son válidos
     if (!id_usuario || !nombre_usuario || !correo_usuario || !telefono_usuario) {
-        //this.presentAlert("Modificar", "Error: Todos los campos son obligatorios.");
-        return;
+      //this.presentAlert("Modificar", "Error: Todos los campos son obligatorios.");
+      return;
     }
     //this.presentAlert("service", "ID: " + id_usuario);
     return this.database.executeSql('UPDATE usuario SET nombre_usuario = ?, correo_usuario = ?, telefono_usuario = ?, descripcion = ?, foto = ? WHERE id_usuario = ?', [nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto, id_usuario]).then(() => {
@@ -515,10 +516,10 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO tema(titulo_tema, descripcion_tema, fecha_tema, foto_tema, curso_id_curso, activo) VALUES (?,?,?,?,?,?)',
       [titulo_tema, descripcion_tema, fecha_tema, foto_tema, curso_id_curso, activo]
     ).then(() => {
-      this.presentAlert("Insertar", "Tema Registrado");
+      //this.presentAlert("Insertar", "Tema Registrado");
       this.seleccionarTema();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -526,21 +527,21 @@ export class ServicebdService {
   eliminarTema(id_tema: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
     return this.database.executeSql('UPDATE tema SET activo = 0 WHERE id_tema = ?', [id_tema])  //Cambie toda esta funcion menos el nombre 
       .then(() => {
-        this.presentAlert("Eliminar", "tema marcada como inactiva");
+        //this.presentAlert("Eliminar", "tema marcada como inactiva");
         this.seleccionarTema();  // Actualizar la lista de noticias
       })
       .catch(e => {
-        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+        //this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       });
   }
 
   modificarTema(id_tema: number, titulo_tema: string, descripcion_tema: string, foto_tema: string) {
-    this.presentAlert("service", "ID: " + id_tema);
+    //this.presentAlert("service", "ID: " + id_tema);
     return this.database.executeSql('UPDATE tema SET titulo_tema = ?, descripcion_tema = ?, foto_tema = ? WHERE id_tema = ?', [titulo_tema, descripcion_tema, foto_tema, id_tema]).then(() => {
-      this.presentAlert("Modificar", "tema Modificado" + descripcion_tema);
+      //this.presentAlert("Modificar", "tema Modificado" + descripcion_tema);
       this.seleccionarTema();
     }).catch(e => {
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -582,21 +583,21 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO comentario(comentario, usuario_id_usuario, fecha_comentario, publicacion_id_publi, activo) VALUES (?,?,?,?,?)',
       [comentario, usuario_id_usuario, fecha_comentario, publicacion_id_publi, activo]
     ).then(() => {
-      this.presentAlert("Insertar", "Comentario Registrado");
+      //this.presentAlert("Insertar", "Comentario Registrado");
       this.seleccionarComentario();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
   eliminarComentario(idcomentario: number) { //Cree un update que llama a la tabla y modifica el activo y coloca 0 para deshabilitarla 
     return this.database.executeSql('UPDATE comentario SET activo = 0 WHERE idcomentario = ?', [idcomentario])  //Cambie toda esta funcion menos el nombre 
       .then(() => {
-        this.presentAlert("Eliminar", "comentario marcada como inactiva");
+        //this.presentAlert("Eliminar", "comentario marcada como inactiva");
         this.seleccionarComentario();  // Actualizar la lista de noticias
       })
       .catch(e => {
-        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+        //this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       });
   }
 
@@ -635,10 +636,10 @@ export class ServicebdService {
     return this.database.executeSql('INSERT INTO lista(fecha_inscripcion, curso_id_curso, usuario_id_usuario) VALUES (?,?,?)',
       [fecha_inscripcion, curso_id_curso, usuario_id_usuario]
     ).then(() => {
-      this.presentAlert("Insertar", "Lista Registrado");
+      //this.presentAlert("Insertar", "Lista Registrado");
       this.seleccionarLista();
     }).catch(e => {
-      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     });
   }
 
@@ -666,12 +667,12 @@ export class ServicebdService {
       });
   }
 
-  eliminarUsuarioLista(usuario_id_usuario: number, curso_id_curso: number){
-    return this.database.executeSql('DELETE FROM lista WHERE usuario_id_usuario = ? and curso_id_curso = ?',[usuario_id_usuario, curso_id_curso]).then(()=>{
-      this.presentAlert("Eliminar","Usuario Eliminado");
+  eliminarUsuarioLista(usuario_id_usuario: number, curso_id_curso: number) {
+    return this.database.executeSql('DELETE FROM lista WHERE usuario_id_usuario = ? and curso_id_curso = ?', [usuario_id_usuario, curso_id_curso]).then(() => {
+      //this.presentAlert("Eliminar", "Usuario Eliminado");
       this.seleccionarLista();
-    }).catch(e=>{
-      this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+    }).catch(e => {
+      //this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
     })
   }
 
@@ -785,13 +786,131 @@ export class ServicebdService {
   modificarContrasena(id_usuario: number, correo_usuario: string, contrasena_usuario: string) {
     //this.presentAlert("service", "ID: " + id_usuario);
     return this.database.executeSql('UPDATE usuario SET contrasena_usuario = ? WHERE id_usuario = ? AND correo_usuario = ?', [contrasena_usuario, id_usuario, correo_usuario]).then(() => {
-      this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
+      //this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
       this.seleccionarUsuario();
     }).catch(e => {
-      this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
+
+  //-----------------BUSCADORES----------------------------
+
+  buscador(titulo_publi: string): Promise<Publicacion | null> {
+    return this.database.executeSql('SELECT * FROM publicacion WHERE titulo_publi = ?',
+      [titulo_publi]).then(res => {
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const publicacion = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_publi: publicacion.id_publi,
+            titulo_publi: publicacion.titulo_publi,
+            descripcion_publi: publicacion.descripcion_publi,
+            foto_publi: publicacion.foto_publi,
+            fecha_publi: publicacion.fecha_publi,
+            usuario_id_usuario: publicacion.usuario_id_usuario,
+            activo: publicacion.activo
+
+          } as Publicacion;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null;
+      });
+  }
+
+  buscadorCurso(nombre_curso: string): Promise<Curso | null> {
+    return this.database.executeSql('SELECT * FROM curso WHERE nombre_curso = ?',
+      [nombre_curso]).then(res => {
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const curso = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_curso: curso.id_curso,
+            nombre_curso: curso.nombre_curso,
+            descripcion_curso: curso.descripcion_curso,
+            foto_curso: curso.foto_curso,
+            fecha_inicio: curso.fecha_inicio,
+            usuario_id_usuario: curso.usuario_id_usuario,
+            activo: curso.activo
+
+          } as Curso;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null;
+      });
+  }
+
+
+  buscadorUsuario(nombre_usuario: string): Promise<Usuario | null> {
+    return this.database.executeSql('SELECT * FROM usuario WHERE nombre_usuario = ?',
+      [nombre_usuario]).then(res => {
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const usuario = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_usuario: usuario.id_usuario,
+            nombre_usuario: usuario.nombre_usuario,
+            correo_usuario: usuario.correo_usuario,
+            telefono_usuario: usuario.telefono_usuario,
+            contrasena_usuario: usuario.contrasena_usuario,
+            rol_id_rol: usuario.rol_id_rol,
+            descripcion: usuario.descripcion,
+            foto: usuario.foto
+
+          } as Usuario;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null;
+      });
+  }
+
+  buscadorTema(titulo_tema: string): Promise<Tema | null> {
+    return this.database.executeSql('SELECT * FROM tema WHERE titulo_tema = ?',
+      [titulo_tema]).then(res => {
+        // Valido si trae al menos un registro
+        if (res.rows.length > 0) {
+          const tema = res.rows.item(0); // Obtiene el primer registro
+          // Retorno el objeto usuario encontrado
+          return {
+            id_tema: tema.id_tema,
+            titulo_tema: tema.titulo_tema,
+            descripcion_tema: tema.descripcion_tema,
+            fecha_tema: tema.fecha_tema,
+            foto_tema: tema.foto_tema,
+            curso_id_curso: tema.curso_id_curso,
+            activo: tema.activo
+          } as Tema;
+        } else {
+          return null; // Retorna null si no hay coincidencias
+        }
+      })
+      .catch(e => {
+        //this.presentAlert('Error al verificar datos duplicados', JSON.stringify(e));
+        return null;
+      });
+  }
+
+
+  //----------api externa---------------------
+
   
+
+  
+
 
 
   /*

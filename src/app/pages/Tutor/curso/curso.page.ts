@@ -131,7 +131,7 @@ export class CursoPage implements OnInit {
     if (this.descripcion_curso.trim() !== "" && this.nombre_curso.trim() !== "" && this.hasPhoto === true) {// true si hay una imagen, false si está vacío o null
 
       this.presentToast('top');
-      this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)
+      //this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)
       
       this.bd.insertarCurso(this.nombre_curso, this.descripcion_curso, this.photoUrl, this.fecha_curso, this.id, 1); // Pasar el objeto Date
       this.bd.NotificacionNuevoCurso();

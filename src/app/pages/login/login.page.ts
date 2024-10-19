@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.storage.clear()
-      .catch(err => this.presentAlert12('Error', err));
+      
   }
 
   async presentAlert12(title: string, msj: string) {
@@ -134,7 +134,7 @@ export class LoginPage implements OnInit {
                 const { id_usuario, rol_id_rol } = usuarioStorage[0]; // Desestructuramos para obtener id_usuario y rol_id_rol
                 this.storage.setItem('Id', id_usuario); // Asegúrate de que sean strings si es necesario
                 this.storage.setItem('Rol', rol_id_rol); // Asegúrate de que sean strings si es necesario
-                this.presentAlert12("Variables creadas", `ID: ${id_usuario}, Rol: ${rol_id_rol}`); // Mensaje informativo
+                //this.presentAlert12("Variables creadas", `ID: ${id_usuario}, Rol: ${rol_id_rol}`); // Mensaje informativo
         
                 this.router.navigate(['/menu']); // Navegar si el usuario existe
               } else {

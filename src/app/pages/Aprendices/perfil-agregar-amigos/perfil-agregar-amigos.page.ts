@@ -27,6 +27,8 @@ export class PerfilAgregarAmigosPage implements OnInit {
   ];
   
   id!: number;
+  id_usu!: number;
+  id_usua!: number;
 
   constructor(private router: Router,
     private toastController: ToastController,
@@ -38,6 +40,8 @@ export class PerfilAgregarAmigosPage implements OnInit {
 
       if (this.router.getCurrentNavigation()?.extras.state) {
         this.id = this.router.getCurrentNavigation()?.extras?.state?.['id'];
+        this.id_usu = this.router.getCurrentNavigation()?.extras?.state?.['id_usu'];
+        this.id_usua = this.router.getCurrentNavigation()?.extras?.state?.['id_usua'];
       }
     })
 

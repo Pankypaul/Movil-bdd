@@ -161,7 +161,7 @@ export class CambiarContrasenaPage implements OnInit {
         this.nueva = '';
         this.repetirNueva = '';
 
-        this.presentAlert12('cambio de contraseña', this.correo +(' ')+ this.nueva)
+        //this.presentAlert12('cambio de contraseña', this.correo +(' ')+ this.nueva)
         this.router.navigate(['/menu']);
 
       }

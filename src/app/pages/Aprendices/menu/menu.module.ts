@@ -10,9 +10,11 @@ import { MenuPage } from './menu.page';
 
 import { ComponentsModule } from 'src/app/components/footer-tutor/components.module';  //Importo el ComponentsModule
 
+
 @NgModule({
   imports: [
     CommonModule, 
+    FormsModule,
     IonicModule,
     ComponentsModule,   //Tambien lo declaro aqui el ComponentsModule
     MenuPageRoutingModule

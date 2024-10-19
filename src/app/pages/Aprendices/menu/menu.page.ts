@@ -21,7 +21,7 @@ export class MenuPage implements OnInit {
       foto: '',
       descripcion: '',
       id_usuario: '',
-      
+
     }
   ];
 
@@ -35,10 +35,18 @@ export class MenuPage implements OnInit {
       activo: '',  //Agregue el activo aqui tambien
     }
   ]
-  constructor(private router:Router /*,private activateroute:ActivatedRoute*/, 
-              private bd: ServicebdService,
-              private alertController: AlertController,
-              private storage: NativeStorage) { 
+
+  buscador1!: string;
+  tituloEncontrado!: string;
+
+  resultado1: any;
+
+
+
+  constructor(private router: Router /*,private activateroute:ActivatedRoute*/,
+    private bd: ServicebdService,
+    private alertController: AlertController,
+    private storage: NativeStorage) {
 
     /*this.activateroute.queryParams.subscribe(param =>{
       //valido si viene o no información en la ruta
@@ -53,11 +61,11 @@ export class MenuPage implements OnInit {
   }
 
   ngOnInit() {
-    this.bd.dbState().subscribe(data=>{
+    this.bd.dbState().subscribe(data => {
       //validar si la bd esta lista
-      if(data){
+      if (data) {
         //subscribir al observable de la listaNoticias
-        this.bd.fetchPublicacion().subscribe(res=>{
+        this.bd.fetchPublicacion().subscribe(res => {
           this.arregloPublicacion = res;
         })
       }
@@ -71,29 +79,61 @@ export class MenuPage implements OnInit {
         })
       }
     })
-  }
-  
-  irPagina(id_usuario: number, id_publi: number){
 
-      id_usuario;
-      console.log('ID del usuario:', id_usuario, id_publi); // Esto muestra el ID en la consola
-      let navigationextras: NavigationExtras = {
-  
-        state: {
-          id_us: id_usuario,
-          id_cu: id_publi
-        }
+
+  }
+
+  irPagina(id_usuario: number, id_publi: number) {
+
+    id_usuario;
+    console.log('ID del usuario:', id_usuario, id_publi); // Esto muestra el ID en la consola
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_us: id_usuario,
+        id_cu: id_publi
       }
-      this.router.navigate(['/chat'],navigationextras);
-    
+    }
+    this.router.navigate(['/chat'], navigationextras);
+
   }
 
-  irPerfil(){
-    this.router.navigate(['/perfil-agregar-amigos'])
+
+
+  onSearch(event: any) {
+    const searchValue = event.target.value; // Obtiene el valor actual del ion-searchbar
+    this.buscador1 = searchValue; // Actualiza el valor de buscador1
+    this.buscador(searchValue); // Llama a la función buscador con el valor
+  }
+
+
+  async buscador(buscar: string) {
+    const resultado = await this.bd.buscador(buscar);
+    console.log('buscador ', resultado);
+    this.resultado1 = resultado;
+    console.log(this.resultado1);
+
+    if (resultado) {
+      this.tituloEncontrado = resultado.titulo_publi; // Guarda el título en la variable
+    } else {
+      this.tituloEncontrado = 'No se encontró la publicación'; // Mensaje si no se encuentra
+    }
   }
 
   /*mostrarCard(id: string) {
     this.id = id;
   }*/
+
+    irPerfil(id_usuario: number) { // Accede al primer elemento del arreglo
+    this.arregloUsuario.id_usuario;
+    console.log('ID del usuario:', id_usuario); // Esto muestra el ID en la consola
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_usu: id_usuario
+      }
+    }
+    this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
+  }
 
 }

@@ -4,6 +4,8 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
+
+
 @Component({
   selector: 'app-menu-asignatura',
   templateUrl: './menu-asignatura.page.html',
@@ -68,12 +70,15 @@ export class MenuAsignaturaPage implements OnInit {
     }
   ];
 
-  
-
-
   curso1: any;
 
   usuarioUnico1!: boolean;
+
+
+  buscador1!: string;
+  tituloEncontrado!: string;
+
+  resultado1: any;
   
   id_curs!: number; //contex desde asignatura
 
@@ -173,17 +178,7 @@ export class MenuAsignaturaPage implements OnInit {
   }
   
 
-  irPagina() {
-    let navigationextras: NavigationExtras = {
-      state: {
-        name: this.nombre,
-        phone: this.telefono,
-        email: this.correo,
-        tipo: this.tip
-      }
-    };
-    this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
-  }
+
   irPubli() {
     let navigationextras: NavigationExtras = {
 
@@ -228,7 +223,7 @@ export class MenuAsignaturaPage implements OnInit {
   }
 
   eliminar(x: any) {
-    this.presentAlert12('ID para eliminar ', x.id_tema); //Este funciona (x.id_publi)
+    //this.presentAlert12('ID para eliminar ', x.id_tema); //Este funciona (x.id_publi)
     this.bd.eliminarTema(x.id_tema); //no cambie nada de esto ya que ocupe la misma funcion...
   }
 
@@ -255,13 +250,13 @@ export class MenuAsignaturaPage implements OnInit {
         if (this.rol === 0 && usuarioUnico) {
           // Usuario sigue el curso, entonces lo eliminamos de la lista
           this.bd.eliminarUsuarioLista(this.id, this.id_curs);
-          this.presentAlert12('Haz dejado de seguir este curso', 'Nos veremos pronto, sigue aprendiendo!');
+          //this.presentAlert12('Haz dejado de seguir este curso', 'Nos veremos pronto, sigue aprendiendo!');
           this.usuarioUnico1 = false; // Cambiar estado de seguimiento
         } else if (this.rol === 0 && !usuarioUnico) {
           // Usuario no sigue el curso, entonces lo agregamos a la lista
           const fechaActual = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: '2-digit' });
           this.bd.insertarLista(fechaActual, this.id_curs, this.id);
-          this.presentAlert12('Bienvenido al curso', this.nombre);
+          //this.presentAlert12('Bienvenido al curso', this.nombre);
           this.usuarioUnico1 = true; // Cambiar estado de seguimiento
         }
       }
@@ -269,4 +264,37 @@ export class MenuAsignaturaPage implements OnInit {
       console.error('Error al actualizar la lista de seguimiento:', error);
     }
   }
+
+  onSearch(event: any) {
+    const searchValue = event.target.value; // Obtiene el valor actual del ion-searchbar
+    this.buscador1 = searchValue; // Actualiza el valor de buscador1
+    this.buscador(searchValue); // Llama a la función buscador con el valor
+  }
+
+
+  async buscador(buscar: string){
+    const resultado = await this.bd.buscadorTema(buscar);
+    console.log('buscador ', resultado);
+    this.resultado1 = resultado;
+    console.log(this.resultado1);
+
+    if (resultado) {
+      this.tituloEncontrado = resultado.titulo_tema; // Guarda el título en la variable
+    } else {
+      this.tituloEncontrado = 'No se encontro el curso'; // Mensaje si no se encuentra
+    }
+  }
+
+  irPagina(id_usuario: number) { // Accede al primer elemento del arreglo
+    this.arregloUsuario.id_usuario;
+    console.log('ID del usuario:', id_usuario); // Esto muestra el ID en la consola
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_usua: id_usuario
+      }
+    }
+    this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
+  }
+
 }

@@ -255,8 +255,8 @@ export class PerfilPage implements OnInit {
           console.log('correo actual ', correoActual);
           //   p  !== a && false ()
           if (correo_usuario !== correoActual && !correoUnico) {
-            // Concatenación mejorada con template literals
-            this.presentAlert12('correo_usuario !== correoActual && !correoUnico', `ID4: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
+            
+            //this.presentAlert12('correo_usuario !== correoActual && !correoUnico', `ID4: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${foto} `);
             // Asegúrate de que el orden de los parámetros es el correcto
             this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, foto);
             //window.location.reload();
@@ -272,7 +272,7 @@ export class PerfilPage implements OnInit {
 
           } if (correo_usuario === correoActual) {
             // Concatenación mejorada con template literals
-            this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${this.photoUrl} `);
+            //this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${this.photoUrl} `);
             // Asegúrate de que el orden de los parámetros es el correcto
             this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, this.photoUrl);
             //window.location.reload();

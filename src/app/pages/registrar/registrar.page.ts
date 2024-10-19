@@ -216,7 +216,7 @@ export class RegistrarPage implements OnInit {
             //APRENDIZ: 0
             if(this.perfil.tipo  === 'Aprendiz'){ 
               this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 0, '', '');
-              this.presentAlert('tipo', this.perfil.tipo);
+              //this.presentAlert('tipo', this.perfil.tipo);
               this.router.navigate(['/login'])
               this.bd.NotificacionRegistroAprendiz();
             }
@@ -224,7 +224,7 @@ export class RegistrarPage implements OnInit {
             //TUTOR: 1
             if(this.perfil.tipo  === 'Tutor'){
               this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
-              this.presentAlert('tipo', this.perfil.tipo);
+              //this.presentAlert('tipo', this.perfil.tipo);
               this.router.navigate(['/login'])
               this.bd.NotificacionRegistroTutor();
             }

@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <!--slot="start" Es la para la izquierda-->
+      <!--slot="end" Es la para la derecha-->
+      <ion-menu-button color="dark"></ion-menu-button>
+      
+    </ion-buttons>
+    <img slot="end" src="/assets/icon/logo10.png" alt="logo" class="logo" routerLink="/menu">
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+  <div class="background center-div">
+    <div class="container">
+
+      <div >
+        <form class="form-container">
+        
+          <ion-title class="titulo">REESTABLECER CONTRASEÑA</ion-title>
+          
+          <ion-item class="fondo-form">
+            <ion-label maxlength="320" class="texto"  type="email" name="correo" label-placement="floating" label="Correo" required>{{correo}}</ion-label>
+          </ion-item>
+
+          <ion-item class="fondo-form">
+            <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="nueva" type="password" name="nueva" label-placement="floating" label="Contraseña nueva" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para contraseña -->
+          <ion-label color="danger">{{mensaje_2}}</ion-label>
+  
+          <ion-item class="fondo-form">
+            <ion-input maxlength="25" minlength="8" class="texto" [(ngModel)]="repetirNueva" type="password" name="repetirNueva" label-placement="floating" label="Repetir contraseña" required></ion-input>
+          </ion-item>
+          <!-- Mensaje de error para contraseña -->
+          <ion-label color="danger">{{mensaje_3}}</ion-label>
+    
+          <ion-button  shape="round" class="boton" (click)="cambiar()" >Cambiar Contraseña</ion-button>
+    
+        </form>
+      </div>
+      
+  
+      
+    </div> 
+  </div>
+</ion-content>

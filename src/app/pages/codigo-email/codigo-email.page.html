@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar class="toolbar">
+    <ion-buttons slot="start">
+      <!--slot="start" Es la para la izquierda-->
+      <!--slot="end" Es la para la derecha-->
+      <ion-back-button  color="dark"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding ion-text-center">
+  <div class="background center-div">
+    <div class="container">
+      
+      <form class="form-container">
+        
+        <ion-title class="titulo">Ingresa tu código aquí</ion-title>
+
+  
+        <ion-item class="fondo-form">
+          <ion-input maxlength="6" class="texto"  type="text" name="text"  [(ngModel)]="codigo1" label-placement="floating" placeholder="Solo 6 dígitos : 123456" id="codigo" pattern="[0-9]*" label="Código de 6 dígitos" required (ionInput)="validateNumero($event)" inputmode="numeric"></ion-input>
+        </ion-item>
+        <ion-label color="danger">{{mensaje_1}}</ion-label>
+
+        <ion-button (click)="validarCodigo()" shape="round" class="boton" >Confirmar código</ion-button>
+
+      </form>
+  
+      <p class="texto-sin">Volver al <a class="texto-con" href="" routerLink="/login">Iniciar Sesión</a> </p>
+    
+    </div> 
+  </div>
+</ion-content>

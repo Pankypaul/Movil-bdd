@@ -12,20 +12,25 @@
   <div class="background center-div">
     <div class="container">
       
-      <form (ngSubmit)="onSubmit()" class="form-container">
-        
-        <ion-title class="titulo">RECUPERAR CONTRASEÑA</ion-title>
-
-  
-          <ion-item class="fondo-form">
-            <ion-input maxlength="320" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
-          </ion-item>
-          <!-- Mensaje de error para correo -->
-          <ion-label color="danger">{{mensaje_1}}</ion-label>
-
-        <ion-button type="submit" (click)="recuperarContrasena()" shape="round" class="boton" >Recuperar Contraseña</ion-button>
-
+      <form class="form-container">
+        <ion-title class="titulo">Reestablecer Contraseña</ion-title>
+      
+        <ion-item class="fondo-form">
+          <ion-input maxlength="320" class="texto" [(ngModel)]="correo" type="email" name="correo" label-placement="floating" label="Correo" required></ion-input>
+        </ion-item>
+      
+        <!-- Mensaje de error para correo -->
+        <ion-label class="mensaje-error" *ngIf="mensaje_1">{{ mensaje_1 }}</ion-label>
+      
+        <ion-note color="medium" class="instrucciones">
+          Se le enviará un correo electrónico con un código para restablecer su contraseña.
+        </ion-note>
+      
+        <ion-button expand="block" (click)="recuperarContrasena1()" shape="round" class="boton">
+          Recuperar Contraseña
+        </ion-button>
       </form>
+      
   
       <p class="texto-sin">Volver al <a class="texto-con" href="" routerLink="/login">Iniciar Sesión</a> </p>
     

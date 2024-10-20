@@ -19,22 +19,14 @@ export class ServicebdService {
   public database!: SQLiteObject;
 
 
+
+  // API DEL CORREO (500 PETICIONES EN 2024)
   api_url = 'https://api.emailjs.com/api/v1.0/email/send';
   api_key = "EasQWdjkDOk8Bj8TM";
   id_servicio = "TaskApp";
   id_templace = "template_32wkb36";
 
 
-
-  /*
-  rol (ya que otras tablas, como usuario, dependen de ella).
-  usuario (depende de rol).
-  curso (depende del usuario).
-  tema (depende de curso).
-  publicación (depende de usuario).
-  comentario (depende de publicación y usuario).
-  respuesta (depende de tema y usuario).   --PENDIENTE POR LE MOMENTO
-  lista (depende de curso y usuario).*/
 
 
 
@@ -912,14 +904,15 @@ export class ServicebdService {
       });
   }
 
+  
 
   //----------api externa (enviar correo)---------------------
 
-  correo(correo_usuario: string, codigo_contrasena: string): Observable<any> {
+  correo(correo_usuario: string, codigo_contrasena: number): Observable<any> {
+
     const serviceId = this.id_servicio;  
     const templateId = this.id_templace;  
     const userId = this.api_key; 
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -930,14 +923,26 @@ export class ServicebdService {
       "user_id": userId,
       "template_params": {
         "correo_usuario": correo_usuario, 
-        "codigo_contrasena": codigo_contrasena
+        "codigo_contrasena": codigo_contrasena,
         }
     };
 
     return this.http.post(this.api_url, body, { headers });
   }
 
+  // RESTABLECER CONTRASEÑA
 
+  modificarContrasenaCodigo( correo_usuario: string, contrasena_usuario: string) {
+    //this.presentAlert("service", "ID: " + id_usuario);
+    return this.database.executeSql('UPDATE usuario SET contrasena_usuario = ? WHERE correo_usuario = ?', [contrasena_usuario,  correo_usuario]).then(() => {
+      this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
+      this.seleccionarUsuario();
+    }).catch(e => {
+      //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
+    });
+  }
+
+/*
   codigo(longitud: number): string {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let codigo = '';
@@ -946,7 +951,7 @@ export class ServicebdService {
       codigo += caracteres[indiceAleatorio];
     }
     return codigo;
-  }
+  }*/
 
   
 

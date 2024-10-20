@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { Router, NavigationExtras } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
@@ -13,8 +13,9 @@ export class RecuperarContrasenaPage implements OnInit {
   nueva: string = '';
   repetirNueva: string = '';
   mensaje_1!: string;
-
-  codigo = this.bd.codigo(6);
+  codigo = Math.floor(100000 + Math.random() * 900000);
+  //codigo: string = 'hola123';
+  //codigo = this.bd.codigo(6);
 
 
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
@@ -22,15 +23,17 @@ export class RecuperarContrasenaPage implements OnInit {
 
   constructor(private router: Router,
     private toastController: ToastController,
-    private bd: ServicebdService) { }
+    private bd: ServicebdService
+    , private alertController: AlertController,
+    ) { }
 
   ngOnInit() {
 
-    console.log(this.codigo);
+    //console.log(this.codigo);
 
   }
 
-  onSubmit() {
+  recuperarContrasena1() {
 
     this.mensaje_1 = '';
 
@@ -62,16 +65,30 @@ export class RecuperarContrasenaPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Asegura que haya algo después del '.'
 
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
+      if (tieneArroba && posicionArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         //console.log("El correo es válido");
+        this.bd.isDBReady.subscribe(async (val) => {
+          if (val) {
 
-        if (this.correo.length < 8) {
-          this.mensaje_1 = 'El correo es muy corto';
-        } else {
-          this.router.navigate(['/login']);
+            const correoUnico = await this.bd.seleccionarVerificacionCorreo(this.correo); // true == correo existe 
+
+            if (correoUnico) {
+              let navigationsExtras: NavigationExtras = {
+                state: {
+                  correo: this.correo,
+                  codigo: this.codigo
+                }
+              }
+
+              this.router.navigate(['/codigo-email'], navigationsExtras);  //Página donde se coloca el codigo que llega al correo.
+              
+              this.recuperarContrasena();
+            } else {
+              this.mensaje_1 = 'El correo no existe'
+            }
+          }
         }
-      }
-      else {
+      )} else {
         this.mensaje_1 = 'Correo no valido';
       }
     }
@@ -142,10 +159,33 @@ export class RecuperarContrasenaPage implements OnInit {
     await toast.present();
   }
 
-  recuperarContrasena() {
-    this.bd.correo(this.correo, this.codigo);
+  async presentAlert(titulo_publi: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: titulo_publi,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
   }
-  
+
+  recuperarContrasena() {
+    
+    this.bd.correo(this.correo, this.codigo).subscribe(
+      response => {
+        // Si el envío del correo fue exitoso
+        console.log('response', response);
+        //this.presentAlert('Correo enviado', 'Se mandó un código para el cambio de contraseña. Verifique su correo.');
+      },
+      error => {
+        // Manejo del error en caso de fallo
+        console.error('Error al enviar el correo:', error);
+        //this.presentAlert("Error", "No se envió el correo electrónico. Detalles: " + (error.error || error.message || 'Error desconocido'));
+      }
+    );
+  }
+
+
 
 
 

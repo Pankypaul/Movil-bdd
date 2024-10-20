@@ -100,9 +100,19 @@ const routes: Routes = [
     loadChildren: () => import('./pages/editar-tema/editar-tema.module').then( m => m.EditarTemaPageModule)
   },
   {
+    path: 'codigo-contrasena',
+    loadChildren: () => import('./pages/codigo-contrasena/codigo-contrasena.module').then( m => m.CodigoContrasenaPageModule)
+  },
+  
+  {
+    path: 'codigo-email',
+    loadChildren: () => import('./pages/codigo-email/codigo-email.module').then( m => m.CodigoEmailPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/Aprendices/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
+
 
 
 

@@ -1,5 +1,4 @@
-
-.container{
+.container {
   border-radius: 0%;
   border: 0rem #000000 solid;
   margin-top: 8rem;
@@ -8,7 +7,14 @@
   padding-bottom: 2rem;
 }
 
-ion-content{
+.logo {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 0% #000000 solid;
+}
+
+ion-content {
   position: absolute;
   top: 0;
   left: 0;
@@ -17,20 +23,19 @@ ion-content{
   --background: rgba(182, 149, 192, 1);
 }
 
-ion-item{
-  --background:rgba(182, 149, 192, 1);
+ion-item {
+  --background: rgba(182, 149, 192, 1);
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 1rem;
 }
 
-.texto{
+.texto {
   color: #dddddd;
   font-family: "Segoe UI";
 }
 
-.titulo{
-
+.titulo {
   color: #ffffff;
   font-size: 0.4cm;
   font-family: "impact";
@@ -38,13 +43,9 @@ ion-item{
   align-items: center;
   height: 4rem;
   word-wrap: break-word;
-
 }
 
-
-
-.boton{
-
+.boton {
   --background: #ffffff;
   color: rgba(182, 149, 192, 1);
   font-family: "impact";
@@ -52,12 +53,11 @@ ion-item{
   justify-content: center;
   margin-left: 5%;
   margin-right: 5%;
-  margin-top: 20%;
+  margin-top: 7%;
   margin-bottom: 7%;
-
 }
 
-.texto-con{
+.texto-con {
   color: rgb(0, 0, 0);
   font-size: small;
   text-decoration: none;
@@ -65,7 +65,7 @@ ion-item{
   font-weight: bold;
 }
 
-.texto-sin{
+.texto-sin {
   color: #ffffff;
   text-align: center;
   font-size: small;
@@ -73,11 +73,7 @@ ion-item{
   font-family: "Segoe UI";
 }
 
-.toolbar{
+.toolbar {
   --background: rgba(182, 149, 192, 1);
-  border-bottom: .5px #000000 solid;
-}
-
-.centro{
-  margin-top: 1rem;
+  border-bottom: 0.5px #000000 solid;
 }

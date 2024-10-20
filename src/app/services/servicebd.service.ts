@@ -9,6 +9,7 @@ import { Tema } from './tema';
 import { Comentario } from './comentario';
 import { Lista } from './lista';
 import { LocalNotifications } from '@capacitor/local-notifications';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,13 @@ import { LocalNotifications } from '@capacitor/local-notifications';
 export class ServicebdService {
   //variable de conexión a Base de Datos
   public database!: SQLiteObject;
+
+
+  api_url = 'https://api.emailjs.com/api/v1.0/email/send';
+  api_key = "EasQWdjkDOk8Bj8TM";
+  id_servicio = "TaskApp";
+  id_templace = "template_32wkb36";
+
 
 
   /*
@@ -78,7 +86,7 @@ export class ServicebdService {
   //variable para el status de la Base de datos
   public isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController) {
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private http: HttpClient) {
     this.createBD();
   }
 
@@ -905,9 +913,40 @@ export class ServicebdService {
   }
 
 
-  //----------api externa---------------------
+  //----------api externa (enviar correo)---------------------
 
-  
+  correo(correo_usuario: string, codigo_contrasena: string): Observable<any> {
+    const serviceId = this.id_servicio;  
+    const templateId = this.id_templace;  
+    const userId = this.api_key; 
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    const body = {
+      "service_id": serviceId,
+      "template_id": templateId,
+      "user_id": userId,
+      "template_params": {
+        "correo_usuario": correo_usuario, 
+        "codigo_contrasena": codigo_contrasena
+        }
+    };
+
+    return this.http.post(this.api_url, body, { headers });
+  }
+
+
+  codigo(longitud: number): string {
+    const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let codigo = '';
+    for (let i = 0; i < longitud; i++) {
+      const indiceAleatorio = Math.floor(Math.random() * caracteres.length);
+      codigo += caracteres[indiceAleatorio];
+    }
+    return codigo;
+  }
 
   
 

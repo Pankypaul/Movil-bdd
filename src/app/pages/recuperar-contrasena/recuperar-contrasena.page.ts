@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { ServicebdService } from 'src/app/services/servicebd.service';
 
 @Component({
   selector: 'app-recuperar-contrasena',
@@ -13,33 +14,41 @@ export class RecuperarContrasenaPage implements OnInit {
   repetirNueva: string = '';
   mensaje_1!: string;
 
+  codigo = this.bd.codigo(6);
+
+
   validarContraseña = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!-_()]).{8,}$/;
 
 
-  constructor(private router: Router, private toastController: ToastController) { }
+  constructor(private router: Router,
+    private toastController: ToastController,
+    private bd: ServicebdService) { }
 
   ngOnInit() {
+
+    console.log(this.codigo);
+
   }
 
   onSubmit() {
 
-    this.mensaje_1 = ''; 
+    this.mensaje_1 = '';
 
     this.correo = this.correo.replace(/\s+/g, '');
     this.correo = this.correo.trim(); // Para el correo0
 
-    if (this.correo == ""){
+    if (this.correo == "") {
       this.mensaje_1 = 'El correo es obligatorio ';
     }
 
     if (!this.correo) {
       console.log("Porfavor, rellene los campos en blanco");
       this.CamposVacios('bottom');
-    } else if (this.correo.length >= 50 ) {
+    } else if (this.correo.length >= 50) {
       this.maxCaracter('bottom')
-    }else {
+    } else {
 
-      
+
 
       // Validación mejorada del correo (Devuelve numeros)
       const tieneArroba = this.correo.includes('@');       //Incluye '@'
@@ -53,17 +62,17 @@ export class RecuperarContrasenaPage implements OnInit {
       const algoEntreArrobaYPunto = posicionPunto > posicionArroba + 1; // Asegura que haya algo entre el '@' y el '.'
       const algoDespuesPunto = posicionPunto < this.correo.length - 1; // Asegura que haya algo después del '.'
 
-      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto ) {
+      if (tieneArroba && algoAntesArroba && algoEntreArrobaYPunto && algoDespuesPunto) {
         //console.log("El correo es válido");
-        
-        if(this.correo.length <8){
+
+        if (this.correo.length < 8) {
           this.mensaje_1 = 'El correo es muy corto';
-        }else{
+        } else {
           this.router.navigate(['/login']);
         }
-      } 
+      }
       else {
-        this.mensaje_1 = 'Correo no valido'; 
+        this.mensaje_1 = 'Correo no valido';
       }
     }
   }
@@ -121,7 +130,7 @@ export class RecuperarContrasenaPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
 
   async maxCaracter(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
@@ -131,7 +140,13 @@ export class RecuperarContrasenaPage implements OnInit {
     });
 
     await toast.present();
-  } 
+  }
+
+  recuperarContrasena() {
+    this.bd.correo(this.correo, this.codigo);
+  }
+  
+
 
 
 }

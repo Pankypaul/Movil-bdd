@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), FormsModule, AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), NativeStorage, SQLite, provideHttpClient()],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, provideAnimationsAsync(), NativeStorage, SQLite, provideHttpClient(),],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -17,7 +17,7 @@
           <div *ngFor="let y of arregloUsuario">
             <div *ngIf="id_usu === y.id_usuario">
               <ion-item class="fondo unir" lines="none"> <!---->
-                <img class="imagen" [src]=" y.foto || 'assets/icon/pato.jpg'" alt="No tiene foto">
+                <img class="imagen" [src]=" y.foto || '/assets/icon/perfil1.webp'" alt="No tiene foto">
                 <p class="nombre">{{y.nombre_usuario}}</p>
               </ion-item>
 
@@ -27,7 +27,7 @@
               <ion-card-title class="texto">{{x.titulo_publi}}</ion-card-title>
 
               <div class="centrar1">
-                <img class="tarea" [src]="x.foto_publi" alt="No tiene foto">
+                <img class="tarea" [src]="x.foto_publi || '/assets/icon/noImagen.avif'" alt="No tiene foto">
               </div>
 
               <hr class="hr">

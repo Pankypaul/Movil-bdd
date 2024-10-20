@@ -20,7 +20,7 @@
    <!-- Condición: Si es tutor, mostrar solo sus cursos; si es aprendiz, mostrar todos los cursos -->
     <div *ngIf="!buscador1 || buscador1.trim() === '' || tituloEncontrado == x.nombre_curso">
       <ion-card class="fondo" *ngIf="rol === 0 || (rol === 1 && id === x.usuario_id_usuario)">
-        <img class="imagen" (click)="ir(x.id_curso, x)" alt="lenguaje" [src]="x.foto_curso || '/assets/icon/pato.jpg'" />
+        <img class="imagen" (click)="ir(x.id_curso, x)" alt="lenguaje" [src]="x.foto_curso || '/assets/icon/noImagen.avif'" />
         <ion-card-header (click)="ir(x.id_curso, x)">
           <ion-card-title class="texto">{{x.nombre_curso}}</ion-card-title>
           <div *ngFor="let y of arregloUsuario">

@@ -22,10 +22,16 @@
     <ion-button *ngIf="rol === 1 && id === y.id_usuario" id="Amigos" class="boton"
       (click)="irLista()">PARTICIPANTES</ion-button>
   </div>
+
   <ion-button *ngIf="rol === 0" class="seguir" (click)="listar()">
+    <p *ngIf="usuarioUnico1">Siguiendo <ion-icon class="seguir2" *ngIf="usuarioUnico1" name="heart"></ion-icon></p>
+    <p *ngIf="!usuarioUnico1">Seguir <ion-icon class="seguir2" *ngIf="!usuarioUnico1" name="heart-outline"></ion-icon></p>
+  </ion-button>
+
+  <!--<ion-button *ngIf="rol === 0" class="seguir" (click)="listar()">
     <ion-icon *ngIf="usuarioUnico1" name="heart"></ion-icon>
     <ion-icon *ngIf="!usuarioUnico1" name="heart-outline"></ion-icon>
-  </ion-button>
+  </ion-button>-->
 
   <div *ngIf="resultado1 === null && buscador1">
     <p>No existe ningún curso con el nombre {{buscador1}}.</p>
@@ -39,7 +45,7 @@
 
           <div class="unir" *ngFor="let y of arregloUsuario">
             <img (click)="irPagina(y.id_usuario)" *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="maria"
-              [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+              [src]="y.foto || '/assets/icon/perfil1.webp'" alt="maria">
             <p (click)="irPagina(y.id_usuario)" *ngIf="id_curs === x.curso_id_curso && y.id_usuario === curso1.usuario_id_usuario" class="nombre">
               {{y.nombre_usuario}}</p>
 
@@ -49,7 +55,7 @@
         <p class="materia">{{x.fecha_tema}}</p>
         <ion-card-title class="texto">{{x.titulo_tema}}</ion-card-title>
         <div class="centrar">
-          <img class="tarea" [src]="x.foto_tema || '/assets/icon/python.jpg'" alt="informe">
+          <img class="tarea" [src]="x.foto_tema || '/assets/icon/noImagen.avif'" alt="informe">
         </div>
         <hr>
 

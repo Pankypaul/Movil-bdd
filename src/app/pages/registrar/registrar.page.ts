@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {  Router } from '@angular/router';
-import {  AlertController } from '@ionic/angular';
+import {  ActionSheetController, AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
 //import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { PopoverController } from '@ionic/angular';
@@ -43,10 +43,11 @@ export class RegistrarPage implements OnInit {
   constructor(private router: Router, 
     //private toastController: ToastController,
     public popoverController: PopoverController,
-    //private actionSheetCtrl: ActionSheetController,
+    private actionSheetCtrl: ActionSheetController,
     private alertController: AlertController,
     private bd: ServicebdService,
     //private storage: NativeStorage
+    
     ) { }
 
   ngOnInit() {
@@ -225,7 +226,9 @@ export class RegistrarPage implements OnInit {
             if(this.perfil.tipo  === 'Tutor'){
               this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
               //this.presentAlert('tipo', this.perfil.tipo);
+              
               this.router.navigate(['/login'])
+
               this.bd.NotificacionRegistroTutor();
             }
           }
@@ -235,11 +238,10 @@ export class RegistrarPage implements OnInit {
       
 
     }
+
     
-
-
-
   }
+  
 
 
 }

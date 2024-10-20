@@ -124,11 +124,7 @@ export class CursoPage implements OnInit {
       this.mensaje_2 = 'Este campo es obligatorio ';
     }
 
-    if (this.hasPhoto === false) {
-      this.mensaje_3 = 'Este campo es obligatorio ';
-    }
-
-    if (this.descripcion_curso.trim() !== "" && this.nombre_curso.trim() !== "" && this.hasPhoto === true) {// true si hay una imagen, false si está vacío o null
+    if (this.descripcion_curso.trim() !== "" && this.nombre_curso.trim() !== "" ) {// true si hay una imagen, false si está vacío o null
 
       this.presentToast('top');
       //this.presentAlert('ingreso de datos', 'nombre ' + this.nombre_curso + (', ') + this.descripcion_curso + (', ') + this.photoUrl + (', ') + this.fecha_curso)

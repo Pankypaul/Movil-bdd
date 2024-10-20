@@ -16,10 +16,9 @@
     <div *ngFor="let l of arregloLista">
       <ion-card-header *ngIf="l.usuario_id_usuario === x.id_usuario && l.curso_id_curso === curso1.id_curso">
         <div class="unir">
-          <img class="maria" [src]="x.foto || '/assets/icon/pato.jpg'" alt="No tiene foto de perfil ">
+          <img class="maria" [src]="x.foto || '/assets/icon/perfil1.webp'" alt="No tiene foto de perfil ">
           <p class="nombre">{{ x.nombre_usuario }}</p>
         </div>
-        <hr>
       </ion-card-header>
     </div>
     

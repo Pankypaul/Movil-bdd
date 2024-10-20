@@ -28,7 +28,7 @@
         <ion-card-header>
           <div *ngFor="let y of arregloUsuario">
             <div *ngIf="x.usuario_id_usuario === y.id_usuario" class="unir" (click)="irPerfil(y.id_usuario)">
-              <img class="maria" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+              <img class="maria" [src]="y.foto || '/assets/icon/perfil1.webp'" alt="maria">
               <p class="nombre">{{y.nombre_usuario}}</p>
             </div>
           </div>

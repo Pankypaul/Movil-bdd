@@ -37,6 +37,19 @@
     <p>No existe ningún curso con el nombre {{buscador1}}.</p>
   </div>
 
+  <div *ngFor="let x of arregloCurso">
+    <ion-card class="container" *ngIf="id_curs === x.id_curso">
+      <ion-card-title class="texto5">{{x.nombre_curso}}</ion-card-title>
+      <div class="centrar">
+        <img class="tarea" [src]="x.foto_curso || '/assets/icon/noImagen.avif'" alt="informe">
+      </div>
+      <hr>
+      <ion-card-content class="descripcion">
+        {{x.descripcion_curso}}
+      </ion-card-content>
+    </ion-card>
+  </div>
+
   <ion-card class="container" *ngFor="let x of arregloTema">
     <div *ngIf="!buscador1 || buscador1.trim() === '' || tituloEncontrado == x.titulo_tema">
 

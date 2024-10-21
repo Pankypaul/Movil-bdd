@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,8 @@ export class AppComponent {
 
   isMenuDisabled = true;
   
-  constructor(private router: Router) {  
+  constructor(private router: Router,
+    private storage: NativeStorage) {  
     this.router.events.subscribe((event) => {
     if (event instanceof NavigationEnd) {
       console.log('Navigated to:', event.url);  
@@ -19,7 +21,7 @@ export class AppComponent {
       if (event.url.includes('/menu')) {  //Aqui muestra el menu
         this.isMenuDisabled = false;
 
-      }else if (event.url.includes('/tutores')) {  //Aqui tammbien muestra el menu
+      }else if (event.url.includes('/aprendiz')) {  //Aqui tammbien muestra el menu
         this.isMenuDisabled = false; 
 
       }else if (event.url.includes('/perfil')) {  //Aqui tammbien muestra el menu
@@ -56,6 +58,8 @@ public alertButtons = [
     text: 'Si',
     cssClass: 'alert-button-confirm',
     handler: () => {
+      this.storage.remove('Rol');
+      this.storage.remove('Id');
       this.router.navigate(['/home']); 
     }
   },

@@ -44,10 +44,22 @@ export class LoginPage implements OnInit {
 
 
   ngOnInit() {
-    this.storage.clear()
-      
+    this.obtenerRol().then(res =>{
+      this.router.navigate(['/menu'])
+    })
+     this.obtenerId();
+
   }
 
+  async obtenerRol(){
+    const rolista = await this.storage.getItem('Rol')
+      return rolista;
+  }
+  async obtenerId(){
+    const idlista = await this.storage.getItem('Id')
+      return idlista;
+  }
+  
   async presentAlert12(title: string, msj: string) {
     const alert = await this.alertController.create({
       header: title,
@@ -73,10 +85,11 @@ export class LoginPage implements OnInit {
         correo2: this.correo
       }
     }*/
-    this.borrarStorage();  // Se ejecuta automáticamente cuando se carga la página
+      // Se ejecuta automáticamente cuando se carga la página
 
     this.mensaje_3 = '';
 
+    this.correo = this.correo.toLowerCase();
     this.correo = this.correo.replace(/\s+/g, '');
     this.correo = this.correo.trim(); // Para el correo
     this.contrasena = this.contrasena.trim(); // Para el correo
@@ -135,8 +148,11 @@ export class LoginPage implements OnInit {
                 this.storage.setItem('Id', id_usuario); // Asegúrate de que sean strings si es necesario
                 this.storage.setItem('Rol', rol_id_rol); // Asegúrate de que sean strings si es necesario
                 //this.presentAlert12("Variables creadas", `ID: ${id_usuario}, Rol: ${rol_id_rol}`); // Mensaje informativo
-        
+                //this.presentAlert12('storage', JSON.stringify(this.storage.getItem('Id')));
+                //this.presentAlert12('storage', JSON.stringify(this.storage.getItem('Rol')));
                 this.router.navigate(['/menu']); // Navegar si el usuario existe
+
+
               } else {
                 // Si no se pudo obtener el usuario almacenado
                 console.log("No se encontraron datos del usuario en el almacenamiento.");

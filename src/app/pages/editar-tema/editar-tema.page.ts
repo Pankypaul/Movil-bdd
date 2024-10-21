@@ -92,7 +92,7 @@ export class EditarTemaPage implements OnInit {
       this.presentToast('top');
       //this.presentAlert12('ID', this.tema1.id_tema+this.tema1.descripcion_tema);
       this.bd.modificarTema(this.tema1.id_tema, this.tema1.titulo_tema, this.tema1.descripcion_tema, this.photoUrl);
-      this.router.navigate(['/asignaturas1'])
+      this.router.navigate(['/menu'])
     }
   }
 

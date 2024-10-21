@@ -47,8 +47,8 @@
             <div *ngFor="let y of arregloUsuario">
               <div class="container3"
                 *ngIf="id_pub === c.publicacion_id_publi && y.id_usuario === c.usuario_id_usuario">
-                <div class="unir color" (click)="irPagina()">
-                  <img class="imagen" [src]="y.foto || '/assets/icon/maria.webp'" alt="maria">
+                <div class="unir color" (click)="irPagina(y.id_usuario)">
+                  <img class="imagen" [src]="y.foto || '/assets/icon/perfil1.webp'" alt="maria">
                   <p *ngIf="y.rol_id_rol === 0" class="nombre1">{{y.nombre_usuario}}</p>
                   <p *ngIf="y.rol_id_rol === 1" class="nombre3">{{y.nombre_usuario}}</p>
                   <hr>

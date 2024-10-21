@@ -45,6 +45,7 @@ export class AsignaturasPage implements OnInit {
   resultado1: any;
 
 
+
   constructor(private router: Router, 
               private bd: ServicebdService, 
               private alertController: AlertController, 
@@ -82,7 +83,6 @@ export class AsignaturasPage implements OnInit {
     }).catch(err => {
       console.error('Error al obtener el rol:', err);
     });
-  
   }
 
   irPagina(){

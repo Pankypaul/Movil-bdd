@@ -46,19 +46,14 @@
     <!--<p> Agregar Foto o Video</p>-->
 
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <ion-img [src]="photoUrl || tema1.foto_tema" class="btn">
+    <ion-img [src]="photoUrl || tema1.foto_tema || '/assets/icon/noImagen.avif'" class="btn">
       <p>Foto</p>
     </ion-img>
   </ion-card>
 
 
   <div class="btn">
-    <ion-button (click)="irPagina()" class="boton">Publicar</ion-button>
-
-
-    <ion-button class="boton" id="present-alert1">Eliminar</ion-button>
-    <ion-alert trigger="present-alert1" class="custom-alert" header="¿Estás seguro?"
-      [buttons]="alertButtons"></ion-alert>
+    <ion-button (click)="irPagina()" class="boton">Editar</ion-button>
   </div>
 
 </ion-content>

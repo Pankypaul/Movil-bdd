@@ -36,7 +36,7 @@ export class RecuperarContrasenaPage implements OnInit {
   recuperarContrasena1() {
 
     this.mensaje_1 = '';
-
+    this.correo = this.correo.toLowerCase();
     this.correo = this.correo.replace(/\s+/g, '');
     this.correo = this.correo.trim(); // Para el correo0
 

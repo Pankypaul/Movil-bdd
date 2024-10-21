@@ -174,8 +174,8 @@ export class PerfilPage implements OnInit {
     correo_usuario = correo_usuario.trim(); // Para el correo
 
 
-    const isDescripcionValida = descripcion.trim() !== "" &&
-      descripcion.trim().toUpperCase() !== "NONE";
+    //const isDescripcionValida = descripcion.trim() !== "" &&
+      //descripcion.trim().toUpperCase() !== "NONE";
 
     const isNombreValido = nombre_usuario.length > 1 &&
       nombre_usuario.trim().toUpperCase() !== "NONE" && nombre_usuario.trim();
@@ -231,18 +231,13 @@ export class PerfilPage implements OnInit {
     }
 
 
-    if (!descripcion || descripcion.trim() === "" || descripcion.trim().toUpperCase() === "NONE") {
-      this.mensaje_4 = 'Rellene este campo';
-    }
-
-
     if (tieneArroba &&
       !tieneCaracteresInvalidos &&
       algoAntesArroba &&
       algoEntreArrobaYPunto &&
       algoDespuesPunto &&
       isTelefonoValido &&
-      isDescripcionValida && isNombreValido) {
+       isNombreValido) {
       this.bd.isDBReady.subscribe(async (val) => {
         if (val) {
 
@@ -274,7 +269,7 @@ export class PerfilPage implements OnInit {
             // Concatenación mejorada con template literals
             //this.presentAlert12('correo_usuario === correoActual', `ID3: ${this.id}, Nombre: ${nombre_usuario}) : ${correo_usuario} ${descripcion} ${this.photoUrl} `);
             // Asegúrate de que el orden de los parámetros es el correcto
-            this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario, telefono_usuario, descripcion, this.photoUrl);
+            this.bd.modificarUsuario(this.id, nombre_usuario, correo_usuario.toLowerCase(), telefono_usuario, descripcion, this.photoUrl);
             //window.location.reload();
             // Cambia el estado de edición
             this.isEditable = !this.isEditable;
@@ -331,9 +326,11 @@ export class PerfilPage implements OnInit {
       text: 'Si',
       cssClass: 'alert-button-confirm',
       handler: () => {
-        this.router.navigate(['/home']);
+        this.storage.remove('Rol');
+        this.storage.remove('Id');
+        this.router.navigate(['/home']); 
       }
-    }
+    },
   ];
 
   clearPhoto() {

@@ -136,4 +136,5 @@ export class MenuPage implements OnInit {
     this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
   }
 
+
 }

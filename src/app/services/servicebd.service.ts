@@ -10,6 +10,7 @@ import { Comentario } from './comentario';
 import { Lista } from './lista';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Injectable({
   providedIn: 'root'
@@ -78,7 +79,8 @@ export class ServicebdService {
   //variable para el status de la Base de datos
   public isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private http: HttpClient) {
+  constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController, private http: HttpClient,
+    private storage: NativeStorage) {
     this.createBD();
   }
 
@@ -935,13 +937,18 @@ export class ServicebdService {
   modificarContrasenaCodigo( correo_usuario: string, contrasena_usuario: string) {
     //this.presentAlert("service", "ID: " + id_usuario);
     return this.database.executeSql('UPDATE usuario SET contrasena_usuario = ? WHERE correo_usuario = ?', [contrasena_usuario,  correo_usuario]).then(() => {
-      this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
+      //this.presentAlert("Modificar", "Usuario Modificado" + contrasena_usuario + ('correo ') + correo_usuario);
       this.seleccionarUsuario();
     }).catch(e => {
       //this.presentAlert('Modificar', 'Error: ' + JSON.stringify(e));
     });
   }
 
+  
+
+  
+
+  
 /*
   codigo(longitud: number): string {
     const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

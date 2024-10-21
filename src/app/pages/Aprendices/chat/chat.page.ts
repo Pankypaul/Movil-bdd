@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { ToastController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
@@ -149,8 +149,16 @@ export class ChatPage implements OnInit {
     }
   }
 
-  irPagina(){
-    this.router.navigate(['/perfil-agregar-amigos'])
+  irPagina(id_usuario: number) { // Accede al primer elemento del arreglo
+    this.arregloUsuario.id_usuario;
+    console.log('ID del usuario:', id_usuario); // Esto muestra el ID en la consola
+    let navigationextras: NavigationExtras = {
+
+      state: {
+        id_usuar: id_usuario
+      }
+    }
+    this.router.navigate(['/perfil-agregar-amigos'], navigationextras);
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {

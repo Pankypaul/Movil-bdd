@@ -197,7 +197,7 @@ export class RegistrarPage implements OnInit {
       algoAntesArroba &&
       algoEntreArrobaYPunto &&
       algoDespuesPunto &&
-      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password) === this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password)) {
+      isTelefonoValido && isNombreValido && this.perfil.tipo && this.validarContraseña.test(this.perfil.password) === this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password2) && this.validarContraseña.test(this.perfil.password) && (this.perfil.password === this.perfil.password2)) {
       console.log('Pasa todo');
       
       const telefono = Number(this.perfil.telefono);
@@ -216,7 +216,7 @@ export class RegistrarPage implements OnInit {
 
             //APRENDIZ: 0
             if(this.perfil.tipo  === 'Aprendiz'){ 
-              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 0, '', '');
+              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo.toLowerCase(), telefono, this.perfil.password, 0, '', '');
               //this.presentAlert('tipo', this.perfil.tipo);
               this.router.navigate(['/login'])
               this.bd.NotificacionRegistroAprendiz();
@@ -224,7 +224,7 @@ export class RegistrarPage implements OnInit {
            
             //TUTOR: 1
             if(this.perfil.tipo  === 'Tutor'){
-              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo, telefono, this.perfil.password, 1, '', '');
+              this.bd.insertarUsuario(this.perfil.nombre, this.perfil.correo.toLowerCase(), telefono, this.perfil.password, 1, '', '');
               //this.presentAlert('tipo', this.perfil.tipo);
               
               this.router.navigate(['/login'])

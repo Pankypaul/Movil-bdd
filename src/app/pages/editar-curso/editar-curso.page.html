@@ -54,7 +54,7 @@
     <ion-button class="boton" shape="round" (click)="presentActionSheet()">Cambiar imagen</ion-button>
     <!--<p> Agregar Foto o Video</p>-->
     <!-- *ngIf="photoUrl"  Si hay un url valida lo muestra, sino, desaparece-->
-    <ion-img [src]="photoUrl || curso.foto_curso" class="btn">
+    <ion-img [src]="photoUrl || curso.foto_curso || '/assets/icon/noImagen.avif'" class="btn">
     </ion-img>
 
 
@@ -62,8 +62,6 @@
 
   <div class="btn">
     <ion-button class="boton" (click)="irPagina()">Editar</ion-button>
-
-    <ion-button class="boton" (click)="volver()">Volver</ion-button>
   </div>
 
 </ion-content>

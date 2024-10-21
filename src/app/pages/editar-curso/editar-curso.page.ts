@@ -105,7 +105,7 @@ export class EditarCursoPage implements OnInit {
       this.presentToast('top');
       //this.presentAlert12('ID', this.curso.id_curso + ('nombre_curso') + this.curso.nombre_curso + ('descripcion_curso') + this.curso.descripcion_curso + ('photoUrl') + this.photoUrl);
       this.bd.modificarCurso(this.curso.id_curso, this.curso.nombre_curso, this.curso.descripcion_curso, this.photoUrl);
-      this.router.navigate(['/asignaturas1 '])
+      this.router.navigate(['/menu'])
     }
   }
 
@@ -119,7 +119,7 @@ export class EditarCursoPage implements OnInit {
       position: position,
 
     });
-    this.router.navigate(['/menu1']);
+    this.router.navigate(['/menu']);
 
     await toast.present();
   }

@@ -10,44 +10,49 @@
 
 <ion-content [fullscreen]="true">
   <div *ngFor="let x of arregloPublicacion">
-    <ion-card class="container" >
-      <ion-card-header>
-        <div *ngFor="let y of arregloUsuario">
-          <div *ngIf="x.usuario_id_usuario === y.id_usuario">
+    <div *ngFor="let y of arregloUsuario">
+      <div *ngIf="x.usuario_id_usuario === y.id_usuario && x.usuario_id_usuario === id">
+        <ion-card class="container">
+
+
+          <ion-card-header>
             <div class="unir">
               <img class="maria" [src]="y.foto || '/assets/icon/perfil1.webp'" alt="maria">
               <p class="nombre">{{y.nombre_usuario}}</p>
             </div>
             <hr>
+          </ion-card-header>
+
+
+
+
+          <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
+
+          <ion-card-content>
+            <img [src]="x.foto_publi || '/assets/icon/noImagen.avif'" alt="Perfil" />
+            <!--*ngIf="x.foto_publi; else defaultImage"-->
+            <br>
+            <hr>
+            <ion-label style="word-wrap: break-word; white-space: normal;">{{ x.descripcion_publi }}</ion-label>
+
+          </ion-card-content>
+
+          <hr>
+          <div class="unir2">
+
+            <ion-button class="boton" (click)="eliminar(x)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+
+            <ion-button class="boton" (click)="modificar(x)">
+              <ion-icon slot="icon-only" name="pencil"></ion-icon>
+            </ion-button>
           </div>
-        </div>
 
-      </ion-card-header>
 
-      <ion-card-title class="texto">{{ x.titulo_publi }}</ion-card-title>
-
-      <ion-card-content>
-        <img [src]="x.foto_publi || '/assets/icon/noImagen.avif'" alt="Perfil" />
-        <!--*ngIf="x.foto_publi; else defaultImage"-->
-        <br>
-        <hr>
-        <ion-label style="word-wrap: break-word; white-space: normal;">{{ x.descripcion_publi }}</ion-label>
-
-      </ion-card-content>
-
-      <hr>
-      <div class="unir2">
-
-        <ion-button class="boton" (click)="eliminar(x)">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
-        </ion-button>
-
-        <ion-button class="boton" (click)="modificar(x)">
-          <ion-icon slot="icon-only" name="pencil"></ion-icon>
-        </ion-button>
+        </ion-card>
       </div>
-
-    </ion-card>
+    </div>
   </div>
 
 </ion-content>

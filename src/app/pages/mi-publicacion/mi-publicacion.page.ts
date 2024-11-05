@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 import { AlertController } from '@ionic/angular';
 import { ServicebdService } from 'src/app/services/servicebd.service';
@@ -22,6 +23,8 @@ export class MiPublicacionPage implements OnInit {
   ]
 
   id!: number; //id del localStorage
+  rol!: number; //rol del localStorage
+  
   arregloUsuario: any = [
     {
       rol_id_rol: '',
@@ -35,7 +38,8 @@ export class MiPublicacionPage implements OnInit {
     }
   ];
 
-  constructor(private router: Router, private bd: ServicebdService, private alertController: AlertController) { }
+  constructor(private router: Router, private bd: ServicebdService, private alertController: AlertController,  
+    private storage: NativeStorage) { }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {
@@ -56,6 +60,18 @@ export class MiPublicacionPage implements OnInit {
         })
       }
     })
+
+    this.storage.getItem('Rol').then((rol: number) => {
+      this.rol = rol;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
+
+    this.storage.getItem('Id').then((id: number) => {
+      this.id = id;
+    }).catch(err => {
+      console.error('Error al obtener el rol:', err);
+    });
   }
 
   async presentAlert12(title: string, msj: string) {
